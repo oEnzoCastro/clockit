@@ -1,9 +1,13 @@
-import Calendar from "@/components/calendar/Calendar";
-import Event from "@/models/event";
+"use client";
 
-export default function Home() {
+import React from "react";
+import Calendar from "./Calendar";
+import Event from "../../models/event";
 
-    const sampleEvents: Event[] = [
+// Example usage of the Calendar component
+export default function CalendarExample() {
+  // Sample events data
+  const sampleEvents: Event[] = [
     {
       id: "1",
       location: "Sala 1102 Prédio 4",
@@ -119,7 +123,7 @@ export default function Home() {
   ];
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <Calendar events={sampleEvents} />
     </div>
   );
