@@ -3,7 +3,6 @@ import Event from "@/models/event";
 const EventsData: Event[] = [
   // Rafael Assis Carvalho Lacerda - Ciência da Computação
   {
-    monitor: "Rafael Assis Carvalho Lacerda",
     id: "1",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -12,7 +11,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Rafael Assis Carvalho Lacerda",
     id: "2",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -21,7 +19,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Rafael Assis Carvalho Lacerda",
     id: "3",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -30,7 +27,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Rafael Assis Carvalho Lacerda",
     id: "4",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -42,7 +38,6 @@ const EventsData: Event[] = [
   // Bernardo Barbosa Heronville - Ciência da Computação
 
   {
-    monitor: "Bernardo Barbosa Heronville",
     id: "5",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -51,7 +46,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Bernardo Barbosa Heronville",
     id: "6",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -60,7 +54,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Bernardo Barbosa Heronville",
     id: "7",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -69,7 +62,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Bernardo Barbosa Heronville",
     id: "8",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -81,7 +73,6 @@ const EventsData: Event[] = [
   // Pedro Henrique Lopes De Melo - Ciência da Computação
 
   {
-    monitor: "Pedro Henrique Lopes De Melo",
     id: "9",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -90,7 +81,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Pedro Henrique Lopes De Melo",
     id: "10",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -99,7 +89,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Pedro Henrique Lopes De Melo",
     id: "11",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -108,7 +97,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Pedro Henrique Lopes De Melo",
     id: "12",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -117,7 +105,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Pedro Henrique Lopes De Melo",
     id: "13",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -129,7 +116,6 @@ const EventsData: Event[] = [
   // Lucas Teixeira Reis - Ciência da Computação
 
   {
-    monitor: "Lucas Teixeira Reis",
     id: "14",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -138,7 +124,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Lucas Teixeira Reis",
     id: "15",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -147,7 +132,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Lucas Teixeira Reis",
     id: "16",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -159,7 +143,6 @@ const EventsData: Event[] = [
   // Gabriel Henrique Costa Soares - Engenharia da Computação
 
   {
-    monitor: "Gabriel Henrique Costa Soares",
     id: "17",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -168,7 +151,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Gabriel Henrique Costa Soares",
     id: "18",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -177,7 +159,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Gabriel Henrique Costa Soares",
     id: "19",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -186,7 +167,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Gabriel Henrique Costa Soares",
     id: "20",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -198,7 +178,6 @@ const EventsData: Event[] = [
   // Thiago Domingos Venturim Ribeiro dos Santos - Ciência de Dados e Inteligência Artificial
 
   {
-    monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
     id: "21",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -207,7 +186,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
     id: "22",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -216,7 +194,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
     id: "23",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -225,7 +202,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 1",
   },
   {
-    monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
     id: "24",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -237,7 +213,6 @@ const EventsData: Event[] = [
   // Theo Diniz Viana - Ciência da Computação
 
   {
-    monitor: "Theo Diniz Viana",
     id: "25",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -246,7 +221,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Theo Diniz Viana",
     id: "26",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -255,7 +229,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Theo Diniz Viana",
     id: "27",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -267,7 +240,6 @@ const EventsData: Event[] = [
   // Eduardo Henrique Aniceto Teixeira - Ciência da Computação
 
   {
-    monitor: "Eduardo Henrique Aniceto Teixeira",
     id: "28",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -276,7 +248,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Eduardo Henrique Aniceto Teixeira",
     id: "29",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -285,7 +256,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Eduardo Henrique Aniceto Teixeira",
     id: "30",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -294,7 +264,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Eduardo Henrique Aniceto Teixeira",
     id: "31",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -306,7 +275,6 @@ const EventsData: Event[] = [
   // Alex de Castro Mendes Marques - Engenharia de Computação
 
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "32",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -315,7 +283,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "33",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -324,7 +291,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "34",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -333,7 +299,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "35",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -342,7 +307,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "36",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -351,7 +315,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 2",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "37",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -363,7 +326,6 @@ const EventsData: Event[] = [
   // Talita Justo Fernandes - Engenharia de Computação
 
   {
-    monitor: "Talita Justo Fernandes",
     id: "38",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -372,7 +334,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 3",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "39",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -381,7 +342,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 3",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "40",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -390,7 +350,6 @@ const EventsData: Event[] = [
     subject: "Algoritmos e Estruturas de Dados 3",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "41",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -402,7 +361,6 @@ const EventsData: Event[] = [
   // Adriano Araújo Domingos dos Santos - Ciência da Computação
 
   {
-    monitor: "Adriano Araújo Domingos dos Santos",
     id: "42",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -411,7 +369,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 1",
   },
   {
-    monitor: "Adriano Araújo Domingos dos Santos",
     id: "43",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -420,7 +377,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 1",
   },
   {
-    monitor: "Adriano Araújo Domingos dos Santos",
     id: "44",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -429,7 +385,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 1",
   },
   {
-    monitor: "Adriano Araújo Domingos dos Santos",
     id: "45",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -438,7 +393,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 1",
   },
   {
-    monitor: "Adriano Araújo Domingos dos Santos",
     id: "46",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -450,7 +404,6 @@ const EventsData: Event[] = [
   // João Gabriel Mendonça Geraime Teodoro - Engenharia da Computação
 
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "47",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -459,7 +412,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 2",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "48",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -468,7 +420,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 2",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "49",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -477,7 +428,6 @@ const EventsData: Event[] = [
     subject: "Arquitetura de Computadores 2",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "50",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -489,7 +439,6 @@ const EventsData: Event[] = [
   // João Victor Martins dos Anjos - Ciência da Computação
 
   {
-    monitor: "João Victor Martins dos Anjos",
     id: "51",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -498,7 +447,6 @@ const EventsData: Event[] = [
     subject: "Bancos de Dados",
   },
   {
-    monitor: "João Victor Martins dos Anjos",
     id: "52",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -507,7 +455,6 @@ const EventsData: Event[] = [
     subject: "Bancos de Dados",
   },
   {
-    monitor: "João Victor Martins dos Anjos",
     id: "53",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -519,7 +466,6 @@ const EventsData: Event[] = [
   // Talita Justo Fernandes - Engenharia de Computação
 
   {
-    monitor: "Talita Justo Fernandes",
     id: "54",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -528,7 +474,6 @@ const EventsData: Event[] = [
     subject: "Bancos de Dados",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "55",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -537,7 +482,6 @@ const EventsData: Event[] = [
     subject: "Bancos de Dados",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "56",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -546,7 +490,6 @@ const EventsData: Event[] = [
     subject: "Bancos de Dados",
   },
   {
-    monitor: "Talita Justo Fernandes",
     id: "57",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -558,7 +501,6 @@ const EventsData: Event[] = [
   // Augusto Henrique Gonçalves Valbonetti - Ciência de Dados e Inteligência Artificial
 
   {
-    monitor: "Augusto Henrique Gonçalves Valbonetti",
     id: "58",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -567,7 +509,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Augusto Henrique Gonçalves Valbonetti",
     id: "59",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -579,7 +520,6 @@ const EventsData: Event[] = [
   // Thayná Andrade Caldeira Antunes - Ciência da Computação
 
   {
-    monitor: "Thayná Andrade Caldeira Antunes",
     id: "60",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -588,7 +528,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Thayná Andrade Caldeira Antunes",
     id: "61",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -597,7 +536,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Thayná Andrade Caldeira Antunes",
     id: "62",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -606,7 +544,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Thayná Andrade Caldeira Antunes",
     id: "63",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -615,7 +552,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Thayná Andrade Caldeira Antunes",
     id: "64",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -627,7 +563,6 @@ const EventsData: Event[] = [
   // João Pedro de Meireles Alves - Ciência da Computação
 
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "65",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -636,7 +571,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "66",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -645,7 +579,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "67",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -654,7 +587,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "68",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -666,7 +598,6 @@ const EventsData: Event[] = [
   // Álvaro Oliveira Soares de Souza - Ciência de Dados e Inteligência Artificial
 
   {
-    monitor: "Álvaro Oliveira Soares de Souza",
     id: "69",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -675,7 +606,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Álvaro Oliveira Soares de Souza",
     id: "70",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -684,7 +614,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 1",
   },
   {
-    monitor: "Álvaro Oliveira Soares de Souza",
     id: "71",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -696,7 +625,6 @@ const EventsData: Event[] = [
   // Matheus Filipe Rocha Viana - Ciência da Computação
 
   {
-    monitor: "Matheus Filipe Rocha Viana",
     id: "72",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -705,7 +633,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 2",
   },
   {
-    monitor: "Matheus Filipe Rocha Viana",
     id: "73",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -714,7 +641,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 2",
   },
   {
-    monitor: "Matheus Filipe Rocha Viana",
     id: "74",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -723,7 +649,6 @@ const EventsData: Event[] = [
     subject: "Cálculo 2",
   },
   {
-    monitor: "Matheus Filipe Rocha Viana",
     id: "75",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -735,7 +660,6 @@ const EventsData: Event[] = [
   // Rafael Portilho de Andrade - Ciência da Computação
 
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "76",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -744,7 +668,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "77",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -753,7 +676,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "78",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -762,7 +684,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "79",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -771,7 +692,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "80",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -780,7 +700,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "81",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -789,7 +708,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "82",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -798,7 +716,6 @@ const EventsData: Event[] = [
     subject: "Desenvolvimento de Interfaces Web",
   },
   {
-    monitor: "Rafael Portilho de Andrade",
     id: "83",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -810,7 +727,6 @@ const EventsData: Event[] = [
   // Lucas Abreu Lopes - Ciência da Computação
 
   {
-    monitor: "Lucas Abreu Lopes",
     id: "84",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -819,7 +735,6 @@ const EventsData: Event[] = [
     subject: "Fundamentos Teóricos da Computação",
   },
   {
-    monitor: "Lucas Abreu Lopes",
     id: "85",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -828,7 +743,6 @@ const EventsData: Event[] = [
     subject: "Fundamentos Teóricos da Computação",
   },
   {
-    monitor: "Lucas Abreu Lopes",
     id: "86",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -837,7 +751,6 @@ const EventsData: Event[] = [
     subject: "Fundamentos Teóricos da Computação",
   },
   {
-    monitor: "Lucas Abreu Lopes",
     id: "87",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -846,7 +759,6 @@ const EventsData: Event[] = [
     subject: "Fundamentos Teóricos da Computação",
   },
   {
-    monitor: "Lucas Abreu Lopes",
     id: "88",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -858,7 +770,6 @@ const EventsData: Event[] = [
   // João Gabriel Mendonça Geraime Teodoro - Engenharia de Computação
 
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "89",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -867,7 +778,6 @@ const EventsData: Event[] = [
     subject: "Geometria Analítica e Álgebra Linear",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "90",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -876,7 +786,6 @@ const EventsData: Event[] = [
     subject: "Geometria Analítica e Álgebra Linear",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "91",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -885,7 +794,6 @@ const EventsData: Event[] = [
     subject: "Geometria Analítica e Álgebra Linear",
   },
   {
-    monitor: "João Gabriel Mendonça Geraime Teodoro",
     id: "92",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -897,7 +805,6 @@ const EventsData: Event[] = [
   // Fernando Augusto Palhares Barbosa - Engenharia de Computação
 
   {
-    monitor: "Fernando Augusto Palhares Barbosa",
     id: "93",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -906,7 +813,6 @@ const EventsData: Event[] = [
     subject: "Laboratório de Introdução à Eng. de Computação",
   },
   {
-    monitor: "Fernando Augusto Palhares Barbosa",
     id: "94",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -915,7 +821,6 @@ const EventsData: Event[] = [
     subject: "Laboratório de Introdução à Eng. de Computação",
   },
   {
-    monitor: "Fernando Augusto Palhares Barbosa",
     id: "95",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -927,7 +832,6 @@ const EventsData: Event[] = [
   // Vitor Martins Gonçalves - Ciência de Dados e Inteligência Artificial
 
   {
-    monitor: "Vitor Martins Gonçalves",
     id: "96",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -936,7 +840,6 @@ const EventsData: Event[] = [
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
   },
   {
-    monitor: "Vitor Martins Gonçalves",
     id: "97",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -948,7 +851,6 @@ const EventsData: Event[] = [
   // Enzo Alves Barcelos Gripp - Ciência de Dados e Inteligência Artificial
 
   {
-    monitor: "Enzo Alves Barcelos Gripp",
     id: "98",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -957,7 +859,6 @@ const EventsData: Event[] = [
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
   },
   {
-    monitor: "Enzo Alves Barcelos Gripp",
     id: "99",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -969,7 +870,6 @@ const EventsData: Event[] = [
   // Alex de Castro Mendes Marques - Engenharia de Computação
 
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "100",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -978,7 +878,6 @@ const EventsData: Event[] = [
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "101",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -987,7 +886,6 @@ const EventsData: Event[] = [
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "102",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -996,7 +894,6 @@ const EventsData: Event[] = [
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "103",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1005,7 +902,6 @@ const EventsData: Event[] = [
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "104",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1014,7 +910,6 @@ const EventsData: Event[] = [
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
   },
   {
-    monitor: "Alex de Castro Mendes Marques",
     id: "105",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1026,7 +921,6 @@ const EventsData: Event[] = [
   // João Pedro de Meireles Alves - Ciência da Computação
 
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "106",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1035,7 +929,6 @@ const EventsData: Event[] = [
     subject: "Teoria dos Grafos e Computabilidade",
   },
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "107",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1044,8 +937,7 @@ const EventsData: Event[] = [
     subject: "Teoria dos Grafos e Computabilidade",
   },
 
-  {
-    monitor: "João Pedro de Meireles Alves",
+    {
     id: "108",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",
@@ -1054,7 +946,6 @@ const EventsData: Event[] = [
     subject: "Teoria dos Grafos e Computabilidade",
   },
   {
-    monitor: "João Pedro de Meireles Alves",
     id: "109",
     location: "Lab. 1101, prédio 4 - Lourdes",
     recurrence: "null",

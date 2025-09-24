@@ -1,4 +1,5 @@
 type Event = {
+  monitor: string;
   id: string;
   location: string;
   recurrence: string | null;
