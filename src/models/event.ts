@@ -6,5 +6,8 @@ type Event = {
   startTime: Date;
   endTime: Date;
   subject: string;
+  subjectAbreviation: string
+  subjectSemester: number;
+  courseName: string;
 };
 export default Event;

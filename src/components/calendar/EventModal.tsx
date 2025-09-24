@@ -5,7 +5,7 @@ import Event from "../../models/event";
 import "./EventModal.css";
 
 interface EventModalProps {
-  event: Event | null;
+  event: Event | Event[] | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -16,6 +16,10 @@ export default function EventModal({
   onClose,
 }: EventModalProps) {
   if (!isOpen || !event) return null;
+
+  const events = Array.isArray(event) ? event : [event];
+  const isMultipleEvents = events.length > 1;
+  const firstEvent = events[0];
 
   const formatDateTime = (date: Date) => {
     return date.toLocaleDateString("en-US", {
@@ -34,8 +38,8 @@ export default function EventModal({
     });
   };
 
-  const calculateDuration = () => {
-    const durationMs = event.endTime.getTime() - event.startTime.getTime();
+  const calculateDuration = (startTime: Date, endTime: Date) => {
+    const durationMs = endTime.getTime() - startTime.getTime();
     const hours = Math.floor(durationMs / (1000 * 60 * 60));
     const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
 
@@ -48,17 +52,36 @@ export default function EventModal({
     }
   };
 
+  const getOverallTimeRange = () => {
+    const startTimes = events.map((e) => e.startTime.getTime());
+    const endTimes = events.map((e) => e.endTime.getTime());
+    return {
+      start: new Date(Math.min(...startTimes)),
+      end: new Date(Math.max(...endTimes)),
+    };
+  };
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
+  const timeRange = getOverallTimeRange();
+  const uniqueLocations = Array.from(
+    new Set(events.map((e) => e.location).filter(Boolean))
+  );
+
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-container">
         <div className="modal-header">
-          <h2 className="modal-title">{event.subject}</h2>
+          <h2 className="modal-title">
+            {firstEvent.subject}
+            {isMultipleEvents && (
+              <span className="monitor-count"> ({events.length} monitors)</span>
+            )}
+          </h2>
           <button className="modal-close-btn" onClick={onClose}>
             ×
           </button>
@@ -71,7 +94,7 @@ export default function EventModal({
               <div className="detail-content">
                 <span className="detail-label">Date</span>
                 <span className="detail-value">
-                  {formatDateTime(event.startTime)}
+                  {formatDateTime(firstEvent.startTime)}
                 </span>
               </div>
             </div>
@@ -79,9 +102,9 @@ export default function EventModal({
             <div className="detail-item">
               <div className="detail-icon">⏰</div>
               <div className="detail-content">
-                <span className="detail-label">Time</span>
+                <span className="detail-label">Time Range</span>
                 <span className="detail-value">
-                  {formatTime(event.startTime)} - {formatTime(event.endTime)}
+                  {formatTime(timeRange.start)} - {formatTime(timeRange.end)}
                 </span>
               </div>
             </div>
@@ -89,38 +112,70 @@ export default function EventModal({
             <div className="detail-item">
               <div className="detail-icon">⏱️</div>
               <div className="detail-content">
-                <span className="detail-label">Duration</span>
-                <span className="detail-value">{calculateDuration()}</span>
+                <span className="detail-label">Total Duration</span>
+                <span className="detail-value">
+                  {calculateDuration(timeRange.start, timeRange.end)}
+                </span>
               </div>
             </div>
 
-            {event.location && (
+            {uniqueLocations.length > 0 && (
               <div className="detail-item">
                 <div className="detail-icon">📍</div>
                 <div className="detail-content">
-                  <span className="detail-label">Location</span>
-                  <span className="detail-value">{event.location}</span>
+                  <span className="detail-label">
+                    Location{uniqueLocations.length > 1 ? "s" : ""}
+                  </span>
+                  <span className="detail-value">
+                    {uniqueLocations.join(", ")}
+                  </span>
                 </div>
               </div>
             )}
 
-            {event.recurrence &&
-              event.recurrence !== "none" &&
-              event.recurrence.trim() !== "" && (
+            {firstEvent.recurrence &&
+              firstEvent.recurrence !== "none" &&
+              firstEvent.recurrence.trim() !== "" && (
                 <div className="detail-item">
                   <div className="detail-icon">🔄</div>
                   <div className="detail-content">
                     <span className="detail-label">Recurrence</span>
-                    <span className="detail-value">{event.recurrence}</span>
+                    <span className="detail-value">
+                      {firstEvent.recurrence}
+                    </span>
                   </div>
                 </div>
               )}
 
+            {/* Monitor Details Section */}
             <div className="detail-item">
-              <div className="detail-icon">🏷️</div>
+              <div className="detail-icon">👨</div>
               <div className="detail-content">
-                <span className="detail-label">Event ID</span>
-                <span className="detail-value detail-id">{event.id}</span>
+                <span className="detail-label">
+                  Monitor{isMultipleEvents ? "s" : ""}
+                </span>
+                <div className="monitor-details">
+                  {events.map((evt, index) => (
+                    <div key={evt.id} className="monitor-item">
+                      <div className="monitor-info">
+                        <strong>{evt.monitor}</strong>
+                        <small>{evt.courseName} - {evt.subjectSemester}° semester</small>
+                        <div className="monitor-time">
+                          {formatTime(evt.startTime)} -{" "}
+                          {formatTime(evt.endTime)}
+                          <span className="monitor-duration">
+                            ({calculateDuration(evt.startTime, evt.endTime)})
+                          </span>
+                        </div>
+                        {evt.location && (
+                          <div className="monitor-location">
+                            📍 {evt.location}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

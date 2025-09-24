@@ -299,6 +299,63 @@
   }
 }
 
+/* Monitor Details Styles */
+.monitor-count {
+  font-size: 0.8em;
+  color: #6b7280;
+  font-weight: normal;
+}
+
+.monitor-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.monitor-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.monitor-item:hover {
+  background: #f1f5f9;
+}
+
+.monitor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.monitor-info strong {
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.monitor-time {
+  color: #475569;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.monitor-duration {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.monitor-location {
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
 /* Custom Scrollbar for Modal Body */
 .modal-body::-webkit-scrollbar {
   width: 6px;

@@ -1,7 +1,10 @@
 import Event from "@/models/event";
 
+// new Date(2025, 8, 1, 13, 0)
+// (ANO, MÊS 0 - 11, DIA 0-30/29, HORA 0-23, MINUTO 0-59)
+
 const EventsData: Event[] = [
-  // Rafael Assis Carvalho Lacerda - Ciência da Computação
+  // Rafael Assis Carvalho Lacerda - Ciência da Computação - 1 Periodo
   {
     monitor: "Rafael Assis Carvalho Lacerda",
     id: "1",
@@ -10,6 +13,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 17, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Assis Carvalho Lacerda",
@@ -19,6 +25,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 10, 40),
     endTime: new Date(0, 0, 3, 12, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Assis Carvalho Lacerda",
@@ -28,6 +37,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 40),
     endTime: new Date(0, 0, 4, 12, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Assis Carvalho Lacerda",
@@ -37,9 +49,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 17, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Bernardo Barbosa Heronville - Ciência da Computação
+  // Bernardo Barbosa Heronville - Ciência da Computação - 1 Periodo
 
   {
     monitor: "Bernardo Barbosa Heronville",
@@ -49,6 +64,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 17, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Bernardo Barbosa Heronville",
@@ -58,6 +76,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 10, 30),
     endTime: new Date(0, 0, 3, 12, 20),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Bernardo Barbosa Heronville",
@@ -67,6 +88,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 13, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Bernardo Barbosa Heronville",
@@ -76,9 +100,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 15, 0),
     endTime: new Date(0, 0, 4, 16, 40),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Pedro Henrique Lopes De Melo - Ciência da Computação
+  // Pedro Henrique Lopes De Melo - Ciência da Computação - 1 Periodo
 
   {
     monitor: "Pedro Henrique Lopes De Melo",
@@ -88,6 +115,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 10, 40),
     endTime: new Date(0, 0, 1, 12, 40),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Pedro Henrique Lopes De Melo",
@@ -97,6 +127,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 7, 0),
     endTime: new Date(0, 0, 2, 9, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Pedro Henrique Lopes De Melo",
@@ -106,6 +139,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 10, 40),
     endTime: new Date(0, 0, 3, 12, 40),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Pedro Henrique Lopes De Melo",
@@ -115,6 +151,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 40),
     endTime: new Date(0, 0, 4, 12, 40),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Pedro Henrique Lopes De Melo",
@@ -124,9 +163,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 13, 0),
     endTime: new Date(0, 0, 5, 15, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Lucas Teixeira Reis - Ciência da Computação
+  // Lucas Teixeira Reis - Ciência da Computação - 1 Periodo
 
   {
     monitor: "Lucas Teixeira Reis",
@@ -136,6 +178,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 18, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Teixeira Reis",
@@ -145,6 +190,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 15, 0),
     endTime: new Date(0, 0, 3, 18, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Teixeira Reis",
@@ -154,9 +202,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 15, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Gabriel Henrique Costa Soares - Engenharia da Computação
+  // Gabriel Henrique Costa Soares - Engenharia da Computação - 1 Periodo
 
   {
     monitor: "Gabriel Henrique Costa Soares",
@@ -166,6 +217,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 14, 20),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "Gabriel Henrique Costa Soares",
@@ -175,6 +229,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 8, 50),
     endTime: new Date(0, 0, 2, 12, 20),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "Gabriel Henrique Costa Soares",
@@ -184,6 +241,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 14, 40),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "Gabriel Henrique Costa Soares",
@@ -193,9 +253,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 8, 50),
     endTime: new Date(0, 0, 5, 12, 20),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Engenharia da Computação",
   },
 
-  // Thiago Domingos Venturim Ribeiro dos Santos - Ciência de Dados e Inteligência Artificial
+  // Thiago Domingos Venturim Ribeiro dos Santos - Ciência de Dados e Inteligência Artificial - 1 Periodo
 
   {
     monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
@@ -205,6 +268,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 10, 50),
     endTime: new Date(0, 0, 1, 12, 50),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
@@ -214,6 +280,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 8, 50),
     endTime: new Date(0, 0, 2, 10, 10),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
@@ -223,6 +292,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 8, 50),
     endTime: new Date(0, 0, 4, 12, 50),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Thiago Domingos Venturim Ribeiro dos Santos",
@@ -232,9 +304,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 8, 0),
     endTime: new Date(0, 0, 5, 12, 0),
     subject: "Algoritmos e Estruturas de Dados 1",
+    subjectAbreviation: "AEDS1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
 
-  // Theo Diniz Viana - Ciência da Computação
+  // Theo Diniz Viana - Ciência da Computação - 2 Periodo
 
   {
     monitor: "Theo Diniz Viana",
@@ -244,6 +319,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 30),
     endTime: new Date(0, 0, 2, 18, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Theo Diniz Viana",
@@ -253,6 +331,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Theo Diniz Viana",
@@ -262,9 +343,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 30),
     endTime: new Date(0, 0, 4, 16, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
 
-  // Eduardo Henrique Aniceto Teixeira - Ciência da Computação
+  // Eduardo Henrique Aniceto Teixeira - Ciência da Computação - 2 Periodo
 
   {
     monitor: "Eduardo Henrique Aniceto Teixeira",
@@ -274,6 +358,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 30),
     endTime: new Date(0, 0, 1, 15, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Eduardo Henrique Aniceto Teixeira",
@@ -283,6 +370,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 30),
     endTime: new Date(0, 0, 3, 15, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Eduardo Henrique Aniceto Teixeira",
@@ -292,6 +382,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Eduardo Henrique Aniceto Teixeira",
@@ -301,9 +394,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 30),
     endTime: new Date(0, 0, 4, 17, 30),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
 
-  // Alex de Castro Mendes Marques - Engenharia de Computação
+  // Alex de Castro Mendes Marques - Engenharia de Computação - 2 Periodo
 
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -313,6 +409,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 18, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -322,6 +421,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 19, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -331,6 +433,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 9, 0),
     endTime: new Date(0, 0, 3, 10, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -340,6 +445,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 18, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -349,6 +457,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 11, 0),
     endTime: new Date(0, 0, 4, 12, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -358,9 +469,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 15, 0),
     subject: "Algoritmos e Estruturas de Dados 2",
+    subjectAbreviation: "AEDS2",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
 
-  // Talita Justo Fernandes - Engenharia de Computação
+  // Talita Justo Fernandes - Engenharia de Computação - 2 Periodo
 
   {
     monitor: "Talita Justo Fernandes",
@@ -370,6 +484,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 9, 0),
     endTime: new Date(0, 0, 1, 16, 0),
     subject: "Algoritmos e Estruturas de Dados 3",
+    subjectAbreviation: "AEDS3",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -379,6 +496,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 16, 0),
     subject: "Algoritmos e Estruturas de Dados 3",
+    subjectAbreviation: "AEDS3",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -388,6 +508,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 16, 0),
     subject: "Algoritmos e Estruturas de Dados 3",
+    subjectAbreviation: "AEDS3",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -397,9 +520,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 9, 0),
     endTime: new Date(0, 0, 4, 16, 0),
     subject: "Algoritmos e Estruturas de Dados 3",
+    subjectAbreviation: "AEDS3",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
 
-  // Adriano Araújo Domingos dos Santos - Ciência da Computação
+  // Adriano Araújo Domingos dos Santos - Ciência da Computação - 2 Periodo
 
   {
     monitor: "Adriano Araújo Domingos dos Santos",
@@ -409,6 +535,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 8, 40),
     endTime: new Date(0, 0, 1, 10, 40),
     subject: "Arquitetura de Computadores 1",
+    subjectAbreviation: "AC1",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Adriano Araújo Domingos dos Santos",
@@ -418,6 +547,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 15, 10),
     subject: "Arquitetura de Computadores 1",
+    subjectAbreviation: "AC1",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Adriano Araújo Domingos dos Santos",
@@ -427,6 +559,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Arquitetura de Computadores 1",
+    subjectAbreviation: "AC1",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Adriano Araújo Domingos dos Santos",
@@ -436,6 +571,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 7, 0),
     endTime: new Date(0, 0, 5, 8, 50),
     subject: "Arquitetura de Computadores 1",
+    subjectAbreviation: "AC1",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Adriano Araújo Domingos dos Santos",
@@ -445,9 +583,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 10, 30),
     endTime: new Date(0, 0, 5, 12, 30),
     subject: "Arquitetura de Computadores 1",
+    subjectAbreviation: "AC1",
+    subjectSemester: 2,
+    courseName: "Ciência da Computação",
   },
 
-  // João Gabriel Mendonça Geraime Teodoro - Engenharia da Computação
+  // João Gabriel Mendonça Geraime Teodoro - Engenharia da Computação - 3 Periodo
 
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -457,6 +598,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 12, 40),
     endTime: new Date(0, 0, 1, 17, 40),
     subject: "Arquitetura de Computadores 2",
+    subjectAbreviation: "AC2",
+    subjectSemester: 3,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -466,6 +610,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 12, 40),
     endTime: new Date(0, 0, 2, 17, 40),
     subject: "Arquitetura de Computadores 2",
+    subjectAbreviation: "AC2",
+    subjectSemester: 3,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -475,6 +622,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 12, 40),
     endTime: new Date(0, 0, 3, 17, 40),
     subject: "Arquitetura de Computadores 2",
+    subjectAbreviation: "AC2",
+    subjectSemester: 3,
+    courseName: "Engenharia da Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -484,9 +634,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 12, 40),
     endTime: new Date(0, 0, 4, 17, 40),
     subject: "Arquitetura de Computadores 2",
+    subjectAbreviation: "AC2",
+    subjectSemester: 3,
+    courseName: "Engenharia da Computação",
   },
 
-  // João Victor Martins dos Anjos - Ciência da Computação
+  // João Victor Martins dos Anjos - Ciência da Computação - 3 Periodo
 
   {
     monitor: "João Victor Martins dos Anjos",
@@ -496,6 +649,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 10, 30),
     endTime: new Date(0, 0, 1, 12, 30),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Victor Martins dos Anjos",
@@ -505,6 +661,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 15, 0),
     endTime: new Date(0, 0, 2, 19, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Victor Martins dos Anjos",
@@ -514,9 +673,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 15, 0),
     endTime: new Date(0, 0, 4, 19, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
 
-  // Talita Justo Fernandes - Engenharia de Computação
+  // Talita Justo Fernandes - Engenharia de Computação - 3 Periodo
 
   {
     monitor: "Talita Justo Fernandes",
@@ -526,6 +688,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 9, 0),
     endTime: new Date(0, 0, 1, 16, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -535,6 +700,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 16, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -544,6 +712,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 16, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Talita Justo Fernandes",
@@ -553,9 +724,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 9, 0),
     endTime: new Date(0, 0, 4, 16, 0),
     subject: "Bancos de Dados",
+    subjectAbreviation: "BD",
+    subjectSemester: 3,
+    courseName: "Engenharia de Computação",
   },
 
-  // Augusto Henrique Gonçalves Valbonetti - Ciência de Dados e Inteligência Artificial
+  // Augusto Henrique Gonçalves Valbonetti - Ciência de Dados e Inteligência Artificial - 1 Periodo
 
   {
     monitor: "Augusto Henrique Gonçalves Valbonetti",
@@ -565,6 +739,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 30),
     endTime: new Date(0, 0, 2, 18, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Augusto Henrique Gonçalves Valbonetti",
@@ -574,9 +751,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 30),
     endTime: new Date(0, 0, 4, 18, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
 
-  // Thayná Andrade Caldeira Antunes - Ciência da Computação
+  // Thayná Andrade Caldeira Antunes - Ciência da Computação - 1 Periodo
 
   {
     monitor: "Thayná Andrade Caldeira Antunes",
@@ -586,6 +766,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 15, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Thayná Andrade Caldeira Antunes",
@@ -595,6 +778,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 15, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Thayná Andrade Caldeira Antunes",
@@ -604,6 +790,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 15, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Thayná Andrade Caldeira Antunes",
@@ -613,6 +802,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 20),
     endTime: new Date(0, 0, 4, 12, 20),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Thayná Andrade Caldeira Antunes",
@@ -622,9 +814,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 15, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // João Pedro de Meireles Alves - Ciência da Computação
+  // João Pedro de Meireles Alves - Ciência da Computação - 1 Periodo
 
   {
     monitor: "João Pedro de Meireles Alves",
@@ -634,6 +829,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 10, 30),
     endTime: new Date(0, 0, 2, 12, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Pedro de Meireles Alves",
@@ -643,6 +841,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 16, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Pedro de Meireles Alves",
@@ -652,6 +853,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Pedro de Meireles Alves",
@@ -661,9 +865,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 16, 0),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Álvaro Oliveira Soares de Souza - Ciência de Dados e Inteligência Artificial
+  // Álvaro Oliveira Soares de Souza - Ciência de Dados e Inteligência Artificial - 1 Periodo
 
   {
     monitor: "Álvaro Oliveira Soares de Souza",
@@ -673,6 +880,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 30),
     endTime: new Date(0, 0, 1, 17, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Álvaro Oliveira Soares de Souza",
@@ -682,6 +892,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 30),
     endTime: new Date(0, 0, 3, 17, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Álvaro Oliveira Soares de Souza",
@@ -691,9 +904,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 30),
     endTime: new Date(0, 0, 4, 15, 30),
     subject: "Cálculo 1",
+    subjectAbreviation: "CAL1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
 
-  // Matheus Filipe Rocha Viana - Ciência da Computação
+  // Matheus Filipe Rocha Viana - Ciência da Computação - 3 Periodo
 
   {
     monitor: "Matheus Filipe Rocha Viana",
@@ -703,6 +919,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 7, 0),
     endTime: new Date(0, 0, 1, 10, 40),
     subject: "Cálculo 2",
+    subjectAbreviation: "CAL2",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Matheus Filipe Rocha Viana",
@@ -712,6 +931,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 7, 0),
     endTime: new Date(0, 0, 3, 10, 40),
     subject: "Cálculo 2",
+    subjectAbreviation: "CAL2",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Matheus Filipe Rocha Viana",
@@ -721,6 +943,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 7, 40),
     endTime: new Date(0, 0, 5, 8, 50),
     subject: "Cálculo 2",
+    subjectAbreviation: "CAL2",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Matheus Filipe Rocha Viana",
@@ -730,9 +955,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 10, 30),
     endTime: new Date(0, 0, 5, 12, 0),
     subject: "Cálculo 2",
+    subjectAbreviation: "CAL2",
+    subjectSemester: 3,
+    courseName: "Ciência da Computação",
   },
 
-  // Rafael Portilho de Andrade - Ciência da Computação
+  // Rafael Portilho de Andrade - Ciência da Computação - 1 Periodo
 
   {
     monitor: "Rafael Portilho de Andrade",
@@ -742,6 +970,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 7, 0),
     endTime: new Date(0, 0, 1, 8, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -751,6 +982,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 13, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -760,6 +994,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 7, 0),
     endTime: new Date(0, 0, 2, 8, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -769,6 +1006,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 13, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -778,6 +1018,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 7, 0),
     endTime: new Date(0, 0, 3, 8, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -787,6 +1030,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 7, 0),
     endTime: new Date(0, 0, 4, 8, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -796,6 +1042,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 11, 0),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Rafael Portilho de Andrade",
@@ -805,9 +1054,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 7, 0),
     endTime: new Date(0, 0, 5, 8, 30),
     subject: "Desenvolvimento de Interfaces Web",
+    subjectAbreviation: "DIW",
+    subjectSemester: 1,
+    courseName: "Ciência da Computação",
   },
 
-  // Lucas Abreu Lopes - Ciência da Computação
+  // Lucas Abreu Lopes - Ciência da Computação - 6 Periodo
 
   {
     monitor: "Lucas Abreu Lopes",
@@ -817,6 +1069,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 7, 0),
     endTime: new Date(0, 0, 1, 8, 30),
     subject: "Fundamentos Teóricos da Computação",
+    subjectAbreviation: "FTC",
+    subjectSemester: 6,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Abreu Lopes",
@@ -826,6 +1081,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 12, 30),
     endTime: new Date(0, 0, 2, 13, 30),
     subject: "Fundamentos Teóricos da Computação",
+    subjectAbreviation: "FTC",
+    subjectSemester: 6,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Abreu Lopes",
@@ -835,6 +1093,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 12, 30),
     endTime: new Date(0, 0, 3, 13, 30),
     subject: "Fundamentos Teóricos da Computação",
+    subjectAbreviation: "FTC",
+    subjectSemester: 6,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Abreu Lopes",
@@ -844,6 +1105,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 18, 30),
     endTime: new Date(0, 0, 4, 23, 0),
     subject: "Fundamentos Teóricos da Computação",
+    subjectAbreviation: "FTC",
+    subjectSemester: 6,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "Lucas Abreu Lopes",
@@ -853,9 +1117,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 5, 10, 30),
     endTime: new Date(0, 0, 5, 12, 30),
     subject: "Fundamentos Teóricos da Computação",
+    subjectAbreviation: "FTC",
+    subjectSemester: 6,
+    courseName: "Ciência da Computação",
   },
 
-  // João Gabriel Mendonça Geraime Teodoro - Engenharia de Computação
+  // João Gabriel Mendonça Geraime Teodoro - Engenharia de Computação - 2 Periodo
 
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -865,6 +1132,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 12, 40),
     endTime: new Date(0, 0, 1, 17, 40),
     subject: "Geometria Analítica e Álgebra Linear",
+    subjectAbreviation: "GAAL",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -874,6 +1144,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 12, 40),
     endTime: new Date(0, 0, 2, 17, 40),
     subject: "Geometria Analítica e Álgebra Linear",
+    subjectAbreviation: "GAAL",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -883,6 +1156,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 12, 40),
     endTime: new Date(0, 0, 3, 17, 40),
     subject: "Geometria Analítica e Álgebra Linear",
+    subjectAbreviation: "GAAL",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "João Gabriel Mendonça Geraime Teodoro",
@@ -892,9 +1168,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 12, 40),
     endTime: new Date(0, 0, 4, 17, 40),
     subject: "Geometria Analítica e Álgebra Linear",
+    subjectAbreviation: "GAAL",
+    subjectSemester: 2,
+    courseName: "Engenharia de Computação",
   },
 
-  // Fernando Augusto Palhares Barbosa - Engenharia de Computação
+  // Fernando Augusto Palhares Barbosa - Engenharia de Computação - 1 Periodo
 
   {
     monitor: "Fernando Augusto Palhares Barbosa",
@@ -904,6 +1183,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 12, 30),
     endTime: new Date(0, 0, 2, 16, 30),
     subject: "Laboratório de Introdução à Eng. de Computação",
+    subjectAbreviation: "LIEC",
+    subjectSemester: 1,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Fernando Augusto Palhares Barbosa",
@@ -913,6 +1195,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 12, 30),
     endTime: new Date(0, 0, 3, 13, 30),
     subject: "Laboratório de Introdução à Eng. de Computação",
+    subjectAbreviation: "LIEC",
+    subjectSemester: 1,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Fernando Augusto Palhares Barbosa",
@@ -922,9 +1207,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 12, 30),
     endTime: new Date(0, 0, 4, 16, 30),
     subject: "Laboratório de Introdução à Eng. de Computação",
+    subjectAbreviation: "LIEC",
+    subjectSemester: 1,
+    courseName: "Engenharia de Computação",
   },
 
-  // Vitor Martins Gonçalves - Ciência de Dados e Inteligência Artificial
+  // Vitor Martins Gonçalves - Ciência de Dados e Inteligência Artificial - 1 Periodo
 
   {
     monitor: "Vitor Martins Gonçalves",
@@ -934,6 +1222,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 30),
     endTime: new Date(0, 0, 2, 18, 30),
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    subjectAbreviation: "P1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Vitor Martins Gonçalves",
@@ -943,9 +1234,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 30),
     endTime: new Date(0, 0, 4, 18, 30),
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    subjectAbreviation: "P1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
 
-  // Enzo Alves Barcelos Gripp - Ciência de Dados e Inteligência Artificial
+  // Enzo Alves Barcelos Gripp - Ciência de Dados e Inteligência Artificial - 1 Periodo
 
   {
     monitor: "Enzo Alves Barcelos Gripp",
@@ -955,6 +1249,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 30),
     endTime: new Date(0, 0, 1, 18, 30),
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    subjectAbreviation: "P1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
   {
     monitor: "Enzo Alves Barcelos Gripp",
@@ -964,9 +1261,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 30),
     endTime: new Date(0, 0, 3, 18, 30),
     subject: "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    subjectAbreviation: "P1",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
   },
 
-  // Alex de Castro Mendes Marques - Engenharia de Computação
+  // Alex de Castro Mendes Marques - Engenharia de Computação - 4 Periodo
 
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -976,6 +1276,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 1, 13, 0),
     endTime: new Date(0, 0, 1, 18, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -985,6 +1288,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 19, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -994,6 +1300,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 9, 0),
     endTime: new Date(0, 0, 3, 10, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -1003,6 +1312,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 3, 13, 0),
     endTime: new Date(0, 0, 3, 18, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -1012,6 +1324,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 11, 0),
     endTime: new Date(0, 0, 4, 12, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
   {
     monitor: "Alex de Castro Mendes Marques",
@@ -1021,9 +1336,12 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 15, 0),
     subject: "Projeto Integrado I: Desenvolvimento Móvel",
+    subjectAbreviation: "PI1",
+    subjectSemester: 4,
+    courseName: "Engenharia de Computação",
   },
 
-  // João Pedro de Meireles Alves - Ciência da Computação
+  // João Pedro de Meireles Alves - Ciência da Computação - 4 Periodo
 
   {
     monitor: "João Pedro de Meireles Alves",
@@ -1033,6 +1351,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 10, 30),
     endTime: new Date(0, 0, 2, 12, 30),
     subject: "Teoria dos Grafos e Computabilidade",
+    subjectAbreviation: "TCG",
+    subjectSemester: 4,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Pedro de Meireles Alves",
@@ -1042,6 +1363,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 2, 13, 0),
     endTime: new Date(0, 0, 2, 16, 0),
     subject: "Teoria dos Grafos e Computabilidade",
+    subjectAbreviation: "TCG",
+    subjectSemester: 4,
+    courseName: "Ciência da Computação",
   },
 
   {
@@ -1052,6 +1376,9 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 10, 30),
     endTime: new Date(0, 0, 4, 12, 30),
     subject: "Teoria dos Grafos e Computabilidade",
+    subjectAbreviation: "TCG",
+    subjectSemester: 4,
+    courseName: "Ciência da Computação",
   },
   {
     monitor: "João Pedro de Meireles Alves",
@@ -1061,7 +1388,26 @@ const EventsData: Event[] = [
     startTime: new Date(0, 0, 4, 13, 0),
     endTime: new Date(0, 0, 4, 16, 0),
     subject: "Teoria dos Grafos e Computabilidade",
+    subjectAbreviation: "TCG",
+    subjectSemester: 4,
+    courseName: "Ciência da Computação",
   },
+
+  // Extra
+
+  {
+    monitor: "Monitor Extra",
+    id: "110",
+    location: "Lab. 1101, prédio 4 - Lourdes",
+    recurrence: null,
+    startTime: new Date(2025, 8, 24, 7, 0),
+    endTime: new Date(2025, 8, 24, 8, 0),
+    subject: "Aulão",
+    subjectAbreviation: "ME",
+    subjectSemester: 1,
+    courseName: "Ciência de Dados e Inteligência Artificial",
+  }
+
 ];
 
 export default EventsData;

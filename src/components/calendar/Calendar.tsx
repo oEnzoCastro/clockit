@@ -4,13 +4,23 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import Event from "../../models/event";
 import EventModal from "./EventModal";
 import "./Calendar.css";
-import { cursorTo } from "readline";
 
 interface CalendarProps {
   events: Event[];
   selectedDate?: Date;
-  onEventClick?: (event: Event) => void;
+  onEventClick?: (event: Event | Event[]) => void;
   onTimeSlotClick?: (date: Date, hour: number) => void;
+}
+
+interface MergedEvent {
+  id: string;
+  subject: string;
+  startTime: Date;
+  endTime: Date;
+  location: string;
+  recurrence: string | null;
+  events: Event[]; // Array of individual events that were merged
+  monitor: string; // Combined monitor names
 }
 
 export default function Calendar({
@@ -30,8 +40,13 @@ export default function Calendar({
   });
 
   // Modal state
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | Event[] | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Legend hover state for highlighting events
+  const [hoveredSubject, setHoveredSubject] = useState<string | null>(null);
 
   // Ref for the calendar grid to control scrolling
   const calendarGridRef = useRef<HTMLDivElement>(null);
@@ -151,6 +166,59 @@ export default function Calendar({
     return allEvents;
   }, [events, currentWeek]);
 
+  // Merge events with the same subject that overlap in time
+  const mergeEventsWithSameSubject = (events: Event[]): MergedEvent[] => {
+    const mergedEvents: MergedEvent[] = [];
+    const processedEvents = new Set<string>();
+
+    events.forEach((event) => {
+      if (processedEvents.has(event.id)) return;
+
+      // Find all events with the same subject that overlap with this event
+      const overlappingEvents = events.filter((otherEvent) => {
+        if (otherEvent.subject !== event.subject) return false;
+        if (processedEvents.has(otherEvent.id)) return false;
+
+        // Check if events overlap in time
+        const eventStart = event.startTime.getTime();
+        const eventEnd = event.endTime.getTime();
+        const otherStart = otherEvent.startTime.getTime();
+        const otherEnd = otherEvent.endTime.getTime();
+
+        return eventStart < otherEnd && eventEnd > otherStart;
+      });
+
+      if (overlappingEvents.length > 0) {
+        // Create merged event
+        const allEvents = overlappingEvents;
+        const startTimes = allEvents.map((e) => e.startTime.getTime());
+        const endTimes = allEvents.map((e) => e.endTime.getTime());
+        const monitors = allEvents.map((e) => e.monitor);
+        const locations = Array.from(
+          new Set(allEvents.map((e) => e.location).filter(Boolean))
+        );
+
+        const mergedEvent: MergedEvent = {
+          id: `merged-${event.subject}-${allEvents[0].id}`,
+          subject: event.subject,
+          startTime: new Date(Math.min(...startTimes)),
+          endTime: new Date(Math.max(...endTimes)),
+          location: locations.join(", ") || allEvents[0].location,
+          recurrence: allEvents[0].recurrence,
+          events: allEvents,
+          monitor: monitors.join(", "),
+        };
+
+        mergedEvents.push(mergedEvent);
+
+        // Mark all these events as processed
+        allEvents.forEach((e) => processedEvents.add(e.id));
+      }
+    });
+
+    return mergedEvents;
+  };
+
   // Get events for a specific day with overlap detection
   const getEventsForDay = (day: Date) => {
     const dayStart = new Date(day);
@@ -170,13 +238,18 @@ export default function Calendar({
     });
 
     // Sort events by start time
-    return dayEvents.sort(
+    const sortedEvents = dayEvents.sort(
       (a, b) => a.startTime.getTime() - b.startTime.getTime()
     );
+
+    // Merge events with the same subject
+    const mergedEvents = mergeEventsWithSameSubject(sortedEvents);
+
+    return mergedEvents;
   };
 
   // Detect overlapping events and assign columns
-  const calculateEventLayout = (events: Event[]) => {
+  const calculateEventLayout = (events: MergedEvent[]) => {
     if (events.length === 0) return [];
 
     // Sort events by start time
@@ -299,7 +372,7 @@ export default function Calendar({
 
   // Calculate event position, height, and column layout
   const calculateEventStyle = (
-    event: Event,
+    event: MergedEvent,
     day: Date,
     column: number,
     totalColumns: number
@@ -359,15 +432,6 @@ export default function Calendar({
       : `${hour - 12} PM`;
   };
 
-  // Format date for header
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   // Check if date is today
   const isToday = (date: Date) => {
     const today = new Date();
@@ -397,11 +461,17 @@ export default function Calendar({
   };
 
   // Handle event click
-  const handleEventClick = (event: Event) => {
-    setSelectedEvent(event);
+  const handleEventClick = (event: MergedEvent) => {
+    // If it's a merged event with multiple individual events, pass the array
+    if (event.events.length > 1) {
+      setSelectedEvent(event.events);
+      onEventClick?.(event.events);
+    } else {
+      // If it's a single event, pass the individual event
+      setSelectedEvent(event.events[0]);
+      onEventClick?.(event.events[0]);
+    }
     setIsModalOpen(true);
-    // Call the optional onEventClick prop if provided
-    onEventClick?.(event);
   };
 
   // Handle modal close
@@ -411,14 +481,11 @@ export default function Calendar({
   };
 
   // Function to generate consistent color for subjects
-  const getSubjectColor = (subject: string, dayEvents: Event[]) => {
-    // Get unique subjects for this day
-    const uniqueSubjects = Array.from(
-      new Set(dayEvents.map((event) => event.subject))
-    );
-
-    // Find the index of this subject in the unique subjects array
-    const subjectIndex = uniqueSubjects.indexOf(subject);
+  const getSubjectColor = (subject: string, dayEvents: MergedEvent[]) => {
+    // Handle undefined or null subjects
+    if (!subject || typeof subject !== "string") {
+      return "subject-color-0"; // Default color
+    }
 
     // For consistency across days, we can also use a hash of the subject name
     // This ensures the same subject gets similar colors even on different days
@@ -426,7 +493,7 @@ export default function Calendar({
       return ((hash << 5) - hash + char.charCodeAt(0)) & 0xffffffff;
     }, 0);
 
-    // Use both index and hash to distribute colors better
+    // Use hash to distribute colors better
     const colorIndex = Math.abs(subjectHash) % 20; // We now have 20 color variations
 
     // Define color classes based on index
@@ -455,6 +522,43 @@ export default function Calendar({
 
     return colorClasses[colorIndex];
   };
+
+  // Get unique subjects for the current week for the legend
+  const weekSubjects = useMemo(() => {
+    const subjectsMap = new Map<string, string>();
+
+    // Get all unique subjects first
+    const uniqueSubjects = Array.from(
+      new Set(weekEvents.map((event) => event.subject))
+    );
+
+    // For each unique subject, calculate its color consistently
+    uniqueSubjects.forEach((subject) => {
+      if (!subjectsMap.has(subject)) {
+        // Create a dummy merged events array with all unique subjects for consistent color calculation
+        const dummyMergedEvents = uniqueSubjects.map((s) => ({
+          id: s,
+          subject: s,
+          startTime: new Date(),
+          endTime: new Date(),
+          location: "",
+          recurrence: null,
+          events: [],
+          monitor: "",
+        }));
+
+        const colorClass = getSubjectColor(subject, dummyMergedEvents);
+        subjectsMap.set(subject, colorClass);
+      }
+    });
+
+    return Array.from(subjectsMap.entries())
+      .map(([subject, colorClass]) => ({
+        subject,
+        colorClass,
+      }))
+      .sort((a, b) => a.subject.localeCompare(b.subject));
+  }, [weekEvents]);
 
   return (
     <div className="calendar-container">
@@ -557,7 +661,19 @@ export default function Calendar({
                       key={`${event.id}-${eventIndex}`}
                       className={`event ${subjectColorClass} ${
                         style.showTitle ? "" : "no-text"
-                      }`}
+                      } ${
+                        hoveredSubject && hoveredSubject !== event.subject
+                          ? "event-dimmed"
+                          : ""
+                      } ${
+                        hoveredSubject === event.subject
+                          ? "event-highlighted"
+                          : ""
+                      }
+                      
+                      ${event.recurrence == null ? "single-event" : ""}
+
+                      `}
                       style={{
                         top: style.top,
                         height: style.height,
@@ -566,12 +682,22 @@ export default function Calendar({
                         zIndex: style.zIndex,
                       }}
                       onClick={() => handleEventClick(event)}
-                      title={`${
-                        event.subject
+                      title={`${event.subject}${
+                        event.events.length > 1
+                          ? ` (${event.events.length} monitors: ${event.monitor})`
+                          : ` (${event.monitor})`
                       }\n${event.startTime.toLocaleTimeString()} - ${event.endTime.toLocaleTimeString()}`}
                     >
                       {style.showTitle && (
-                        <div className="event-title">{event.subject}</div>
+                        <div className="event-title">
+                          {event.subject}
+                          {event.events.length > 1 && (
+                            <span className="multiple-monitors-indicator">
+                              {" "}
+                              ({event.events.length})
+                            </span>
+                          )}
+                        </div>
                       )}
                       {style.showTime && (
                         <div className="event-time">
@@ -597,6 +723,29 @@ export default function Calendar({
           </div>
         ))}
       </div>
+
+      {/* Bottom Legend Bar */}
+      {weekSubjects.length > 0 && (
+        <div className="calendar-legend">
+          <div className="legend-items">
+            {weekSubjects.map(({ subject, colorClass }) => (
+              <div
+                key={subject}
+                className={`legend-item ${
+                  hoveredSubject === subject ? "legend-item-active" : ""
+                }`}
+                onMouseEnter={() => setHoveredSubject(subject)}
+                onMouseLeave={() => setHoveredSubject(null)}
+              >
+                <div className={`legend-color-indicator ${colorClass}`}></div>
+                <span className="legend-subject-name" title={subject}>
+                  {subject}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Event Modal */}
       <EventModal
