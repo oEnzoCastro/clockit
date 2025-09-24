@@ -1,14 +1,18 @@
 [
   {
-    "name": "Ciência da Computação"
+    "name": "Ciência da Computação",
+    "abbreviation": "CC"
   },
   {
-    "name": "Engenharia da Computação"
+    "name": "Engenharia da Computação",
+    "abbreviation": "EC"
   },
   {
-    "name": "Ciência de Dados e Inteligência Artificial"
+    "name": "Ciência de Dados e Inteligência Artificial",
+    "abbreviation": "CDIA"
   },
   {
-    "name": "Engenharia de Computação"
+    "name": "Engenharia de Computação",
+    "abbreviation": "EC"
   }
 ]
