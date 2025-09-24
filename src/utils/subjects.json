@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Algoritmos e Estruturas de Dados 1",
+    "subjectAbreviation": "AEDS1",
+    "subjectSemester": 1,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Algoritmos e Estruturas de Dados 1",
+    "subjectAbreviation": "AEDS1",
+    "subjectSemester": 1,
+    "courseName": "Engenharia da Computação"
+  },
+  {
+    "name": "Algoritmos e Estruturas de Dados 1",
+    "subjectAbreviation": "AEDS1",
+    "subjectSemester": 1,
+    "courseName": "Ciência de Dados e Inteligência Artificial"
+  },
+  {
+    "name": "Algoritmos e Estruturas de Dados 2",
+    "subjectAbreviation": "AEDS2",
+    "subjectSemester": 2,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Algoritmos e Estruturas de Dados 2",
+    "subjectAbreviation": "AEDS2",
+    "subjectSemester": 2,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Algoritmos e Estruturas de Dados 3",
+    "subjectAbreviation": "AEDS3",
+    "subjectSemester": 2,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Arquitetura de Computadores 1",
+    "subjectAbreviation": "AC1",
+    "subjectSemester": 2,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Arquitetura de Computadores 2",
+    "subjectAbreviation": "AC2",
+    "subjectSemester": 3,
+    "courseName": "Engenharia da Computação"
+  },
+  {
+    "name": "Bancos de Dados",
+    "subjectAbreviation": "BD",
+    "subjectSemester": 3,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Bancos de Dados",
+    "subjectAbreviation": "BD",
+    "subjectSemester": 3,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Cálculo 1",
+    "subjectAbreviation": "CAL1",
+    "subjectSemester": 1,
+    "courseName": "Ciência de Dados e Inteligência Artificial"
+  },
+  {
+    "name": "Cálculo 1",
+    "subjectAbreviation": "CAL1",
+    "subjectSemester": 1,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Cálculo 2",
+    "subjectAbreviation": "CAL2",
+    "subjectSemester": 3,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Desenvolvimento de Interfaces Web",
+    "subjectAbreviation": "DIW",
+    "subjectSemester": 1,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Fundamentos Teóricos da Computação",
+    "subjectAbreviation": "FTC",
+    "subjectSemester": 6,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Geometria Analítica e Álgebra Linear",
+    "subjectAbreviation": "GAAL",
+    "subjectSemester": 2,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Laboratório de Introdução à Eng. de Computação",
+    "subjectAbreviation": "LIEC",
+    "subjectSemester": 1,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    "subjectAbreviation": "P1",
+    "subjectSemester": 1,
+    "courseName": "Ciência de Dados e Inteligência Artificial"
+  },
+  {
+    "name": "Projeto Integrado I: Desenvolvimento Móvel",
+    "subjectAbreviation": "PI1",
+    "subjectSemester": 4,
+    "courseName": "Engenharia de Computação"
+  },
+  {
+    "name": "Teoria dos Grafos e Computabilidade",
+    "subjectAbreviation": "TCG",
+    "subjectSemester": 4,
+    "courseName": "Ciência da Computação"
+  },
+  {
+    "name": "Aulão",
+    "subjectAbreviation": "ME",
+    "subjectSemester": 1,
+    "courseName": "Ciência de Dados e Inteligência Artificial"
+  }
+]

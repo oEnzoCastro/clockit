@@ -1,0 +1,983 @@
+[
+  {
+    "id": "1",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T20:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Rafael Assis Carvalho Lacerda"
+  },
+  {
+    "id": "2",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T13:40:00.000Z",
+    "endTime": "1900-01-04T15:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Rafael Assis Carvalho Lacerda"
+  },
+  {
+    "id": "3",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:40:00.000Z",
+    "endTime": "1900-01-05T15:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Rafael Assis Carvalho Lacerda"
+  },
+  {
+    "id": "4",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T20:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Rafael Assis Carvalho Lacerda"
+  },
+  {
+    "id": "5",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T20:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Bernardo Barbosa Heronville"
+  },
+  {
+    "id": "6",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T13:30:00.000Z",
+    "endTime": "1900-01-04T15:20:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Bernardo Barbosa Heronville"
+  },
+  {
+    "id": "7",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T16:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Bernardo Barbosa Heronville"
+  },
+  {
+    "id": "8",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T18:00:00.000Z",
+    "endTime": "1900-01-05T19:40:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Bernardo Barbosa Heronville"
+  },
+  {
+    "id": "9",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T13:40:00.000Z",
+    "endTime": "1900-01-02T15:40:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Pedro Henrique Lopes De Melo"
+  },
+  {
+    "id": "10",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T10:00:00.000Z",
+    "endTime": "1900-01-03T12:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Pedro Henrique Lopes De Melo"
+  },
+  {
+    "id": "11",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T13:40:00.000Z",
+    "endTime": "1900-01-04T15:40:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Pedro Henrique Lopes De Melo"
+  },
+  {
+    "id": "12",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:40:00.000Z",
+    "endTime": "1900-01-05T15:40:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Pedro Henrique Lopes De Melo"
+  },
+  {
+    "id": "13",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T16:00:00.000Z",
+    "endTime": "1900-01-06T18:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Pedro Henrique Lopes De Melo"
+  },
+  {
+    "id": "14",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T21:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Lucas Teixeira Reis"
+  },
+  {
+    "id": "15",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T18:00:00.000Z",
+    "endTime": "1900-01-04T21:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Lucas Teixeira Reis"
+  },
+  {
+    "id": "16",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T18:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Lucas Teixeira Reis"
+  },
+  {
+    "id": "17",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T17:20:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Gabriel Henrique Costa Soares"
+  },
+  {
+    "id": "18",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T11:50:00.000Z",
+    "endTime": "1900-01-03T15:20:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Gabriel Henrique Costa Soares"
+  },
+  {
+    "id": "19",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T17:40:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Gabriel Henrique Costa Soares"
+  },
+  {
+    "id": "20",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T11:50:00.000Z",
+    "endTime": "1900-01-06T15:20:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Gabriel Henrique Costa Soares"
+  },
+  {
+    "id": "21",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T13:50:00.000Z",
+    "endTime": "1900-01-02T15:50:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Thiago Domingos Venturim Ribeiro dos Santos"
+  },
+  {
+    "id": "22",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T11:50:00.000Z",
+    "endTime": "1900-01-03T13:10:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Thiago Domingos Venturim Ribeiro dos Santos"
+  },
+  {
+    "id": "23",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T11:50:00.000Z",
+    "endTime": "1900-01-05T15:50:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Thiago Domingos Venturim Ribeiro dos Santos"
+  },
+  {
+    "id": "24",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T11:00:00.000Z",
+    "endTime": "1900-01-06T15:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 1",
+    "monitor": "Thiago Domingos Venturim Ribeiro dos Santos"
+  },
+  {
+    "id": "25",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:30:00.000Z",
+    "endTime": "1900-01-03T21:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Theo Diniz Viana"
+  },
+  {
+    "id": "26",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Theo Diniz Viana"
+  },
+  {
+    "id": "27",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:30:00.000Z",
+    "endTime": "1900-01-05T19:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Theo Diniz Viana"
+  },
+  {
+    "id": "28",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:30:00.000Z",
+    "endTime": "1900-01-02T18:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Eduardo Henrique Aniceto Teixeira"
+  },
+  {
+    "id": "29",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:30:00.000Z",
+    "endTime": "1900-01-04T18:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Eduardo Henrique Aniceto Teixeira"
+  },
+  {
+    "id": "30",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Eduardo Henrique Aniceto Teixeira"
+  },
+  {
+    "id": "31",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:30:00.000Z",
+    "endTime": "1900-01-05T20:30:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Eduardo Henrique Aniceto Teixeira"
+  },
+  {
+    "id": "32",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T21:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "33",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T22:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "34",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T12:00:00.000Z",
+    "endTime": "1900-01-04T13:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "35",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T21:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "36",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T14:00:00.000Z",
+    "endTime": "1900-01-05T15:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "37",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T18:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 2",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "38",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T12:00:00.000Z",
+    "endTime": "1900-01-02T19:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 3",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "39",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T19:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 3",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "40",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T19:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 3",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "41",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T12:00:00.000Z",
+    "endTime": "1900-01-05T19:00:00.000Z",
+    "subject": "Algoritmos e Estruturas de Dados 3",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "42",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T11:40:00.000Z",
+    "endTime": "1900-01-02T13:40:00.000Z",
+    "subject": "Arquitetura de Computadores 1",
+    "monitor": "Adriano Araújo Domingos dos Santos"
+  },
+  {
+    "id": "43",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T18:10:00.000Z",
+    "subject": "Arquitetura de Computadores 1",
+    "monitor": "Adriano Araújo Domingos dos Santos"
+  },
+  {
+    "id": "44",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Arquitetura de Computadores 1",
+    "monitor": "Adriano Araújo Domingos dos Santos"
+  },
+  {
+    "id": "45",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T10:00:00.000Z",
+    "endTime": "1900-01-06T11:50:00.000Z",
+    "subject": "Arquitetura de Computadores 1",
+    "monitor": "Adriano Araújo Domingos dos Santos"
+  },
+  {
+    "id": "46",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T13:30:00.000Z",
+    "endTime": "1900-01-06T15:30:00.000Z",
+    "subject": "Arquitetura de Computadores 1",
+    "monitor": "Adriano Araújo Domingos dos Santos"
+  },
+  {
+    "id": "47",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T15:40:00.000Z",
+    "endTime": "1900-01-02T20:40:00.000Z",
+    "subject": "Arquitetura de Computadores 2",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "48",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T15:40:00.000Z",
+    "endTime": "1900-01-03T20:40:00.000Z",
+    "subject": "Arquitetura de Computadores 2",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "49",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T15:40:00.000Z",
+    "endTime": "1900-01-04T20:40:00.000Z",
+    "subject": "Arquitetura de Computadores 2",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "50",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T15:40:00.000Z",
+    "endTime": "1900-01-05T20:40:00.000Z",
+    "subject": "Arquitetura de Computadores 2",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "51",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T13:30:00.000Z",
+    "endTime": "1900-01-02T15:30:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "João Victor Martins dos Anjos"
+  },
+  {
+    "id": "52",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T18:00:00.000Z",
+    "endTime": "1900-01-03T22:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "João Victor Martins dos Anjos"
+  },
+  {
+    "id": "53",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T18:00:00.000Z",
+    "endTime": "1900-01-05T22:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "João Victor Martins dos Anjos"
+  },
+  {
+    "id": "54",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T12:00:00.000Z",
+    "endTime": "1900-01-02T19:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "55",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T19:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "56",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T19:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "57",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T12:00:00.000Z",
+    "endTime": "1900-01-05T19:00:00.000Z",
+    "subject": "Bancos de Dados",
+    "monitor": "Talita Justo Fernandes"
+  },
+  {
+    "id": "58",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:30:00.000Z",
+    "endTime": "1900-01-03T21:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Augusto Henrique Gonçalves Valbonetti"
+  },
+  {
+    "id": "59",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:30:00.000Z",
+    "endTime": "1900-01-05T21:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Augusto Henrique Gonçalves Valbonetti"
+  },
+  {
+    "id": "60",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T18:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Thayná Andrade Caldeira Antunes"
+  },
+  {
+    "id": "61",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T18:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Thayná Andrade Caldeira Antunes"
+  },
+  {
+    "id": "62",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T18:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Thayná Andrade Caldeira Antunes"
+  },
+  {
+    "id": "63",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:20:00.000Z",
+    "endTime": "1900-01-05T15:20:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Thayná Andrade Caldeira Antunes"
+  },
+  {
+    "id": "64",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T18:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Thayná Andrade Caldeira Antunes"
+  },
+  {
+    "id": "65",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T13:30:00.000Z",
+    "endTime": "1900-01-03T15:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "66",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T19:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "67",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "68",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T19:00:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "69",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:30:00.000Z",
+    "endTime": "1900-01-02T20:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Álvaro Oliveira Soares de Souza"
+  },
+  {
+    "id": "70",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:30:00.000Z",
+    "endTime": "1900-01-04T20:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Álvaro Oliveira Soares de Souza"
+  },
+  {
+    "id": "71",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:30:00.000Z",
+    "endTime": "1900-01-05T18:30:00.000Z",
+    "subject": "Cálculo 1",
+    "monitor": "Álvaro Oliveira Soares de Souza"
+  },
+  {
+    "id": "72",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T10:00:00.000Z",
+    "endTime": "1900-01-02T13:40:00.000Z",
+    "subject": "Cálculo 2",
+    "monitor": "Matheus Filipe Rocha Viana"
+  },
+  {
+    "id": "73",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T10:00:00.000Z",
+    "endTime": "1900-01-04T13:40:00.000Z",
+    "subject": "Cálculo 2",
+    "monitor": "Matheus Filipe Rocha Viana"
+  },
+  {
+    "id": "74",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T10:40:00.000Z",
+    "endTime": "1900-01-06T11:50:00.000Z",
+    "subject": "Cálculo 2",
+    "monitor": "Matheus Filipe Rocha Viana"
+  },
+  {
+    "id": "75",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T13:30:00.000Z",
+    "endTime": "1900-01-06T15:00:00.000Z",
+    "subject": "Cálculo 2",
+    "monitor": "Matheus Filipe Rocha Viana"
+  },
+  {
+    "id": "76",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T10:00:00.000Z",
+    "endTime": "1900-01-02T11:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "77",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T16:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "78",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T10:00:00.000Z",
+    "endTime": "1900-01-03T11:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "79",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T16:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "80",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T10:00:00.000Z",
+    "endTime": "1900-01-04T11:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "81",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T10:00:00.000Z",
+    "endTime": "1900-01-05T11:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "82",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T14:00:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "83",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T10:00:00.000Z",
+    "endTime": "1900-01-06T11:30:00.000Z",
+    "subject": "Desenvolvimento de Interfaces Web",
+    "monitor": "Rafael Portilho de Andrade"
+  },
+  {
+    "id": "84",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T10:00:00.000Z",
+    "endTime": "1900-01-02T11:30:00.000Z",
+    "subject": "Fundamentos Teóricos da Computação",
+    "monitor": "Lucas Abreu Lopes"
+  },
+  {
+    "id": "85",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T15:30:00.000Z",
+    "endTime": "1900-01-03T16:30:00.000Z",
+    "subject": "Fundamentos Teóricos da Computação",
+    "monitor": "Lucas Abreu Lopes"
+  },
+  {
+    "id": "86",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T15:30:00.000Z",
+    "endTime": "1900-01-04T16:30:00.000Z",
+    "subject": "Fundamentos Teóricos da Computação",
+    "monitor": "Lucas Abreu Lopes"
+  },
+  {
+    "id": "87",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T21:30:00.000Z",
+    "endTime": "1900-01-06T02:00:00.000Z",
+    "subject": "Fundamentos Teóricos da Computação",
+    "monitor": "Lucas Abreu Lopes"
+  },
+  {
+    "id": "88",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-06T13:30:00.000Z",
+    "endTime": "1900-01-06T15:30:00.000Z",
+    "subject": "Fundamentos Teóricos da Computação",
+    "monitor": "Lucas Abreu Lopes"
+  },
+  {
+    "id": "89",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T15:40:00.000Z",
+    "endTime": "1900-01-02T20:40:00.000Z",
+    "subject": "Geometria Analítica e Álgebra Linear",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "90",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T15:40:00.000Z",
+    "endTime": "1900-01-03T20:40:00.000Z",
+    "subject": "Geometria Analítica e Álgebra Linear",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "91",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T15:40:00.000Z",
+    "endTime": "1900-01-04T20:40:00.000Z",
+    "subject": "Geometria Analítica e Álgebra Linear",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "92",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T15:40:00.000Z",
+    "endTime": "1900-01-05T20:40:00.000Z",
+    "subject": "Geometria Analítica e Álgebra Linear",
+    "monitor": "João Gabriel Mendonça Geraime Teodoro"
+  },
+  {
+    "id": "93",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T15:30:00.000Z",
+    "endTime": "1900-01-03T19:30:00.000Z",
+    "subject": "Laboratório de Introdução à Eng. de Computação",
+    "monitor": "Fernando Augusto Palhares Barbosa"
+  },
+  {
+    "id": "94",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T15:30:00.000Z",
+    "endTime": "1900-01-04T16:30:00.000Z",
+    "subject": "Laboratório de Introdução à Eng. de Computação",
+    "monitor": "Fernando Augusto Palhares Barbosa"
+  },
+  {
+    "id": "95",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T15:30:00.000Z",
+    "endTime": "1900-01-05T19:30:00.000Z",
+    "subject": "Laboratório de Introdução à Eng. de Computação",
+    "monitor": "Fernando Augusto Palhares Barbosa"
+  },
+  {
+    "id": "96",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:30:00.000Z",
+    "endTime": "1900-01-03T21:30:00.000Z",
+    "subject": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    "monitor": "Vitor Martins Gonçalves"
+  },
+  {
+    "id": "97",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:30:00.000Z",
+    "endTime": "1900-01-05T21:30:00.000Z",
+    "subject": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    "monitor": "Vitor Martins Gonçalves"
+  },
+  {
+    "id": "98",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:30:00.000Z",
+    "endTime": "1900-01-02T21:30:00.000Z",
+    "subject": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    "monitor": "Enzo Alves Barcelos Gripp"
+  },
+  {
+    "id": "99",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:30:00.000Z",
+    "endTime": "1900-01-04T21:30:00.000Z",
+    "subject": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
+    "monitor": "Enzo Alves Barcelos Gripp"
+  },
+  {
+    "id": "100",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-02T16:00:00.000Z",
+    "endTime": "1900-01-02T21:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "101",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T22:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "102",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T12:00:00.000Z",
+    "endTime": "1900-01-04T13:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "103",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-04T16:00:00.000Z",
+    "endTime": "1900-01-04T21:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "104",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T14:00:00.000Z",
+    "endTime": "1900-01-05T15:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "105",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T18:00:00.000Z",
+    "subject": "Projeto Integrado I: Desenvolvimento Móvel",
+    "monitor": "Alex de Castro Mendes Marques"
+  },
+  {
+    "id": "106",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T13:30:00.000Z",
+    "endTime": "1900-01-03T15:30:00.000Z",
+    "subject": "Teoria dos Grafos e Computabilidade",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "107",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-03T16:00:00.000Z",
+    "endTime": "1900-01-03T19:00:00.000Z",
+    "subject": "Teoria dos Grafos e Computabilidade",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "108",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T13:30:00.000Z",
+    "endTime": "1900-01-05T15:30:00.000Z",
+    "subject": "Teoria dos Grafos e Computabilidade",
+    "monitor": "João Pedro de Meireles Alves"
+  },
+  {
+    "id": "109",
+    "location": "Lab. 1101, prédio 4 - Lourdes",
+    "recurrence": "null",
+    "startTime": "1900-01-05T16:00:00.000Z",
+    "endTime": "1900-01-05T19:00:00.000Z",
+    "subject": "Teoria dos Grafos e Computabilidade",
+    "monitor": "João Pedro de Meireles Alves"
+  }
+]
