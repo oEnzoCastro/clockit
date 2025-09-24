@@ -3,7 +3,6 @@ import SubjectsBox from "../components/subjectsBox/SubjectsBox"
 
 export default function Home() {
   return <>
-    <Header/>
     <SubjectsBox/>
   </>;
 }
