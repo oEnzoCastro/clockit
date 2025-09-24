@@ -22,7 +22,10 @@ export default function Calendar({
   const [currentWeek, setCurrentWeek] = useState(() => {
     const date = new Date(selectedDate);
     const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay()); // Start from Sunday
+    // Start from Monday (1 = Monday, 0 = Sunday)
+    const dayOfWeek = date.getDay();
+    const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // If Sunday (0), go back 6 days, otherwise go to Monday
+    startOfWeek.setDate(date.getDate() + daysToMonday);
     return startOfWeek;
   });
 
@@ -102,7 +105,12 @@ export default function Calendar({
           currentDay.setDate(weekStart.getDate() + dayOffset);
 
           // Check if this day matches the original event's day of week
-          if (currentDay.getDay() === dayOfWeek) {
+          // Convert to Monday-first week (Monday = 1, Sunday = 0 becomes 7)
+          const originalDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek; // Sunday becomes 7
+          const currentDayOfWeek =
+            currentDay.getDay() === 0 ? 7 : currentDay.getDay(); // Sunday becomes 7
+
+          if (currentDayOfWeek === originalDayOfWeek) {
             // Don't duplicate the original event if it's already in the week
             if (currentDay.toDateString() === eventStart.toDateString()) {
               continue;
@@ -315,20 +323,28 @@ export default function Calendar({
 
     // Convert to pixels (assuming 60px per hour)
     const top = (startMinutes / 60) * 60;
-    const height = Math.max(30, (durationMinutes / 60) * 60); // Minimum 30px height
+    const height = Math.max(20, (durationMinutes / 60) * 60); // Minimum 20px height (reduced from 30px)
 
-    // Calculate width and left position for columns
-    const gapPercentage = totalColumns > 1 ? 1 : 0; // Add gap only when there are multiple columns
+    // Calculate width and left position for columns - make events thinner
+    const gapPercentage = totalColumns > 1 ? 1.5 : 0; // Increased gap between overlapping events
     const availableWidth = 100 - gapPercentage * (totalColumns - 1); // Account for gaps
     const columnWidth = availableWidth / totalColumns;
     const leftPosition = column * (columnWidth + gapPercentage);
 
+    // Determine text visibility based on event size
+    const showTitle = height >= 25 && columnWidth >= 20;
+    const showTime = height >= 45 && columnWidth >= 25;
+    const showLocation = height >= 65 && columnWidth >= 30 && totalColumns <= 2;
+
     return {
       top: `${top}px`,
       height: `${height}px`,
-      width: `${Math.max(columnWidth, 15)}%`, // Minimum 15% width
-      left: `${leftPosition}%`,
+      width: `${Math.max(columnWidth - 1, 8)}%`, // Minimum 8% width, subtract 1% for better spacing
+      left: `${leftPosition + 0.5}%`, // Add small offset for better visual separation
       zIndex: 5 + column, // Higher z-index for later columns
+      showTitle,
+      showTime,
+      showLocation,
     };
   };
 
@@ -440,8 +456,6 @@ export default function Calendar({
     return colorClasses[colorIndex];
   };
 
-  
-
   return (
     <div className="calendar-container">
       {/* Header */}
@@ -541,26 +555,38 @@ export default function Calendar({
                   return (
                     <div
                       key={`${event.id}-${eventIndex}`}
-                      className={`event ${subjectColorClass}`}
-                      style={style}
+                      className={`event ${subjectColorClass} ${
+                        style.showTitle ? "" : "no-text"
+                      }`}
+                      style={{
+                        top: style.top,
+                        height: style.height,
+                        width: style.width,
+                        left: style.left,
+                        zIndex: style.zIndex,
+                      }}
                       onClick={() => handleEventClick(event)}
                       title={`${
                         event.subject
                       }\n${event.startTime.toLocaleTimeString()} - ${event.endTime.toLocaleTimeString()}`}
                     >
-                      <div className="event-title">{event.subject}</div>
-                      <div className="event-time">
-                        {event.startTime.toLocaleTimeString("en-US", {
-                          hour: "numeric",
-                          minute: "2-digit",
-                        })}{" "}
-                        -{" "}
-                        {event.endTime.toLocaleTimeString("en-US", {
-                          hour: "numeric",
-                          minute: "2-digit",
-                        })}
-                      </div>
-                      {event.location && totalColumns <= 2 && (
+                      {style.showTitle && (
+                        <div className="event-title">{event.subject}</div>
+                      )}
+                      {style.showTime && (
+                        <div className="event-time">
+                          {event.startTime.toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "2-digit",
+                          })}{" "}
+                          -{" "}
+                          {event.endTime.toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "2-digit",
+                          })}
+                        </div>
+                      )}
+                      {style.showLocation && event.location && (
                         <div className="event-location">{event.location}</div>
                       )}
                     </div>
