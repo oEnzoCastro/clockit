@@ -1,0 +1,22 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2%;
+  height: 60px;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+}
+
+header h3{
+    font-weight: lighter;
+    transition: .1s;
+}
+header h3:hover{
+    scale: 1.1;
+}
+
+.pages{
+    display: flex;
+    gap: 50px;
+}
