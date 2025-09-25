@@ -1,128 +1,128 @@
 [
   {
     "name": "Algoritmos e Estruturas de Dados 1",
-    "subjectAbreviation": "AEDS1",
+    "subjectAbbreviation": "AEDS1",
     "subjectSemester": 1,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Algoritmos e Estruturas de Dados 1",
-    "subjectAbreviation": "AEDS1",
+    "subjectAbbreviation": "AEDS1",
     "subjectSemester": 1,
-    "courseName": "Engenharia da Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Algoritmos e Estruturas de Dados 1",
-    "subjectAbreviation": "AEDS1",
+    "subjectAbbreviation": "AEDS1",
     "subjectSemester": 1,
-    "courseName": "Ciência de Dados e Inteligência Artificial"
+    "courseAbbreviation": "CDIA"
   },
   {
     "name": "Algoritmos e Estruturas de Dados 2",
-    "subjectAbreviation": "AEDS2",
+    "subjectAbbreviation": "AEDS2",
     "subjectSemester": 2,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Algoritmos e Estruturas de Dados 2",
-    "subjectAbreviation": "AEDS2",
+    "subjectAbbreviation": "AEDS2",
     "subjectSemester": 2,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Algoritmos e Estruturas de Dados 3",
-    "subjectAbreviation": "AEDS3",
+    "subjectAbbreviation": "AEDS3",
     "subjectSemester": 2,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Arquitetura de Computadores 1",
-    "subjectAbreviation": "AC1",
+    "subjectAbbreviation": "AC1",
     "subjectSemester": 2,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Arquitetura de Computadores 2",
-    "subjectAbreviation": "AC2",
+    "subjectAbbreviation": "AC2",
     "subjectSemester": 3,
-    "courseName": "Engenharia da Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Bancos de Dados",
-    "subjectAbreviation": "BD",
+    "subjectAbbreviation": "BD",
     "subjectSemester": 3,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Bancos de Dados",
-    "subjectAbreviation": "BD",
+    "subjectAbbreviation": "BD",
     "subjectSemester": 3,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Cálculo 1",
-    "subjectAbreviation": "CAL1",
+    "subjectAbbreviation": "CAL1",
     "subjectSemester": 1,
-    "courseName": "Ciência de Dados e Inteligência Artificial"
+    "courseAbbreviation": "CDIA"
   },
   {
     "name": "Cálculo 1",
-    "subjectAbreviation": "CAL1",
+    "subjectAbbreviation": "CAL1",
     "subjectSemester": 1,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Cálculo 2",
-    "subjectAbreviation": "CAL2",
+    "subjectAbbreviation": "CAL2",
     "subjectSemester": 3,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Desenvolvimento de Interfaces Web",
-    "subjectAbreviation": "DIW",
+    "subjectAbbreviation": "DIW",
     "subjectSemester": 1,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Fundamentos Teóricos da Computação",
-    "subjectAbreviation": "FTC",
+    "subjectAbbreviation": "FTC",
     "subjectSemester": 6,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Geometria Analítica e Álgebra Linear",
-    "subjectAbreviation": "GAAL",
+    "subjectAbbreviation": "GAAL",
     "subjectSemester": 2,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Laboratório de Introdução à Eng. de Computação",
-    "subjectAbreviation": "LIEC",
+    "subjectAbbreviation": "LIEC",
     "subjectSemester": 1,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Projeto em Ciência de Dados I: Sistemas Inteligentes",
-    "subjectAbreviation": "P1",
+    "subjectAbbreviation": "PCD1",
     "subjectSemester": 1,
-    "courseName": "Ciência de Dados e Inteligência Artificial"
+    "courseAbbreviation": "CDIA"
   },
   {
     "name": "Projeto Integrado I: Desenvolvimento Móvel",
-    "subjectAbreviation": "PI1",
+    "subjectAbbreviation": "PI1",
     "subjectSemester": 4,
-    "courseName": "Engenharia de Computação"
+    "courseAbbreviation": "EC"
   },
   {
     "name": "Teoria dos Grafos e Computabilidade",
-    "subjectAbreviation": "TCG",
+    "subjectAbbreviation": "TCG",
     "subjectSemester": 4,
-    "courseName": "Ciência da Computação"
+    "courseAbbreviation": "CC"
   },
   {
     "name": "Aulão",
-    "subjectAbreviation": "ME",
+    "subjectAbbreviation": "ME",
     "subjectSemester": 1,
-    "courseName": "Ciência de Dados e Inteligência Artificial"
+    "courseAbbreviation": "CDIA"
   }
 ]
