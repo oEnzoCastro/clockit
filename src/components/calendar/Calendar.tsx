@@ -13,14 +13,14 @@ interface CalendarProps {
 }
 
 interface MergedEvent {
-  id: string;
-  subject: string;
-  startTime: Date;
-  endTime: Date;
-  location: string;
-  recurrence: string | null;
+  event_id: string;
+  subject_name: string;
+  event_start_time: Date;
+  event_end_time: Date;
+  event_location: string;
+  event_recurrence: string | null;
   events: Event[]; // Array of individual events that were merged
-  monitor: string; // Combined monitor names
+  monitor_name: string; // Combined monitor names
 }
 
 export default function Calendar({
@@ -93,8 +93,8 @@ export default function Calendar({
     const allEvents: Event[] = [];
 
     events.forEach((event) => {
-      const eventStart = new Date(event.startTime);
-      const eventEnd = new Date(event.endTime);
+      const eventStart = new Date(event.event_start_time);
+      const eventEnd = new Date(event.event_end_time);
 
       // Check if the original event falls within the current week
       const originalEventInWeek =
@@ -108,9 +108,9 @@ export default function Calendar({
 
       // Handle recurring events (repeat every week if recurrence is not null)
       if (
-        event.recurrence &&
-        event.recurrence !== "none" &&
-        event.recurrence.trim() !== ""
+        event.event_recurrence &&
+        event.event_recurrence !== "none" &&
+        event.event_recurrence.trim() !== ""
       ) {
         const dayOfWeek = eventStart.getDay(); // 0 = Sunday, 1 = Monday, etc.
 
@@ -150,11 +150,9 @@ export default function Calendar({
 
             const recurringEvent: Event = {
               ...event,
-              id: `${event.id}-recurring-${
-                currentDay.toISOString().split("T")[0]
-              }`,
-              startTime: recurringStartTime,
-              endTime: recurringEndTime,
+              event_id: parseInt(`${event.event_id}${currentDay.getTime().toString().slice(-6)}`), // Create unique ID for recurring event
+              event_start_time: recurringStartTime,
+              event_end_time: recurringEndTime,
             };
 
             allEvents.push(recurringEvent);
@@ -169,21 +167,21 @@ export default function Calendar({
   // Merge events with the same subject that overlap in time
   const mergeEventsWithSameSubject = (events: Event[]): MergedEvent[] => {
     const mergedEvents: MergedEvent[] = [];
-    const processedEvents = new Set<string>();
+    const processedEvents = new Set<number>();
 
     events.forEach((event) => {
-      if (processedEvents.has(event.id)) return;
+      if (processedEvents.has(event.event_id)) return;
 
       // Find all events with the same subject that overlap with this event
       const overlappingEvents = events.filter((otherEvent) => {
-        if (otherEvent.subject !== event.subject) return false;
-        if (processedEvents.has(otherEvent.id)) return false;
+        if (otherEvent.subject_name !== event.subject_name) return false;
+        if (processedEvents.has(otherEvent.event_id)) return false;
 
         // Check if events overlap in time
-        const eventStart = event.startTime.getTime();
-        const eventEnd = event.endTime.getTime();
-        const otherStart = otherEvent.startTime.getTime();
-        const otherEnd = otherEvent.endTime.getTime();
+        const eventStart = event.event_start_time.getTime();
+        const eventEnd = event.event_end_time.getTime();
+        const otherStart = otherEvent.event_start_time.getTime();
+        const otherEnd = otherEvent.event_end_time.getTime();
 
         return eventStart < otherEnd && eventEnd > otherStart;
       });
@@ -191,28 +189,28 @@ export default function Calendar({
       if (overlappingEvents.length > 0) {
         // Create merged event
         const allEvents = overlappingEvents;
-        const startTimes = allEvents.map((e) => e.startTime.getTime());
-        const endTimes = allEvents.map((e) => e.endTime.getTime());
-        const monitors = allEvents.map((e) => e.monitor);
+        const startTimes = allEvents.map((e) => e.event_start_time.getTime());
+        const endTimes = allEvents.map((e) => e.event_end_time.getTime());
+        const monitors = allEvents.map((e) => e.monitor_name);
         const locations = Array.from(
-          new Set(allEvents.map((e) => e.location).filter(Boolean))
+          new Set(allEvents.map((e) => e.event_location).filter(Boolean))
         );
 
         const mergedEvent: MergedEvent = {
-          id: `merged-${event.subject}-${allEvents[0].id}`,
-          subject: event.subject,
-          startTime: new Date(Math.min(...startTimes)),
-          endTime: new Date(Math.max(...endTimes)),
-          location: locations.join(", ") || allEvents[0].location,
-          recurrence: allEvents[0].recurrence,
+          event_id: `merged-${event.subject_name}-${allEvents[0].event_id}`,
+          subject_name: event.subject_name,
+          event_start_time: new Date(Math.min(...startTimes)),
+          event_end_time: new Date(Math.max(...endTimes)),
+          event_location: locations.join(", ") || allEvents[0].event_location,
+          event_recurrence: allEvents[0].event_recurrence,
           events: allEvents,
-          monitor: monitors.join(", "),
+          monitor_name: monitors.join(", "),
         };
 
         mergedEvents.push(mergedEvent);
 
         // Mark all these events as processed
-        allEvents.forEach((e) => processedEvents.add(e.id));
+        allEvents.forEach((e) => processedEvents.add(e.event_id));
       }
     });
 
@@ -227,8 +225,8 @@ export default function Calendar({
     dayEnd.setHours(23, 59, 59, 999);
 
     const dayEvents = weekEvents.filter((event) => {
-      const eventStart = new Date(event.startTime);
-      const eventEnd = new Date(event.endTime);
+      const eventStart = new Date(event.event_start_time);
+      const eventEnd = new Date(event.event_end_time);
 
       return (
         (eventStart >= dayStart && eventStart <= dayEnd) ||
@@ -239,7 +237,7 @@ export default function Calendar({
 
     // Sort events by start time
     const sortedEvents = dayEvents.sort(
-      (a, b) => a.startTime.getTime() - b.startTime.getTime()
+      (a, b) => a.event_start_time.getTime() - b.event_start_time.getTime()
     );
 
     // Merge events with the same subject
@@ -254,7 +252,7 @@ export default function Calendar({
 
     // Sort events by start time
     const sortedEvents = [...events].sort(
-      (a, b) => a.startTime.getTime() - b.startTime.getTime()
+      (a, b) => a.event_start_time.getTime() - b.event_start_time.getTime()
     );
 
     const eventLayouts = sortedEvents.map((event) => ({
@@ -268,8 +266,8 @@ export default function Calendar({
 
     for (let i = 0; i < eventLayouts.length; i++) {
       const currentEvent = eventLayouts[i].event;
-      const currentStart = currentEvent.startTime.getTime();
-      const currentEnd = currentEvent.endTime.getTime();
+      const currentStart = currentEvent.event_start_time.getTime();
+      const currentEnd = currentEvent.event_end_time.getTime();
 
       // Find which group this event belongs to
       let groupFound = false;
@@ -284,8 +282,8 @@ export default function Calendar({
         // Check if current event overlaps with any event in this group
         const overlapsWithGroup = group.some((eventIndex) => {
           const groupEvent = eventLayouts[eventIndex].event;
-          const groupStart = groupEvent.startTime.getTime();
-          const groupEnd = groupEvent.endTime.getTime();
+          const groupStart = groupEvent.event_start_time.getTime();
+          const groupEnd = groupEvent.event_end_time.getTime();
 
           return currentStart < groupEnd && currentEnd > groupStart;
         });
@@ -317,8 +315,8 @@ export default function Calendar({
         .map((i) => ({
           index: i,
           event: eventLayouts[i].event,
-          start: eventLayouts[i].event.startTime.getTime(),
-          end: eventLayouts[i].event.endTime.getTime(),
+          start: eventLayouts[i].event.event_start_time.getTime(),
+          end: eventLayouts[i].event.event_end_time.getTime(),
         }))
         .sort((a, b) => a.start - b.start);
 
@@ -377,8 +375,8 @@ export default function Calendar({
     column: number,
     totalColumns: number
   ) => {
-    const eventStart = new Date(event.startTime);
-    const eventEnd = new Date(event.endTime);
+    const eventStart = new Date(event.event_start_time);
+    const eventEnd = new Date(event.event_end_time);
     const dayStart = new Date(day);
     dayStart.setHours(0, 0, 0, 0);
 
@@ -529,7 +527,7 @@ export default function Calendar({
 
     // Get all unique subjects first
     const uniqueSubjects = Array.from(
-      new Set(weekEvents.map((event) => event.subject))
+      new Set(weekEvents.map((event) => event.subject_name))
     );
 
     // For each unique subject, calculate its color consistently
@@ -537,14 +535,14 @@ export default function Calendar({
       if (!subjectsMap.has(subject)) {
         // Create a dummy merged events array with all unique subjects for consistent color calculation
         const dummyMergedEvents = uniqueSubjects.map((s) => ({
-          id: s,
-          subject: s,
-          startTime: new Date(),
-          endTime: new Date(),
-          location: "",
-          recurrence: null,
+          event_id: s,
+          subject_name: s,
+          event_start_time: new Date(),
+          event_end_time: new Date(),
+          event_location: "",
+          event_recurrence: null,
           events: [],
-          monitor: "",
+          monitor_name: "",
         }));
 
         const colorClass = getSubjectColor(subject, dummyMergedEvents);
@@ -652,26 +650,26 @@ export default function Calendar({
 
                   // Get color class based on subject
                   const subjectColorClass = getSubjectColor(
-                    event.subject,
+                    event.subject_name,
                     dayEvents
                   );
 
                   return (
                     <div
-                      key={`${event.id}-${eventIndex}`}
+                      key={`${event.event_id}-${eventIndex}`}
                       className={`event ${subjectColorClass} ${
                         style.showTitle ? "" : "no-text"
                       } ${
-                        hoveredSubject && hoveredSubject !== event.subject
+                        hoveredSubject && hoveredSubject !== event.subject_name
                           ? "event-dimmed"
                           : ""
                       } ${
-                        hoveredSubject === event.subject
+                        hoveredSubject === event.subject_name
                           ? "event-highlighted"
                           : ""
                       }
                       
-                      ${event.recurrence == null ? "single-event" : ""}
+                      ${event.event_recurrence == null ? "single-event" : ""}
 
                       `}
                       style={{
@@ -682,15 +680,15 @@ export default function Calendar({
                         zIndex: style.zIndex,
                       }}
                       onClick={() => handleEventClick(event)}
-                      title={`${event.subject}${
+                      title={`${event.subject_name}${
                         event.events.length > 1
-                          ? ` (${event.events.length} monitors: ${event.monitor})`
-                          : ` (${event.monitor})`
-                      }\n${event.startTime.toLocaleTimeString()} - ${event.endTime.toLocaleTimeString()}`}
+                          ? ` (${event.events.length} monitors: ${event.monitor_name})`
+                          : ` (${event.monitor_name})`
+                      }\n${event.event_start_time.toLocaleTimeString()} - ${event.event_end_time.toLocaleTimeString()}`}
                     >
                       {style.showTitle && (
                         <div className="event-title">
-                          {event.subject}
+                          {event.subject_name}
                           {event.events.length > 1 && (
                             <span className="multiple-monitors-indicator">
                               {" "}
@@ -701,19 +699,19 @@ export default function Calendar({
                       )}
                       {style.showTime && (
                         <div className="event-time">
-                          {event.startTime.toLocaleTimeString("en-US", {
+                          {event.event_start_time.toLocaleTimeString("en-US", {
                             hour: "numeric",
                             minute: "2-digit",
                           })}{" "}
                           -{" "}
-                          {event.endTime.toLocaleTimeString("en-US", {
+                          {event.event_end_time.toLocaleTimeString("en-US", {
                             hour: "numeric",
                             minute: "2-digit",
                           })}
                         </div>
                       )}
-                      {style.showLocation && event.location && (
-                        <div className="event-location">{event.location}</div>
+                      {style.showLocation && event.event_location && (
+                        <div className="event-location">{event.event_location}</div>
                       )}
                     </div>
                   );

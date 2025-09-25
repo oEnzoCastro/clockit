@@ -53,8 +53,8 @@ export default function EventModal({
   };
 
   const getOverallTimeRange = () => {
-    const startTimes = events.map((e) => e.startTime.getTime());
-    const endTimes = events.map((e) => e.endTime.getTime());
+    const startTimes = events.map((e) => e.event_start_time.getTime());
+    const endTimes = events.map((e) => e.event_end_time.getTime());
     return {
       start: new Date(Math.min(...startTimes)),
       end: new Date(Math.max(...endTimes)),
@@ -69,7 +69,7 @@ export default function EventModal({
 
   const timeRange = getOverallTimeRange();
   const uniqueLocations = Array.from(
-    new Set(events.map((e) => e.location).filter(Boolean))
+    new Set(events.map((e) => e.event_location).filter(Boolean))
   );
 
   return (
@@ -77,7 +77,7 @@ export default function EventModal({
       <div className="modal-container">
         <div className="modal-header">
           <h2 className="modal-title">
-            {firstEvent.subject}
+            {firstEvent.subject_name}
             {isMultipleEvents && (
               <span className="monitor-count"> ({events.length} monitors)</span>
             )}
@@ -94,7 +94,7 @@ export default function EventModal({
               <div className="detail-content">
                 <span className="detail-label">Date</span>
                 <span className="detail-value">
-                  {formatDateTime(firstEvent.startTime)}
+                  {formatDateTime(firstEvent.event_start_time)}
                 </span>
               </div>
             </div>
@@ -133,15 +133,15 @@ export default function EventModal({
               </div>
             )}
 
-            {firstEvent.recurrence &&
-              firstEvent.recurrence !== "none" &&
-              firstEvent.recurrence.trim() !== "" && (
+            {firstEvent.event_recurrence &&
+              firstEvent.event_recurrence !== "none" &&
+              firstEvent.event_recurrence.trim() !== "" && (
                 <div className="detail-item">
                   <div className="detail-icon">🔄</div>
                   <div className="detail-content">
                     <span className="detail-label">Recurrence</span>
                     <span className="detail-value">
-                      {firstEvent.recurrence}
+                      {firstEvent.event_recurrence}
                     </span>
                   </div>
                 </div>
@@ -156,20 +156,20 @@ export default function EventModal({
                 </span>
                 <div className="monitor-details">
                   {events.map((evt, index) => (
-                    <div key={evt.id} className="monitor-item">
+                    <div key={evt.event_id} className="monitor-item">
                       <div className="monitor-info">
-                        <strong>{evt.monitor}</strong>
-                        <small>{evt.courseName} - {evt.subjectSemester}° semester</small>
+                        <strong>{evt.monitor_name}</strong>
+                        <small>{evt.course_name} - {evt.subject_semester}° semester</small>
                         <div className="monitor-time">
-                          {formatTime(evt.startTime)} -{" "}
-                          {formatTime(evt.endTime)}
+                          {formatTime(evt.event_start_time)} -{" "}
+                          {formatTime(evt.event_end_time)}
                           <span className="monitor-duration">
-                            ({calculateDuration(evt.startTime, evt.endTime)})
+                            ({calculateDuration(evt.event_start_time, evt.event_end_time)})
                           </span>
                         </div>
-                        {evt.location && (
+                        {evt.event_location && (
                           <div className="monitor-location">
-                            📍 {evt.location}
+                            📍 {evt.event_location}
                           </div>
                         )}
                       </div>

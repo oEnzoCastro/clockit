@@ -9,8 +9,8 @@ export default function Home() {
 
   return (
     <div>
-      <SubjectsBox />
-      <Calendar events={sampleEvents.filter(event => event.subjectAbreviation == "AEDS1")} />
+      {/* <SubjectsBox /> */}
+      <Calendar events={sampleEvents} />
     </div>
   );
 }
