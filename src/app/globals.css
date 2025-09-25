@@ -1,6 +1,7 @@
 :root {
   --background: #F0FDFF;
   --text: #868686;
+  --subject-background: #E2EEF0;
 }
 
 html,
@@ -9,6 +10,11 @@ body {
   overflow-x: hidden;
   color: var(--text);
   background-color: var(--background);
+}
+
+main{
+  display: flex;
+  justify-content: space-around;
 }
 
 * {

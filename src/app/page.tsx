@@ -8,9 +8,9 @@ export default function Home() {
 
 
   return (
-    <div>
+    <main>
       <SubjectsBox />
       <Calendar events={sampleEvents.filter(event => event.subjectAbreviation == "AEDS1")} />
-    </div>
+    </main>
   );
 }
