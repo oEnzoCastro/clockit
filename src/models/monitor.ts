@@ -1,4 +1,6 @@
-type Monitor = {
-    nome: string;
+type monitor = {
+    id: number; // SERIAL Primary Key
+    name: string; // TEXT
 };
-export default Monitor;
+
+export default monitor;
