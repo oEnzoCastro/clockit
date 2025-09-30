@@ -1,24 +1,24 @@
 :root {
-  --background: #F0FDFF;
+  --background-1: #f7feff;
   --text: #868686;
-  --subject-background: #E2EEF0;
+  --background-2: #e4ebec;
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
   color: var(--text);
-  background-color: var(--background);
+  background-color: var(--background-1);
 }
 
 main{
   display: flex;
-  justify-content: space-around;
+  gap: 3%;
+  margin: 0 1%;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-weight: 400;
 }

@@ -1,15 +1,14 @@
 .box {
-    background-color: var(--background);
     height: 100px;
     margin: 10px;
-    width: 30%;
+    width: 20%;
     display: flex;
     flex-direction: column;
 }
 
 .box select {
   appearance: none;           
-  background-color: var(--background);
+  background-color: var(--background-1);
   color: var(--text);
   border: none;
   border-radius: 10px;
@@ -21,7 +20,7 @@
   margin-bottom: 30px;
 }
 
-.box select:focus {
+.box select:focus { 
   outline: none;
 }
 
@@ -51,7 +50,7 @@
 }
 
 .subject h3 {
-    background-color: var(--subject-background);
+    background-color: var(--background-2);
     width: 100%;
     display: flex;
     justify-content: center;

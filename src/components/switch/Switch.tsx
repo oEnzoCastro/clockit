@@ -24,6 +24,7 @@ const IOSSwitch = styled((props) => <Switch {...props} />)(({ theme }) => ({
     boxSizing: 'border-box',
     width: 22,
     height: 22,
+    boxShadow: 'none',
   },
   '& .MuiSwitch-track': {
     borderRadius: 26 / 2,

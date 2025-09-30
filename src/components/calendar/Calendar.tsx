@@ -424,10 +424,10 @@ export default function Calendar({
     return hour === 0
       ? "12 AM"
       : hour < 12
-      ? `${hour} AM`
-      : hour === 12
-      ? "12 PM"
-      : `${hour - 12} PM`;
+        ? `${hour} AM`
+        : hour === 12
+          ? "12 PM"
+          : `${hour - 12} PM`;
   };
 
   // Check if date is today
@@ -657,17 +657,14 @@ export default function Calendar({
                   return (
                     <div
                       key={`${event.event_id}-${eventIndex}`}
-                      className={`event ${subjectColorClass} ${
-                        style.showTitle ? "" : "no-text"
-                      } ${
-                        hoveredSubject && hoveredSubject !== event.subject_name
+                      className={`event ${subjectColorClass} ${style.showTitle ? "" : "no-text"
+                        } ${hoveredSubject && hoveredSubject !== event.subject_name
                           ? "event-dimmed"
                           : ""
-                      } ${
-                        hoveredSubject === event.subject_name
+                        } ${hoveredSubject === event.subject_name
                           ? "event-highlighted"
                           : ""
-                      }
+                        }
                       
                       ${event.event_recurrence == null ? "single-event" : ""}
 
@@ -680,11 +677,10 @@ export default function Calendar({
                         zIndex: style.zIndex,
                       }}
                       onClick={() => handleEventClick(event)}
-                      title={`${event.subject_name}${
-                        event.events.length > 1
-                          ? ` (${event.events.length} monitors: ${event.monitor_name})`
-                          : ` (${event.monitor_name})`
-                      }\n${event.event_start_time.toLocaleTimeString()} - ${event.event_end_time.toLocaleTimeString()}`}
+                      title={`${event.subject_name}${event.events.length > 1
+                        ? ` (${event.events.length} monitors: ${event.monitor_name})`
+                        : ` (${event.monitor_name})`
+                        }\n${event.event_start_time.toLocaleTimeString()} - ${event.event_end_time.toLocaleTimeString()}`}
                     >
                       {style.showTitle && (
                         <div className="event-title">
@@ -719,6 +715,7 @@ export default function Calendar({
               })()}
             </div>
           </div>
+
         ))}
       </div>
 
@@ -729,9 +726,8 @@ export default function Calendar({
             {weekSubjects.map(({ subject, colorClass }) => (
               <div
                 key={subject}
-                className={`legend-item ${
-                  hoveredSubject === subject ? "legend-item-active" : ""
-                }`}
+                className={`legend-item ${hoveredSubject === subject ? "legend-item-active" : ""
+                  }`}
                 onMouseEnter={() => setHoveredSubject(subject)}
                 onMouseLeave={() => setHoveredSubject(null)}
               >
