@@ -4,7 +4,7 @@ import db from "./../../../utils/database/database"
 
 export async function GET() {
     try {
-        const res = await db.select('courses');
+        const res = await db.select('*').from('courses');
         return NextResponse.json({data:res});
     } catch (error) {
          return NextResponse.json(
