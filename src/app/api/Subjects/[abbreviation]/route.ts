@@ -5,7 +5,8 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { abbreviation: string } }
 ) {
-  const { abbreviation } = params;
+  
+  const { abbreviation } = await params;
 
   try {
     const res = await db
@@ -13,10 +14,11 @@ export async function GET(
       .from("subjects")
       .join("courses", "courses.abbreviation", "subjects.course_abbreviation")
       .where("courses.abbreviation", abbreviation);
+      console.log(res);
     return NextResponse.json({ data: res });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch courses" },
+      { error: "Failed to fetch subjects" },
       { status: 500 }
     );
   }

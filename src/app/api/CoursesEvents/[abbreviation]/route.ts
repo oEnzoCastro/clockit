@@ -1,9 +1,12 @@
 import { NextResponse,NextRequest } from 'next/server';
 import db from "../../../../utils/database/database"
 
-export async function GET(request:NextRequest) {
-    const searchParams = request.nextUrl.searchParams;
-    const abbreviation = searchParams.get('course_abbreviation');
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { abbreviation: string } }
+) {
+  
+  const { abbreviation } = await params;
     try {
         const res = await db
             .select('*')
@@ -13,7 +16,7 @@ export async function GET(request:NextRequest) {
         return NextResponse.json({data:res});
     } catch (error) {
          return NextResponse.json(
-      { error: 'Failed to fetch courses' },
+      { error: 'Failed to fetch events' },
       { status: 500 }
     )
     }
