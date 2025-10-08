@@ -8,7 +8,9 @@ import Event from "@/models/event";
 export default function Home() {
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
-  const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(new Set());
+  const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(
+    new Set()
+  );
   const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,10 +26,11 @@ export default function Home() {
       setLoading(true);
 
       try {
-        const response = await fetch(
-          `/api/CoursesEvents/${selectedCourse}`,
-          { cache: "no-store" }
-        );
+        const response = await fetch(`/api/CoursesEvents/${selectedCourse}`, {
+          cache: "no-store",
+        });
+
+
 
         if (!response.ok) {
           throw new Error(`Failed to fetch events: ${response.status}`);
@@ -35,7 +38,7 @@ export default function Home() {
 
         const data = await response.json();
         const events = data.data || [];
-        
+
         // Parse dates
         const parsedEvents = events.map((event: any) => ({
           ...event,
@@ -58,7 +61,7 @@ export default function Home() {
   // Filter events based on selected subjects
   useEffect(() => {
     if (selectedSubjects.size === 0) {
-      setFilteredEvents([]);
+      setFilteredEvents(allEvents);
       return;
     }
 
@@ -70,17 +73,20 @@ export default function Home() {
   }, [allEvents, selectedSubjects]);
 
   // Handle subject toggle
-  const handleSubjectToggle = useCallback((subjectAbbreviation: string, isSelected: boolean) => {
-    setSelectedSubjects((prev) => {
-      const newSet = new Set(prev);
-      if (isSelected) {
-        newSet.add(subjectAbbreviation);
-      } else {
-        newSet.delete(subjectAbbreviation);
-      }
-      return newSet;
-    });
-  }, []);
+  const handleSubjectToggle = useCallback(
+    (subjectAbbreviation: string, isSelected: boolean) => {
+      setSelectedSubjects((prev) => {
+        const newSet = new Set(prev);
+        if (isSelected) {
+          newSet.add(subjectAbbreviation);
+        } else {
+          newSet.delete(subjectAbbreviation);
+        }
+        return newSet;
+      });
+    },
+    []
+  );
 
   // Handle course change
   const handleCourseChange = useCallback((courseAbbreviation: string) => {
@@ -95,10 +101,7 @@ export default function Home() {
         onCourseChange={handleCourseChange}
         selectedSubjects={selectedSubjects}
       />
-      <Calendar 
-        events={filteredEvents} 
-        selectedDate={new Date()}
-      />
+      <Calendar events={filteredEvents} selectedDate={new Date()} />
     </main>
   );
 }
