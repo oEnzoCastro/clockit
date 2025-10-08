@@ -10,10 +10,10 @@ export async function GET(
 
   try {
     const res = await db
-      .select("*")
-      .from("subjects")
-      .join("courses", "courses.abbreviation", "subjects.course_abbreviation")
-      .where("courses.abbreviation", abbreviation);
+      .select("A.name AS subject_name", "A.subject_abbreviation", "A.subject_semester", "B.name AS course_name", "B.abbreviation AS course_abbreviation")
+      .from("subjects AS A")
+      .join("courses AS B", "B.abbreviation", "A.course_abbreviation")
+      .where("B.abbreviation", abbreviation);
       console.log(res);
     return NextResponse.json({ data: res });
   } catch (error) {

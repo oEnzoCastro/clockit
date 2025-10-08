@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useMemo, memo } from "react";
 import Event from "../../models/event";
 import "./EventModal.css";
 
@@ -10,35 +10,38 @@ interface EventModalProps {
   onClose: () => void;
 }
 
-export default function EventModal({
+const EventModal = memo(function EventModal({
   event,
   isOpen,
   onClose,
 }: EventModalProps) {
   if (!isOpen || !event) return null;
 
-  const events = Array.isArray(event) ? event : [event];
+  const events = useMemo(
+    () => (Array.isArray(event) ? event : [event]),
+    [event]
+  );
   const isMultipleEvents = events.length > 1;
   const firstEvent = events[0];
 
-  const formatDateTime = (date: Date) => {
+  const formatDateTime = useCallback((date: Date) => {
     return date.toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     });
-  };
+  }, []);
 
-  const formatTime = (date: Date) => {
+  const formatTime = useCallback((date: Date) => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
     });
-  };
+  }, []);
 
-  const calculateDuration = (startTime: Date, endTime: Date) => {
+  const calculateDuration = useCallback((startTime: Date, endTime: Date) => {
     const durationMs = endTime.getTime() - startTime.getTime();
     const hours = Math.floor(durationMs / (1000 * 60 * 60));
     const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -50,26 +53,30 @@ export default function EventModal({
     } else {
       return `${minutes}m`;
     }
-  };
+  }, []);
 
-  const getOverallTimeRange = () => {
+  const timeRange = useMemo(() => {
     const startTimes = events.map((e) => e.event_start_time.getTime());
     const endTimes = events.map((e) => e.event_end_time.getTime());
     return {
       start: new Date(Math.min(...startTimes)),
       end: new Date(Math.max(...endTimes)),
     };
-  };
+  }, [events]);
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+  const uniqueLocations = useMemo(() => {
+    return Array.from(
+      new Set(events.map((e) => e.event_location).filter(Boolean))
+    );
+  }, [events]);
 
-  const timeRange = getOverallTimeRange();
-  const uniqueLocations = Array.from(
-    new Set(events.map((e) => e.event_location).filter(Boolean))
+  const handleOverlayClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    },
+    [onClose]
   );
 
   return (
@@ -159,12 +166,19 @@ export default function EventModal({
                     <div key={evt.event_id} className="monitor-item">
                       <div className="monitor-info">
                         <strong>{evt.monitor_name}</strong>
-                        <small>{evt.course_name} - {evt.subject_semester}° semester</small>
+                        <small>
+                          {evt.course_name} - {evt.subject_semester}° semester
+                        </small>
                         <div className="monitor-time">
                           {formatTime(evt.event_start_time)} -{" "}
                           {formatTime(evt.event_end_time)}
                           <span className="monitor-duration">
-                            ({calculateDuration(evt.event_start_time, evt.event_end_time)})
+                            (
+                            {calculateDuration(
+                              evt.event_start_time,
+                              evt.event_end_time
+                            )}
+                            )
                           </span>
                         </div>
                         {evt.event_location && (
@@ -190,4 +204,6 @@ export default function EventModal({
       </div>
     </div>
   );
-}
+});
+
+export default EventModal;

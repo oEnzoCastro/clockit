@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  useCallback,
+  memo,
+} from "react";
 import Event from "../../models/event";
 import EventModal from "./EventModal";
 import "./Calendar.css";
@@ -77,11 +84,13 @@ export default function Calendar({
   }, []);
 
   // Navigate week
-  const navigateWeek = (direction: "prev" | "next") => {
-    const newWeek = new Date(currentWeek);
-    newWeek.setDate(currentWeek.getDate() + (direction === "next" ? 7 : -7));
-    setCurrentWeek(newWeek);
-  };
+  const navigateWeek = useCallback((direction: "prev" | "next") => {
+    setCurrentWeek((prev) => {
+      const newWeek = new Date(prev);
+      newWeek.setDate(prev.getDate() + (direction === "next" ? 7 : -7));
+      return newWeek;
+    });
+  }, []);
 
   // Filter events for current week
   const weekEvents = useMemo(() => {
@@ -150,7 +159,9 @@ export default function Calendar({
 
             const recurringEvent: Event = {
               ...event,
-              event_id: parseInt(`${event.event_id}${currentDay.getTime().toString().slice(-6)}`), // Create unique ID for recurring event
+              event_id: parseInt(
+                `${event.event_id}${currentDay.getTime().toString().slice(-6)}`
+              ), // Create unique ID for recurring event
               event_start_time: recurringStartTime,
               event_end_time: recurringEndTime,
             };
@@ -419,22 +430,22 @@ export default function Calendar({
     };
   };
 
-  // Format time for display
-  const formatTime = (hour: number) => {
+  // Format time for display (memoized)
+  const formatTime = useCallback((hour: number) => {
     return hour === 0
       ? "12 AM"
       : hour < 12
-        ? `${hour} AM`
-        : hour === 12
-          ? "12 PM"
-          : `${hour - 12} PM`;
-  };
+      ? `${hour} AM`
+      : hour === 12
+      ? "12 PM"
+      : `${hour - 12} PM`;
+  }, []);
 
-  // Check if date is today
-  const isToday = (date: Date) => {
+  // Check if date is today (memoized)
+  const isToday = useCallback((date: Date) => {
     const today = new Date();
     return date.toDateString() === today.toDateString();
-  };
+  }, []);
 
   // Get current time indicator position
   const getCurrentTimeIndicator = () => {
@@ -451,32 +462,35 @@ export default function Calendar({
   };
 
   // Function to scroll to 6 AM
-  const scrollTo6AM = () => {
+  const scrollTo6AM = useCallback(() => {
     if (calendarGridRef.current) {
       const scrollTo6AM = 6 * 60; // 360px
       calendarGridRef.current.scrollTop = scrollTo6AM;
     }
-  };
+  }, []);
 
   // Handle event click
-  const handleEventClick = (event: MergedEvent) => {
-    // If it's a merged event with multiple individual events, pass the array
-    if (event.events.length > 1) {
-      setSelectedEvent(event.events);
-      onEventClick?.(event.events);
-    } else {
-      // If it's a single event, pass the individual event
-      setSelectedEvent(event.events[0]);
-      onEventClick?.(event.events[0]);
-    }
-    setIsModalOpen(true);
-  };
+  const handleEventClick = useCallback(
+    (event: MergedEvent) => {
+      // If it's a merged event with multiple individual events, pass the array
+      if (event.events.length > 1) {
+        setSelectedEvent(event.events);
+        onEventClick?.(event.events);
+      } else {
+        // If it's a single event, pass the individual event
+        setSelectedEvent(event.events[0]);
+        onEventClick?.(event.events[0]);
+      }
+      setIsModalOpen(true);
+    },
+    [onEventClick]
+  );
 
   // Handle modal close
-  const handleModalClose = () => {
+  const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
     setSelectedEvent(null);
-  };
+  }, []);
 
   // Function to generate consistent color for subjects
   const getSubjectColor = (subject: string, dayEvents: MergedEvent[]) => {
@@ -657,14 +671,17 @@ export default function Calendar({
                   return (
                     <div
                       key={`${event.event_id}-${eventIndex}`}
-                      className={`event ${subjectColorClass} ${style.showTitle ? "" : "no-text"
-                        } ${hoveredSubject && hoveredSubject !== event.subject_name
+                      className={`event ${subjectColorClass} ${
+                        style.showTitle ? "" : "no-text"
+                      } ${
+                        hoveredSubject && hoveredSubject !== event.subject_name
                           ? "event-dimmed"
                           : ""
-                        } ${hoveredSubject === event.subject_name
+                      } ${
+                        hoveredSubject === event.subject_name
                           ? "event-highlighted"
                           : ""
-                        }
+                      }
                       
                       ${event.event_recurrence == null ? "single-event" : ""}
 
@@ -677,10 +694,11 @@ export default function Calendar({
                         zIndex: style.zIndex,
                       }}
                       onClick={() => handleEventClick(event)}
-                      title={`${event.subject_name}${event.events.length > 1
-                        ? ` (${event.events.length} monitors: ${event.monitor_name})`
-                        : ` (${event.monitor_name})`
-                        }\n${event.event_start_time.toLocaleTimeString()} - ${event.event_end_time.toLocaleTimeString()}`}
+                      title={`${event.subject_name}${
+                        event.events.length > 1
+                          ? ` (${event.events.length} monitors: ${event.monitor_name})`
+                          : ` (${event.monitor_name})`
+                      }\n${event.event_start_time.toLocaleTimeString()} - ${event.event_end_time.toLocaleTimeString()}`}
                     >
                       {style.showTitle && (
                         <div className="event-title">
@@ -707,7 +725,9 @@ export default function Calendar({
                         </div>
                       )}
                       {style.showLocation && event.event_location && (
-                        <div className="event-location">{event.event_location}</div>
+                        <div className="event-location">
+                          {event.event_location}
+                        </div>
                       )}
                     </div>
                   );
@@ -715,7 +735,6 @@ export default function Calendar({
               })()}
             </div>
           </div>
-
         ))}
       </div>
 
@@ -726,8 +745,9 @@ export default function Calendar({
             {weekSubjects.map(({ subject, colorClass }) => (
               <div
                 key={subject}
-                className={`legend-item ${hoveredSubject === subject ? "legend-item-active" : ""
-                  }`}
+                className={`legend-item ${
+                  hoveredSubject === subject ? "legend-item-active" : ""
+                }`}
                 onMouseEnter={() => setHoveredSubject(subject)}
                 onMouseLeave={() => setHoveredSubject(null)}
               >

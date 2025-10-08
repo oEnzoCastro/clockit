@@ -1,8 +1,10 @@
 'use client'
 import { styled } from '@mui/material/styles';
-import Switch from '@mui/material/Switch';
+import Switch, { SwitchProps } from '@mui/material/Switch';
 
-const IOSSwitch = styled((props) => <Switch {...props} />)(({ theme }) => ({
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
   width: 42,
   height: 26,
   padding: 0,
