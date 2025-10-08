@@ -1,11 +1,11 @@
 "use client";
 
-import './style.css';
-import * as React from 'react';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import IOSSwitch from '../switch/Switch';
-import Course from '@/models/course';
-import CourseSubject from '@/models/courseSubject';
+import "./style.css";
+import * as React from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import IOSSwitch from "../switch/Switch";
+import Course from "@/models/course";
+import CourseSubject from "@/models/courseSubject";
 
 interface SubjectsBoxProps {
   onSubjectToggle: (subjectAbbreviation: string, isSelected: boolean) => void;
@@ -29,14 +29,14 @@ export default function SubjectsBox({
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('/api/Courses');
+        const response = await fetch("/api/Courses");
         const data = await response.json();
         if (data.data) {
           setCourses(data.data);
         }
       } catch (err) {
-        console.error('Error fetching courses:', err);
-        setError('Failed to load courses');
+        console.error("Error fetching courses:", err);
+        setError("Failed to load courses");
       }
     };
 
@@ -61,8 +61,8 @@ export default function SubjectsBox({
           setSubjects(data.data);
         }
       } catch (err) {
-        console.error('Error fetching subjects:', err);
-        setError('Failed to load subjects');
+        console.error("Error fetching subjects:", err);
+        setError("Failed to load subjects");
       } finally {
         setLoading(false);
       }
@@ -73,7 +73,7 @@ export default function SubjectsBox({
 
   // Get unique periodos (semesters) from subjects
   const availablePeriodos = useMemo(() => {
-    const periodos = new Set(subjects.map(s => s.subject_semester));
+    const periodos = new Set(subjects.map((s) => s.subject_semester));
     return Array.from(periodos).sort((a, b) => a - b);
   }, [subjects]);
 
@@ -82,14 +82,14 @@ export default function SubjectsBox({
     if (selectedPeriodo === "all") {
       return subjects;
     }
-    return subjects.filter(s => s.subject_semester === selectedPeriodo);
+    return subjects.filter((s) => s.subject_semester === selectedPeriodo);
   }, [subjects, selectedPeriodo]);
 
   // Group subjects by semester
   const groupedSubjects = useMemo(() => {
     const groups: { [key: number]: CourseSubject[] } = {};
-    
-    filteredSubjects.forEach(subject => {
+
+    filteredSubjects.forEach((subject) => {
       if (!groups[subject.subject_semester]) {
         groups[subject.subject_semester] = [];
       }
@@ -99,30 +99,39 @@ export default function SubjectsBox({
     return groups;
   }, [filteredSubjects]);
 
-  const handleCourseChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const courseAbbr = e.target.value;
-    setSelectedCourse(courseAbbr);
-    setSelectedPeriodo("all"); // Reset periodo filter when changing course
-    onCourseChange(courseAbbr); // Notify parent
-  }, [onCourseChange]);
+  const handleCourseChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const courseAbbr = e.target.value;
+      setSelectedCourse(courseAbbr);
+      setSelectedPeriodo("all"); // Reset periodo filter when changing course
+      onCourseChange(courseAbbr); // Notify parent
+    },
+    [onCourseChange]
+  );
 
-  const handlePeriodoChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSelectedPeriodo(value === "all" ? "all" : parseInt(value));
-  }, []);
+  const handlePeriodoChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      setSelectedPeriodo(value === "all" ? "all" : parseInt(value));
+    },
+    []
+  );
 
-  const handleSwitchToggle = useCallback((subjectAbbreviation: string) => {
-    const isCurrentlySelected = selectedSubjects.has(subjectAbbreviation);
-    onSubjectToggle(subjectAbbreviation, !isCurrentlySelected);
-  }, [selectedSubjects, onSubjectToggle]);
+  const handleSwitchToggle = useCallback(
+    (subjectAbbreviation: string) => {
+      const isCurrentlySelected = selectedSubjects.has(subjectAbbreviation);
+      onSubjectToggle(subjectAbbreviation, !isCurrentlySelected);
+    },
+    [selectedSubjects, onSubjectToggle]
+  );
 
   return (
     <section className="box">
       {/* Course Dropdown */}
-      <select 
-        name="course" 
-        id="course" 
-        value={selectedCourse} 
+      <select
+        name="course"
+        id="course"
+        value={selectedCourse}
         onChange={handleCourseChange}
         className="course-select"
       >
@@ -168,13 +177,18 @@ export default function SubjectsBox({
           </div>
         )}
 
-        {!loading && !error && selectedCourse && Object.keys(groupedSubjects).length === 0 && (
-          <div className="empty-state">
-            <p>Nenhuma disciplina encontrada</p>
-          </div>
-        )}
+        {!loading &&
+          !error &&
+          selectedCourse &&
+          Object.keys(groupedSubjects).length === 0 && (
+            <div className="empty-state">
+              <p>Nenhuma disciplina encontrada</p>
+            </div>
+          )}
 
-        {!loading && !error && Object.keys(groupedSubjects).length > 0 &&
+        {!loading &&
+          !error &&
+          Object.keys(groupedSubjects).length > 0 &&
           Object.entries(groupedSubjects)
             .sort(([a], [b]) => parseInt(a) - parseInt(b))
             .map(([semester, semesterSubjects]) => (
@@ -187,9 +201,15 @@ export default function SubjectsBox({
                         {subject.subject_abbreviation}
                       </h3>
                       <IOSSwitch
-                        checked={selectedSubjects.has(subject.subject_abbreviation)}
-                        onChange={() => handleSwitchToggle(subject.subject_abbreviation)}
-                        inputProps={{ 'aria-label': `Toggle ${subject.subject_abbreviation}` }}
+                        checked={selectedSubjects.has(
+                          subject.subject_abbreviation
+                        )}
+                        onChange={() =>
+                          handleSwitchToggle(subject.subject_abbreviation)
+                        }
+                        inputProps={{
+                          "aria-label": `Toggle ${subject.subject_abbreviation}`,
+                        }}
                       />
                     </div>
                   ))}
