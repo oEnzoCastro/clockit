@@ -30,8 +30,8 @@ export async function GET(
         "=",
         "E.subject_abbreviation"
       )
-      .join("monitors AS M", "M.id", "=", "E.monitor_id")
-      // .where("C.abbreviation", abbreviation);
+      .join("monitors AS M", "M.id", "=", "E.monitor_id");
+    // .where("C.abbreviation", abbreviation);
 
     return NextResponse.json({ data: res });
   } catch (error) {

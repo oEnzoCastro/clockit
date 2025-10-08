@@ -5,7 +5,12 @@ export async function GET(
   request: NextRequest,
   {
     params,
-  }: { params: Promise<{ courseAbbreviation: string; subjectAbbreviation: string }> }
+  }: {
+    params: Promise<{
+      courseAbbreviation: string;
+      subjectAbbreviation: string;
+    }>;
+  }
 ) {
   const fields = await params;
   const courseAbbreviation = fields.courseAbbreviation;

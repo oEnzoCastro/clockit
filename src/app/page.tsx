@@ -27,8 +27,6 @@ export default function Home() {
           cache: "no-store",
         });
 
-
-
         if (!response.ok) {
           throw new Error(`Failed to fetch events: ${response.status}`);
         }

@@ -85,7 +85,6 @@ const EventModal = memo(function EventModal({
   const isMultipleEvents = events.length > 1;
   const firstEvent = events[0];
 
-
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-container">
