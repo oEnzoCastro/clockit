@@ -7,7 +7,7 @@ const EventsData: Event[] = [
   // Rafael Assis Carvalho Lacerda - Ciência da Computação - 1 Periodo
   {
     monitor_name: "Rafael Assis Carvalho Lacerda",
-    monitor_id: 1,
+  
     event_id: 1,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -21,7 +21,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Rafael Assis Carvalho Lacerda",
-    monitor_id: 1,
+  
     event_id: 2,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -35,7 +35,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Rafael Assis Carvalho Lacerda",
-    monitor_id: 1,
+  
     event_id: 3,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -49,7 +49,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Rafael Assis Carvalho Lacerda",
-    monitor_id: 1,
+  
     event_id: 4,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -66,7 +66,7 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Bernardo Barbosa Heronville",
-    monitor_id: 2,
+    
     event_id: 5,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -80,7 +80,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Bernardo Barbosa Heronville",
-    monitor_id: 2,
+    
     event_id: 6,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -94,7 +94,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Bernardo Barbosa Heronville",
-    monitor_id: 2,
+    
     event_id: 7,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -108,7 +108,7 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Bernardo Barbosa Heronville",
-    monitor_id: 2,
+    
     event_id: 8,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -125,7 +125,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Pedro Henrique Lopes De Melo",
-    monitor_id: 3,
     event_id: 9,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -139,7 +138,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Pedro Henrique Lopes De Melo",
-    monitor_id: 3,
     event_id: 10,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -153,7 +151,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Pedro Henrique Lopes De Melo",
-    monitor_id: 3,
     event_id: 11,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -167,7 +164,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Pedro Henrique Lopes De Melo",
-    monitor_id: 3,
     event_id: 12,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -181,7 +177,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Pedro Henrique Lopes De Melo",
-    monitor_id: 3,
     event_id: 13,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -198,7 +193,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Lucas Teixeira Reis",
-    monitor_id: 4,
     event_id: 14,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -212,7 +206,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Lucas Teixeira Reis",
-    monitor_id: 4,
     event_id: 15,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -226,7 +219,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Lucas Teixeira Reis",
-    monitor_id: 4,
     event_id: 16,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -243,7 +235,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Gabriel Henrique Costa Soares",
-    monitor_id: 5,
     event_id: 17,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -257,7 +248,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Gabriel Henrique Costa Soares",
-    monitor_id: 5,
     event_id: 18,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -271,7 +261,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Gabriel Henrique Costa Soares",
-    monitor_id: 5,
     event_id: 19,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -285,7 +274,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Gabriel Henrique Costa Soares",
-    monitor_id: 5,
     event_id: 20,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -302,7 +290,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Thiago Domingos Venturim Ribeiro dos Santos",
-    monitor_id: 6,
     event_id: 21,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -316,7 +303,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Thiago Domingos Venturim Ribeiro dos Santos",
-    monitor_id: 6,
     event_id: 22,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -330,7 +316,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Thiago Domingos Venturim Ribeiro dos Santos",
-    monitor_id: 6,
     event_id: 23,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -344,7 +329,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Thiago Domingos Venturim Ribeiro dos Santos",
-    monitor_id: 6,
     event_id: 24,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -361,7 +345,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Theo Diniz Viana",
-    monitor_id: 7,
     event_id: 25,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -375,7 +358,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Theo Diniz Viana",
-    monitor_id: 7,
     event_id: 26,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -389,7 +371,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Theo Diniz Viana",
-    monitor_id: 7,
     event_id: 27,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -406,7 +387,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Eduardo Henrique Aniceto Teixeira",
-    monitor_id: 8,
     event_id: 28,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -420,7 +400,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Eduardo Henrique Aniceto Teixeira",
-    monitor_id: 8,
     event_id: 29,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -434,7 +413,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Eduardo Henrique Aniceto Teixeira",
-    monitor_id: 8,
     event_id: 30,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -448,7 +426,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Eduardo Henrique Aniceto Teixeira",
-    monitor_id: 8,
     event_id: 31,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -465,7 +442,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 32,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -479,7 +455,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 33,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -493,7 +468,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 34,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -507,7 +481,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 35,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -521,7 +494,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 36,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -535,7 +507,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Alex de Castro Mendes Marques",
-    monitor_id: 9,
     event_id: 37,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -552,7 +523,6 @@ const EventsData: Event[] = [
 
   {
     monitor_name: "Talita Justo Fernandes",
-    monitor_id: 10,
     event_id: 38,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
@@ -566,7 +536,6 @@ const EventsData: Event[] = [
   },
   {
     monitor_name: "Talita Justo Fernandes",
-    monitor_id: 10,
     event_id: 39,
     event_location: "Lab. 1101, prédio 4 - Lourdes",
     event_recurrence: "null",
