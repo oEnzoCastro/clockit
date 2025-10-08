@@ -160,7 +160,7 @@
 
 /* Active subject (when switch is on) */
 .subject:has(.MuiSwitch-input:checked) h3 {
-  background: linear-gradient(135deg, #59AFFF 0%, #4f9ee6 100%);
+  background: #4f9ee6;
   color: white;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(89, 175, 255, 0.3);

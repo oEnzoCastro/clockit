@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  memo,
 } from "react";
 import Event from "../../models/event";
 import EventModal from "./EventModal";
@@ -493,7 +492,7 @@ export default function Calendar({
   }, []);
 
   // Function to generate consistent color for subjects
-  const getSubjectColor = (subject: string, dayEvents: MergedEvent[]) => {
+  const getSubjectColor = (subject: string, _dayEvents: MergedEvent[]) => {
     // Handle undefined or null subjects
     if (!subject || typeof subject !== "string") {
       return "subject-color-0"; // Default color

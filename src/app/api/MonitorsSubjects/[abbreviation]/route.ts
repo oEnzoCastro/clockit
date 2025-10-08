@@ -3,7 +3,7 @@ import db from "../../../../utils/database/database"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { abbreviation: string } }
+  { params }: { params: Promise<{ abbreviation: string }> }
 ) {
   
   const { abbreviation } = await params;
@@ -17,7 +17,7 @@ export async function GET(
             .join('events', 'monitors.id', '=', 'events.monitor_id')
             .where('events.subject_abbreviation', abbreviation);
         return NextResponse.json({data:res});
-    } catch (error) {
+    } catch (_error) {
          return NextResponse.json(
       { error: 'Failed to fetch events' },
       { status: 500 }

@@ -3,7 +3,7 @@ import db from "../../../../utils/database/database";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { abbreviation: string } }
+  { params }: { params: Promise<{ abbreviation: string }> }
 ) {
   
   const { abbreviation } = await params;
@@ -16,7 +16,7 @@ export async function GET(
       .where("B.abbreviation", abbreviation);
       console.log(res);
     return NextResponse.json({ data: res });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
       { error: "Failed to fetch subjects" },
       { status: 500 }

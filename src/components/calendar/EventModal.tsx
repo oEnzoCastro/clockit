@@ -15,14 +15,11 @@ const EventModal = memo(function EventModal({
   isOpen,
   onClose,
 }: EventModalProps) {
-  if (!isOpen || !event) return null;
-
+  // Hooks must be called before any early returns
   const events = useMemo(
-    () => (Array.isArray(event) ? event : [event]),
+    () => (event && Array.isArray(event) ? event : event ? [event] : []),
     [event]
   );
-  const isMultipleEvents = events.length > 1;
-  const firstEvent = events[0];
 
   const formatDateTime = useCallback((date: Date) => {
     return date.toLocaleDateString("en-US", {
@@ -56,6 +53,9 @@ const EventModal = memo(function EventModal({
   }, []);
 
   const timeRange = useMemo(() => {
+    if (events.length === 0) {
+      return { start: new Date(), end: new Date() };
+    }
     const startTimes = events.map((e) => e.event_start_time.getTime());
     const endTimes = events.map((e) => e.event_end_time.getTime());
     return {
@@ -78,6 +78,13 @@ const EventModal = memo(function EventModal({
     },
     [onClose]
   );
+
+  // Early return after all hooks
+  if (!isOpen || !event) return null;
+
+  const isMultipleEvents = events.length > 1;
+  const firstEvent = events[0];
+
 
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>

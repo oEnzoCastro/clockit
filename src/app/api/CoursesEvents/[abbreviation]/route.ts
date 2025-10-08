@@ -3,7 +3,7 @@ import db from "../../../../utils/database/database";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { abbreviation: string } }
+  { params }: { params: Promise<{ abbreviation: string }> }
 ) {
   const { abbreviation } = await params;
   try {

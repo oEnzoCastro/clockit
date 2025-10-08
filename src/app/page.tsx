@@ -12,7 +12,6 @@ export default function Home() {
     new Set()
   );
   const [selectedCourse, setSelectedCourse] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
 
   // Fetch all events for the selected course
   useEffect(() => {
@@ -22,8 +21,6 @@ export default function Home() {
         setFilteredEvents([]);
         return;
       }
-
-      setLoading(true);
 
       try {
         const response = await fetch(`/api/CoursesEvents/${selectedCourse}`, {
@@ -40,18 +37,15 @@ export default function Home() {
         const events = data.data || [];
 
         // Parse dates
-        const parsedEvents = events.map((event: any) => ({
+        const parsedEvents = events.map((event: Event) => ({
           ...event,
           event_start_time: new Date(event.event_start_time),
           event_end_time: new Date(event.event_end_time),
         }));
 
         setAllEvents(parsedEvents);
-      } catch (error) {
-        console.error("Error fetching events:", error);
+      } catch (_error) {
         setAllEvents([]);
-      } finally {
-        setLoading(false);
       }
     };
 
