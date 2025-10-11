@@ -1,31 +1,21 @@
 {
   "name": "clockit",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/material": "^7.3.2",
-    "dotenv": "^17.2.3",
-    "knex": "^3.1.0",
-    "next": "15.5.4",
-    "pg": "^8.16.3",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oEnzoCastro/clockit.git"
   },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.4",
-    "typescript": "^5"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/oEnzoCastro/clockit/issues"
+  },
+  "homepage": "https://github.com/oEnzoCastro/clockit#readme"
 }
