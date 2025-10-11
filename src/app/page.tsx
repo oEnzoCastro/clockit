@@ -87,7 +87,7 @@ export default async function Home() {
   ];
 
   // Simulação de chamada à API para obter eventos
-  const events = await fetch("http://localhost:3000/api/events")
+  const events: Event[] = await fetch("http://localhost:3000/api/events")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
