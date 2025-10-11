@@ -4,6 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import Event from "@/models/event";
 import "./WeeklyCalendar.css";
 
+interface EventDetailPosition {
+  x: number;
+  y: number;
+  event: ProcessedEvent | MergedEvent;
+}
+
 const COLOR_PALETTE = [
   "#0072B2",
   "#4169E1",
@@ -69,6 +75,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     getMonday(new Date())
   );
+  const [selectedEventDetail, setSelectedEventDetail] =
+    useState<EventDetailPosition | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -76,6 +84,25 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
       calendarRef.current.scrollTop = 7 * HOUR_HEIGHT;
     }
   }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      if (
+        selectedEventDetail &&
+        !target.closest(".event-detail-panel") &&
+        !target.closest(".event")
+      ) {
+        setSelectedEventDetail(null);
+      }
+    }
+
+    if (selectedEventDetail) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [selectedEventDetail]);
 
   function getMonday(date: Date): Date {
     const d = new Date(date);
@@ -460,18 +487,52 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
     return "count" in event;
   }
 
-  function handleEventClick(event: ProcessedEvent | MergedEvent): void {
-    if (isMergedEvent(event)) {
-      console.log("Evento mesclado:", {
-        tema: event.theme,
-        quantidade: event.count,
-        inicio: event.startTime,
-        fim: event.endTime,
-        eventos: event.events,
-      });
-    } else {
-      console.log("Evento único:", event);
+  function handleEventClick(
+    event: ProcessedEvent | MergedEvent,
+    mouseEvent: React.MouseEvent<HTMLDivElement>
+  ): void {
+    const rect = mouseEvent.currentTarget.getBoundingClientRect();
+    const containerRect = calendarRef.current?.getBoundingClientRect();
+
+    if (!containerRect) return;
+
+    const panelWidth = 350; // max-width from CSS
+    const panelHeight = 300; // estimated height
+    const spacing = 10;
+
+    // Calculate initial position to the right of the event
+    let x = rect.right - containerRect.left + spacing;
+    let y = rect.top - containerRect.top;
+
+    // Check if panel would overflow horizontally
+    if (x + panelWidth > containerRect.width) {
+      // Position to the left of the event instead
+      x = rect.left - containerRect.left - panelWidth - spacing;
+
+      // If still overflows, position within bounds
+      if (x < 0) {
+        x = containerRect.width - panelWidth - spacing;
+      }
     }
+
+    // Check if panel would overflow vertically
+    if (y + panelHeight > containerRect.height) {
+      // Position above the event or at bottom of container
+      y = Math.max(spacing, containerRect.height - panelHeight - spacing);
+    }
+
+    // Ensure minimum spacing from top
+    y = Math.max(spacing, y);
+
+    setSelectedEventDetail({
+      x,
+      y,
+      event,
+    });
+  }
+
+  function closeEventDetail(): void {
+    setSelectedEventDetail(null);
   }
 
   function navigateWeek(direction: "prev" | "next"): void {
@@ -587,8 +648,9 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
                       const position = layouts[eventIndex];
                       const isMerged = isMergedEvent(event);
                       const colorIndex = event.colorIndex;
-                      const isRecurring =
-                        !isMerged && event.event_recurrence !== null;
+                      const isRecurring = isMerged
+                        ? event.events.some((e) => e.event_recurrence !== null)
+                        : !isMerged && event.event_recurrence !== null;
 
                       return (
                         <div
@@ -604,7 +666,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
                             backgroundColor: COLOR_PALETTE[colorIndex],
                             color: "#fff",
                           }}
-                          onClick={() => handleEventClick(event)}
+                          onClick={(e) => handleEventClick(event, e)}
                         >
                           <div className="event-content">
                             {isMerged ? (
@@ -662,6 +724,102 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
             })}
           </div>
         </div>
+
+        {selectedEventDetail && (
+          <div
+            className="event-detail-panel"
+            style={{
+              position: "absolute",
+              left: `${selectedEventDetail.x}px`,
+              top: `${selectedEventDetail.y}px`,
+              zIndex: 1000,
+            }}
+          >
+            <div className="event-detail-content">
+              <div className="event-detail-header">
+                <h3>
+                  {isMergedEvent(selectedEventDetail.event)
+                    ? selectedEventDetail.event.events[0].event_title
+                    : selectedEventDetail.event.event_title}
+                </h3>
+                <button
+                  className="close-button"
+                  onClick={closeEventDetail}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="event-detail-body">
+                {isMergedEvent(selectedEventDetail.event) ? (
+                  <>
+                    <p>
+                      <strong>Eventos:</strong>{" "}
+                      {selectedEventDetail.event.count}
+                    </p>
+                    <p>
+                      <strong>Horário:</strong>{" "}
+                      {formatTime(selectedEventDetail.event.startTime)} -{" "}
+                      {formatTime(selectedEventDetail.event.endTime)}
+                    </p>
+                    <p>
+                      <strong>Disciplina:</strong>{" "}
+                      {selectedEventDetail.event.theme}
+                    </p>
+                    <div className="merged-events-list">
+                      {selectedEventDetail.event.events.map((evt, idx) => (
+                        <div key={idx} className="merged-event-item">
+                          <p>
+                            <strong>Local:</strong> {evt.event_location}
+                          </p>
+                          <p>
+                            <strong>Professor:</strong> {evt.agent_name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      <strong>Horário:</strong>{" "}
+                      {formatTime(
+                        new Date(selectedEventDetail.event.event_start_date)
+                      )}{" "}
+                      -{" "}
+                      {formatTime(
+                        new Date(selectedEventDetail.event.event_end_date)
+                      )}
+                    </p>
+                    <p>
+                      <strong>Local:</strong>{" "}
+                      {selectedEventDetail.event.event_location}
+                    </p>
+                    <p>
+                      <strong>Professor:</strong>{" "}
+                      {selectedEventDetail.event.agent_name}
+                    </p>
+                    <p>
+                      <strong>Disciplina:</strong>{" "}
+                      {selectedEventDetail.event.theme_name}
+                    </p>
+                    <p>
+                      <strong>Instituto:</strong>{" "}
+                      {selectedEventDetail.event.institute_name}
+                    </p>
+                    {selectedEventDetail.event.event_description && (
+                      <p>
+                        <strong>Descrição:</strong>{" "}
+                        {selectedEventDetail.event.event_description}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
