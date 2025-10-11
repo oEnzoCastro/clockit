@@ -11,38 +11,39 @@ interface EventDetailPosition {
 }
 
 const COLOR_PALETTE = [
-  "#0072B2",
-  "#4169E1",
-  "#56B4E9",
-  "#7C3AED",
-  "#9333EA",
-  "#009E73",
-  "#059669",
-  "#16A34A",
-  "#22C55E",
-  "#65A30D",
-  "#D55E00",
-  "#EA580C",
-  "#F97316",
-  "#DC2626",
-  "#EF4444",
-  "#F0E442",
-  "#EAB308",
-  "#FACC15",
-  "#F59E0B",
-  "#CC79A7",
-  "#EC4899",
-  "#F472B6",
-  "#BE185D",
-  "#000000",
-  "#374151",
-  "#6B7280",
-  "#8B4513",
-  "#0F766E",
-  "#0D9488",
+  "#0173B2", // Blue
+  "#DE8F05", // Orange
+  "#029E73", // Green
+  "#CC78BC", // Pink
+  "#CA9161", // Brown
+  "#FBAFE4", // Light Pink
+  "#949494", // Gray
+  "#ECE133", // Yellow
+  "#56B4E9", // Light Blue
+  "#E69F00", // Dark Orange
+  "#F0E442", // Bright Yellow
+  "#009E73", // Teal Green
+  "#0072B2", // Dark Blue
+  "#D55E00", // Red Orange
+  "#CC79A7", // Mauve
+  "#000000", // Black
+  "#8B4513", // Saddle Brown
+  "#4B0082", // Indigo
+  "#2E8B57", // Sea Green
+  "#B22222", // Fire Brick
+  "#DAA520", // Golden Rod
+  "#6495ED", // Cornflower Blue
+  "#DC143C", // Crimson
+  "#228B22", // Forest Green
+  "#FF6347", // Tomato
+  "#4682B4", // Steel Blue
+  "#D2691E", // Chocolate
+  "#9370DB", // Medium Purple
+  "#32CD32", // Lime Green
+  "#FF4500", // Orange Red
 ];
 
-const LIGHT_COLOR_INDICES = [15, 16, 17, 18];
+const LIGHT_COLOR_INDICES = [5, 7, 8, 10, 11]; // Light Pink, Yellow, Light Blue, Bright Yellow, Teal Green
 const PRIME_OFFSET = 7;
 const HOUR_HEIGHT = 40;
 const GAP_PERCENTAGE = 0;
@@ -149,7 +150,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
   }
 
   function getEventIdentifier(event: Event): string {
-    return `${event.event_title}|${event.theme_name}|${event.agent_name}|${event.event_location}`;
+    return event.event_title;
   }
 
   function getOptimalColorIndex(
@@ -764,8 +765,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
                       {formatTime(selectedEventDetail.event.endTime)}
                     </p>
                     <p>
-                      <strong>Disciplina:</strong>{" "}
-                      {selectedEventDetail.event.theme}
+                      <strong>Tema:</strong> {selectedEventDetail.event.theme}
                     </p>
                     <div className="merged-events-list">
                       {selectedEventDetail.event.events.map((evt, idx) => (
@@ -774,7 +774,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
                             <strong>Local:</strong> {evt.event_location}
                           </p>
                           <p>
-                            <strong>Professor:</strong> {evt.agent_name}
+                            <strong>Agente:</strong> {evt.agent_name}
                           </p>
                         </div>
                       ))}
@@ -797,11 +797,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ events }) => {
                       {selectedEventDetail.event.event_location}
                     </p>
                     <p>
-                      <strong>Professor:</strong>{" "}
+                      <strong>Agente:</strong>{" "}
                       {selectedEventDetail.event.agent_name}
                     </p>
                     <p>
-                      <strong>Disciplina:</strong>{" "}
+                      <strong>Tema:</strong>{" "}
                       {selectedEventDetail.event.theme_name}
                     </p>
                     <p>

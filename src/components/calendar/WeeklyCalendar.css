@@ -441,6 +441,7 @@
 }
 
 .event-detail-body {
+  transition: all 0.2s ease;
   padding: 16px 20px;
 }
 

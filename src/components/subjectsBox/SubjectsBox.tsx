@@ -35,7 +35,6 @@ export default function SubjectsBox({
           setCourses(data.data);
         }
       } catch (err) {
-        console.error("Error fetching courses:", err);
         setError("Failed to load courses");
       }
     };
@@ -61,7 +60,6 @@ export default function SubjectsBox({
           setSubjects(data.data);
         }
       } catch (err) {
-        console.error("Error fetching subjects:", err);
         setError("Failed to load subjects");
       } finally {
         setLoading(false);

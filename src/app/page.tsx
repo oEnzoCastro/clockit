@@ -90,7 +90,6 @@ export default async function Home() {
   const events: Event[] = await fetch("http://localhost:3000/api/events")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       return data;
     });
 

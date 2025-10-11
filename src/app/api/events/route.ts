@@ -41,6 +41,8 @@ export async function GET() {
       .join("sector as s", "e.sectorid", "s.id")
       .join("theme as t", "e.id", "t.eventid")
       .where("t.name", "Ciência da Computação"); // Filter by theme name
+      // .where("t.name", "Engenharia da Computação"); // Filter by theme name
+      // .where("t.name", "Ciência de Dados e Inteligência Artificial"); // Filter by theme name
 
     return NextResponse.json(res);
   } catch (_error) {
