@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class AgentSector extends BaseModel {
@@ -46,3 +47,5 @@ class AgentSector extends BaseModel {
         return json;
     }
 }
+
+module.exports = AgentSector;

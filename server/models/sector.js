@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class Sector extends BaseModel {
@@ -32,3 +33,5 @@ class Sector extends BaseModel {
         return json;
     }
 }
+
+module.exports = Sector;

@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class Area extends BaseModel {
@@ -34,3 +35,4 @@ class Area extends BaseModel {
 
   }
 }
+module.exports =Area;

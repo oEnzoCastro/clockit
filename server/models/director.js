@@ -1,3 +1,4 @@
+import { Manager } from './manager.js';
 
 
 class Director extends Manager {
@@ -23,3 +24,5 @@ class Director extends Manager {
         }
     }
 }
+
+module.exports = Director;

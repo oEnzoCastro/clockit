@@ -1,3 +1,4 @@
+import { User } from './user.js';
 
 
 class Agent extends User{

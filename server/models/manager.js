@@ -1,3 +1,4 @@
+import { User } from './user.js';
 
 
 class Manager extends User{
@@ -23,3 +24,5 @@ class Manager extends User{
         return json;
     }
 }
+
+module.exports = User;

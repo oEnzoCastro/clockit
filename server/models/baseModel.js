@@ -1,4 +1,4 @@
-const { create } = require("domain");
+
 
 
 class BaseModel {
@@ -41,3 +41,5 @@ class BaseModel {
         })
     }
 }
+
+module.exports = BaseModel;

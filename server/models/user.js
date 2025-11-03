@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class User extends BaseModel {

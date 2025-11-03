@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class Institute extends BaseModel {
@@ -36,3 +37,5 @@ class Institute extends BaseModel {
     }
 
 }
+
+module.exports = Institute;

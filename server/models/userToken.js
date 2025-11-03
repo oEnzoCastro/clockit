@@ -1,3 +1,4 @@
+import { BaseModel } from './baseModel.js';
 
 
 class UserToken extends BaseModel {
@@ -41,3 +42,4 @@ class UserToken extends BaseModel {
 
 
 }
+module.exports = UserToken;
