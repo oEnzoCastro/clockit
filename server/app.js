@@ -1,3 +1,3 @@
-const express = require('express');
-const knex = require('knex');
+import express from 'express';
+
 const app = express();
