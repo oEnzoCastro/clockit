@@ -1,10 +1,10 @@
-import { User } from './user.js';
+const  User  = require('./user');
 
 
 class Manager extends User{
     constructor(fields = {}){
         const roles = fields.roles || [];
-        if (!fields.roles.includes("AreaManager")) fields.roles.push("AreaManager");
+        if (!fields.roles.includes("manager")) fields.roles.push("manager");
         
         super({...fields,roles});
         this.areas = (fields.areas || []).map(s => new AreaManager({ ...s, manager_id: this.id }));

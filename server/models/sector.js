@@ -1,6 +1,4 @@
-import { BaseModel } from './baseModel.js';
-
-
+const BaseModel = require('./baseModel');
 class Sector extends BaseModel {
     constructor(fields = {}) {
         super(fields,
@@ -33,5 +31,4 @@ class Sector extends BaseModel {
         return json;
     }
 }
-
 module.exports = Sector;

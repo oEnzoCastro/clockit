@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel.js';
+const BaseModel = require('./baseModel');
 
 
 class UserToken extends BaseModel {
@@ -42,4 +42,5 @@ class UserToken extends BaseModel {
 
 
 }
+
 module.exports = UserToken;

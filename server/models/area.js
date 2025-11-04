@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel.js';
+const BaseModel = require('./baseModel');
 
 
 class Area extends BaseModel {
@@ -35,4 +35,4 @@ class Area extends BaseModel {
 
   }
 }
-module.exports =Area;
+module.exports = Area;

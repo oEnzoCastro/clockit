@@ -1,4 +1,5 @@
-import { User } from './user.js';
+const  User  = require('./user');
+
 
 
 class Agent extends User{

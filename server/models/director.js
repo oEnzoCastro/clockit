@@ -1,4 +1,4 @@
-import { Manager } from './manager.js';
+const  Manager  = require('./manager');
 
 
 class Director extends Manager {

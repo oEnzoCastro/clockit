@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel.js';
+const BaseModel = require('./baseModel');
 
 
 class Institute extends BaseModel {
