@@ -52,11 +52,7 @@ class InstituteDAO {
             await trx.rollback();
             console.error('Error in create institute:', error);
             throw error;
-        } finally {
-            if (!trx.isCompleted()) {
-                await trx.rollback();
-            }
-        }
+        } 
     }
 
 
@@ -64,7 +60,7 @@ class InstituteDAO {
 
         try {
             const rows = await this.db('institute');
-            if (!rows) {
+            if (!rows || rows.length <= 0) {
                 return null;
             }
             const institutes = rows.map(s => new Institute(s));
@@ -137,10 +133,15 @@ class InstituteDAO {
 
             }
             const result = await trx('institute').where({ id }).del();
-            console.log(result);
-            await trx.commit();
-            result > 0
-            return result > 0;
+         
+            
+            if(result>0){
+                await trx.commit();
+                return true;
+            }else{
+                await trx.rollback();
+                return false;
+            }
 
         } catch (error) {
             await trx.rollback();
@@ -183,7 +184,7 @@ class InstituteDAO {
             const [updatedInstitute] = await trx('institute').where({ id }).update({ acronym, institute_name }).returning('*');
 
             if (!updatedInstitute) {
-                throw new Error("Failed in updating institute");
+                throw new Error("Failed in updating institute or no user found");
             }
 
             await trx.commit();
@@ -199,6 +200,32 @@ class InstituteDAO {
 
 }
 
-module.exports = InstituteDAO;
+/*async function main() {
+    const instituteDAO = new InstituteDAO(db);
 
+    // Example data for a new institute
+    const newInstituteData = {
+         // optional, can let DB generate if UUID default is set
+        acronym: 'PUC',
+        institute_name: 'Pontificia Universidade Catolica'
+    };
+
+    const institute = new Institute(newInstituteData);
+
+    try {
+        const createdInstitute = await instituteDAO.create(institute);
+        console.log('Institute created successfully:');
+        console.log(createdInstitute);
+    } catch (error) {
+        console.error('Failed to create institute:', error);
+    } finally {
+        // Close DB connection if needed
+        await db.destroy();
+    }
+}
+
+// Execute the main function
+main();*/
+
+module.exports = InstituteDAO;
 
