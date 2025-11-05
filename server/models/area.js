@@ -13,7 +13,7 @@ class Area extends BaseModel {
     this.area_name = fields.area_name;
     this.institute_id = fields.institute_id;
     this.acronym = fields.acronym;
-    this.max_workload = fields.max_workload;
+    this.max_workload = fields.max_workload || 200;
     Object.defineProperty(this, 'acronym', { writable: false });
     Object.defineProperty(this, 'institute_id', { writable: false });
 

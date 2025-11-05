@@ -6,7 +6,7 @@ class Institute extends BaseModel {
     constructor(fields = {}) {
 
         super(fields,
-            ["id", "acronym", "institute_name"],
+            [ "acronym", "institute_name"],
             {
                 acronym: { min: 1, max: 10 },
                 institute_name: { min: 1, max: 150 }
