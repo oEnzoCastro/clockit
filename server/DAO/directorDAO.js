@@ -4,9 +4,8 @@ const User = require("../models/user");
 const UserDAO = require('./userDAO');
 
 class DirectorDAO extends UserDAO {
-    constructor() {
-        super();
-        this.db = db;
+    constructor(db) {
+        super(db);
     }
 
     async createDirector(userData) {

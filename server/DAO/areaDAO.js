@@ -4,8 +4,9 @@ const Institute = require('../models/institute');
 const InstituteDAO = require('./instituteDAO');
 
 class AreaDAO {
-    constructor() {
+    constructor(db) {
         this.db = db;
+        this.instituteDAO = new InstituteDAO(db);
     }
 
 
@@ -13,7 +14,7 @@ class AreaDAO {
     async create(area) {
         const trx = await this.db.transaction();
         try {
-            const instituteDAO = new InstituteDAO();
+          
             if (!(area instanceof Area)) {
                 throw new Error("area must be an instance of Area");
             }
@@ -33,7 +34,7 @@ class AreaDAO {
             }
 
 
-            const instituteExists = await instituteDAO.exists(institute_id);
+            const instituteExists = await this.instituteDAO.exists(institute_id);
             if (!instituteExists) {
                 throw new Error("Institute does not exist");
             }

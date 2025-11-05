@@ -5,8 +5,9 @@ const bcrypt = require('bcrypt');
 
 
 class UserDAO {
-    constructor() {
-        this.db = db; // store a Knex instance
+    constructor(db) {
+        this.db = db;
+        this.instituteDAO = new InstituteDAO(db); // store a Knex instance
     }
 
     async getUserById(id,trx = this.db) {
@@ -49,8 +50,7 @@ class UserDAO {
             if (!password_hash) throw new Error('password_hash is required for user creation');
 
 
-            const instituteDAO = new InstituteDAO();
-            const instituteExists = await instituteDAO.exists(institute_id);
+            const instituteExists = await this.instituteDAO.exists(institute_id);
             if (!instituteExists) {
                 throw new Error("Institute does not exist");
             }

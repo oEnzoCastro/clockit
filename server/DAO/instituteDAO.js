@@ -1,9 +1,9 @@
 const db = require('../database/db');
-const Institute = require("../models/institute")
+const Institute = require("../models/institute");
 
 
 class InstituteDAO {
-    constructor() {
+    constructor(db) {
         this.db = db;
     }
 
