@@ -5,7 +5,7 @@ class Director extends Manager {
     constructor(fields = {}) {
         const roles = fields.roles || [];
 
-        if (!roles.includes("director")) roles.push("director");
+        if (!roles.includes("Director")) roles.push("Director");
 
         super({ ...fields, roles });
 

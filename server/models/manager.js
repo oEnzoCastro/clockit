@@ -4,7 +4,7 @@ const  User  = require('./user');
 class Manager extends User{
     constructor(fields = {}){
         const roles = fields.roles || [];
-        if (!fields.roles.includes("manager")) fields.roles.push("manager");
+        if (!fields.roles.includes("Manager")) fields.roles.push("Manager");
         
         super({...fields,roles});
         this.areas = (fields.areas || []).map(s => new AreaManager({ ...s, manager_id: this.id }));
