@@ -9,22 +9,21 @@ class UserDAO {
         this.db = db; // store a Knex instance
     }
 
-    async getUserById(id) {
+    async getUserById(id,trx = this.db) {
 
         try {
-            const row = await db('users')
+            const row = await trx('users')
                 .where({ id })
                 .first();
 
             if (!row) {
                 return null;
             }
-            const roles = await db('user_roles')
+            const roles = await trx('user_roles')
                 .where({ user_id: id })
-                .select('role')
                 .pluck('role');
             return new User({ ...row, roles });
-        } catch (err) {
+        } catch (error) {
             console.error('Error in getUserById:' + error);
             throw err;
         }
@@ -335,13 +334,19 @@ class UserDAO {
                 throw new Error('delete() requires a user id');
             }
 
-            const deletedCount = await trx('users')
+            const result = await trx('users')
                 .where({ id })
                 .del();
 
             await trx.commit();
 
-            return deletedCount > 0;
+            if (result > 0) {
+                await trx.commit();
+                return true;
+            } else {
+                await trx.rollback();
+                return false;
+            }
         } catch (error) {
             await trx.rollback();
             console.error('Error in delete user:' + error);
@@ -415,7 +420,7 @@ class UserDAO {
         }
     }
 
-    async getUsersByFullName(first_name, surname,institute_id) {
+    async getUsersByFullName(first_name, surname, institute_id) {
 
 
         try {
@@ -423,7 +428,7 @@ class UserDAO {
                 throw new Error("first_name and institute_id are required");
             }
 
-            const rows = await this.db("users").where({ first_name, surname,institute_id }).first();
+            const rows = await this.db("users").where({ first_name, surname, institute_id }).first();
 
             if (!rows || rows.length === 0) {
                 return [];
@@ -465,17 +470,12 @@ class UserDAO {
             const row = await this.db('users')
                 .where({ email })
                 .first();
-
             if (!row) {
                 return null;
             }
-
             const roles = await this.db('user_roles')
                 .where({ user_id: row.id })
                 .pluck('role');
-
-            
-
             return new User({
                 ...row,
                 roles
