@@ -10,10 +10,12 @@ class Area extends BaseModel {
         area_name: { min: 1, max: 100 }
       }
     );
+    this.id = fields.id;
     this.area_name = fields.area_name;
     this.institute_id = fields.institute_id;
     this.acronym = fields.acronym;
     this.max_workload = fields.max_workload || 200;
+    this.is_hidden = fields.is_hidden;
     Object.defineProperty(this, 'acronym', { writable: false });
     Object.defineProperty(this, 'institute_id', { writable: false });
 
@@ -21,10 +23,12 @@ class Area extends BaseModel {
 
   toJSON() {
     const json = {
+      id:this.id,
       acronym: this.acronym,
       area_name: this.area_name,
       institute_id: this.institute_id,
       max_workload: this.max_workload,
+      is_hidden: this.is_hidden,
       ...super.toJSON()
     }
 
