@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const db = require('../database/db');
+//const db = require('../database/db');
 const InstituteDAO = require('./instituteDAO');
 const bcrypt = require('bcrypt');
 
@@ -26,7 +26,7 @@ class UserDAO {
             return new User({ ...row, roles });
         } catch (error) {
             console.error('Error in getUserById:' + error);
-            throw err;
+            throw error;
         }
 
     }
