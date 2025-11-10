@@ -1,4 +1,4 @@
-const db = require('../database/db');
+//const db = require('../database/db');
 const Director = require("../models/director");
 const User = require("../models/user");
 const UserDAO = require('./userDAO');
@@ -11,11 +11,18 @@ class DirectorDAO extends UserDAO {
     async createDirector(userData) {
         const trx = await this.db.transaction();
         try {
+            if(!(userData instanceof User || userData instanceof Director)){
+                throw new Error("user must be an instance of user or Director");
+            }
             const user = await super.create(userData, trx);
 
             await trx('user_roles').insert({
                 user_id: user.id,
                 role: 'Director'
+            });
+            await trx('user_roles').insert({
+                user_id: user.id,
+                role: 'Manager'
             });
 
             await trx.commit();
@@ -38,10 +45,13 @@ class DirectorDAO extends UserDAO {
             }
 
             await trx('user_roles').insert({ user_id: id, role: 'Director' });
+             if (user.roles.includes('Manager')) {
+                await trx('user_roles').insert({ user_id: id, role: 'Manager' });
+            }
 
             await trx.commit();
 
-            return new User({ ...user, roles: [...user.roles, 'Director'] });
+            return new User({ ...user, roles: [...user.roles, 'Director','Manager'] });
 
         } catch (error) {
             await trx.rollback();
@@ -64,7 +74,7 @@ class DirectorDAO extends UserDAO {
             const rows = await trx('user_roles').where({ user_id: id, role: 'Director' }).del();
 
             if (rows <= 0) {
-                throw new Error("Error in deleting user");
+                throw new Error("Error in deleting Director role");
             }
 
             await trx.commit();
@@ -85,7 +95,7 @@ class DirectorDAO extends UserDAO {
 
 
             if (!users || users.length <= 0) {
-                await trx.commit(); // commit, not rollback — nothing went wrong
+                ; // commit, not rollback — nothing went wrong
                 return [];
             }
             console.log('teste');
@@ -97,9 +107,28 @@ class DirectorDAO extends UserDAO {
             return directors
 
         } catch (error) {
-            console.error("Error in getDirectors:", error);
+            console.error("Error in getDirectorsByInstitute:", error);
             throw error;
 
+        }
+    }
+
+    async getDirectors(trx = this.db){
+        try {
+            const userRoles = await trx('user_roles').where({role:'Director'});
+            if(!userRoles){
+                return null;
+            }
+            const users = [];
+            for(userRole of userRoles){
+                user = await this.getUserById(userRole.user_id);
+                users.push(user);
+            }
+            return users;
+            
+        } catch (error) {
+            console.error("Error in getDirectors:", error);
+            throw error;
         }
     }
 
@@ -115,6 +144,7 @@ class DirectorDAO extends UserDAO {
 
         }
     }
+
 
 }
 /*
