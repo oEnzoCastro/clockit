@@ -1,4 +1,4 @@
-const db = require('../database/db');
+//const db = require('../database/db');
 const Area = require('../models/area');
 const Institute = require('../models/institute');
 const InstituteDAO = require('./instituteDAO');
@@ -14,7 +14,7 @@ class AreaDAO {
     async create(area) {
         const trx = await this.db.transaction();
         try {
-          
+
             if (!(area instanceof Area)) {
                 throw new Error("area must be an instance of Area");
             }
@@ -77,7 +77,7 @@ class AreaDAO {
 
     }
 
-    async getById(id) {
+    async getAreaById(id) {
         try {
             if (!id) {
                 throw new Error("Id not found");
@@ -194,17 +194,17 @@ class AreaDAO {
     }
 
 
-    async getAreasByInstitute(institute_id){
+    async getAreasByInstitute(institute_id) {
         try {
-            if(!institute_id){
+            if (!institute_id) {
                 throw new Error("Must have an institute id in getAreasbyInstitute");
-                
+
             }
-            const rows = await this.db('area').where({institute_id});
+            const rows = await this.db('area').where({ institute_id });
             if (!rows || rows.length <= 0) {
                 return null;
             }
-            const areas = rows.map(s=>new Area(s));
+            const areas = rows.map(s => new Area(s));
             return areas;
 
         } catch (error) {
@@ -213,18 +213,18 @@ class AreaDAO {
         }
     }
 
-    async delete(id){
+    async delete(id) {
         const trx = await this.db.transaction();
         try {
-            if(!id){
+            if (!id) {
                 throw new Error("delete() needs a id");
             }
-            const result = await trx('area').where({id}).del();
+            const result = await trx('area').where({ id }).del();
 
-            if(result>0){
+            if (result > 0) {
                 await trx.commit();
                 return true;
-            }else{
+            } else {
                 await trx.rollback();
                 return false;
             }
@@ -235,6 +235,31 @@ class AreaDAO {
             throw error;
         }
     }
+
+    async getAreasByManager(manager_id) {
+        try {
+            const managerAreas = await this.db('manager_area').where({ manager_id });
+
+            if (!managerAreas || managerAreas.length === 0) {
+                return [];
+            }
+
+            // Fetch all related areas in parallel using AreaDAO
+            const areas = await Promise.all(
+                managerAreas.map(ma => this.getAreaById(ma.area_id))
+            );
+
+            console.log('Areas fetched successfully for manager:', manager_id);
+            return areas;
+
+        } catch (error) {
+            console.error("Error in getAreasByManager:", error);
+            throw error;
+        }
+    }
+
+
+
 
 }
 /*
@@ -254,7 +279,7 @@ async function main() {
     const area = new Area(newAreaData);
 
     try {
-        const createdArea = await areaDAO.delete('f0f5cb3c-6541-4b2e-9d94-c059981d6556');
+        const createdArea = await areaDAO.create(area);
         console.log('Area created successfully:');
         console.log(createdArea);
     } catch (error) {
@@ -266,7 +291,7 @@ async function main() {
 }
 
 // Execute the main function
-main();*/
+main();
 
-
+*/
 module.exports = AreaDAO;
