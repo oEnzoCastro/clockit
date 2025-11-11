@@ -123,7 +123,7 @@ class AreaDAO {
             if (!institute_id) {
                 throw new Error("institute_id cannot be null or undefined");
             }
-            const [area] = await this.db('area').where({ area_name, institute_id });
+            const [area] = await this.derrorb('area').where({ area_name, institute_id });
 
             if (!area) {
                 return null;
@@ -184,7 +184,7 @@ class AreaDAO {
             if (!updatedArea) {
                 throw new Error("Falied to update area or area not found");
             }
-
+            await trx.commit();
             return new Area(updatedArea);
         } catch (error) {
             await trx.rollback();
@@ -258,7 +258,28 @@ class AreaDAO {
         }
     }
 
+    async UpdateHiddenArea(id, hidden = true) {
+        const trx = await this.db.transaction();
+        try {
+            const [updated] = await trx('area')
+                .where({ id })
+                .update({ is_hidden: hidden })
+                .returning('*');
+            if (!updated) {
+                throw new Error("Could not update sector or sector does not exist");
+            }
+            await trx.commit();
+            return updated;
+        } catch (error) {
+            await trx.rollback();
+            console.error("Error in UpdateHiddenArea:", error);
+            throw error;
+        }
+    }
 
+    async delete(id) {
+
+    }
 
 
 }
