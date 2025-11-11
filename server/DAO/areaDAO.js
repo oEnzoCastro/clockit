@@ -277,11 +277,6 @@ class AreaDAO {
         }
     }
 
-    async delete(id) {
-
-    }
-
-
 }
 /*
 async function main() {

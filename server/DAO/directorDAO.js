@@ -45,13 +45,15 @@ class DirectorDAO extends UserDAO {
             }
 
             await trx('user_roles').insert({ user_id: id, role: 'Director' });
-             if (user.roles.includes('Manager')) {
+             if (!user.roles.includes('Manager')) {
                 await trx('user_roles').insert({ user_id: id, role: 'Manager' });
             }
 
             await trx.commit();
 
-            return new User({ ...user, roles: [...user.roles, 'Director','Manager'] });
+            const updatedRoles = Array.from(new Set([...user.roles, 'Director', 'Manager']));
+
+            return new User({ ...user, roles: updatedRoles });
 
         } catch (error) {
             await trx.rollback();
@@ -73,14 +75,14 @@ class DirectorDAO extends UserDAO {
 
             const rows = await trx('user_roles').where({ user_id: id, role: 'Director' }).del();
 
-            if (rows <= 0) {
-                throw new Error("Error in deleting Director role");
+            if (rows > 0) {
+                await trx.commit();
+                return true;
+            } else {
+                await trx.rollback();
+                return false;
             }
 
-            await trx.commit();
-            const roles = user.roles.filter(role => role !== 'Director');
-
-            return new User({...user,roles});
 
         } catch (error) {
             await trx.rollback();

@@ -11,7 +11,7 @@ class InstituteDAO {
         const trx = await this.db.transaction();
 
         try {
-            // ✅ The instanceof check was reversed
+      
             if (!(institute instanceof Institute)) {
                 throw new Error("institute must be an instance of Institute");
             }
@@ -25,7 +25,7 @@ class InstituteDAO {
                 throw new Error("Institute name is required to create institute");
             }
 
-            // ✅ Check for duplicates
+    
             const existingInstituteAcronym = await trx('institute')
                 .where({ acronym })
                 .first();
@@ -40,7 +40,7 @@ class InstituteDAO {
                 throw new Error("This name is already used by another institute");
             }
 
-            // ✅ Perform insert and return the created row
+     
             const [createdInstitute] = await trx('institute')
                 .insert({ acronym, institute_name })
                 .returning('*');

@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 class UserDAO {
     constructor(db) {
         this.db = db;
-        this.instituteDAO = new InstituteDAO(db); // store a Knex instance
+        this.instituteDAO = new InstituteDAO(db); 
     }
 
     async getUserById(id,trx = this.db) {
@@ -55,7 +55,7 @@ class UserDAO {
                 throw new Error("Institute does not exist");
             }
 
-            // --- Uniqueness checks ---
+         
             const userSameEmail = await trx('users')
                 .where({ email })
                 .first();
@@ -84,10 +84,10 @@ class UserDAO {
                 }
             }
 
-            // --- Password hashing ---
+            
             const hashedPassword = await bcrypt.hash(password_hash, 10);
 
-            // --- Insert user ---
+            
             const [createdRow] = await trx('users')
                 .insert({
                     code: code || null,
@@ -105,7 +105,7 @@ class UserDAO {
                 throw new Error("Failed to create user");
             }
 
-            // --- Insert roles if any ---
+           
             if (Array.isArray(user.roles) && user.roles.length > 0) {
                 const roleInserts = user.roles.map(role => ({
                     user_id: createdRow.id,
@@ -241,7 +241,7 @@ class UserDAO {
 
             const userSameEmail = await trx('users')
                 .where({ email })
-                .whereNot({ id }) // ensure it's not the same user
+                .whereNot({ id }) 
                 .first();
             if (userSameEmail) {
                 throw new Error('Email is already in use by another user');
@@ -250,7 +250,7 @@ class UserDAO {
             if (code) {
                 const userInstituteCode = await trx('users')
                     .where({ code, institute_id })
-                    .whereNot({ id }) // ensure it's not the same user
+                    .whereNot({ id })
                     .first();
                 if (userInstituteCode) {
                     throw new Error('Code is already in use by another user in the same institute');
@@ -260,7 +260,7 @@ class UserDAO {
             if (surname) {
                 const userSameFullName = await trx('users')
                     .where({ first_name, surname, institute_id })
-                    .whereNot({ id }) // ensure it's not the same user
+                    .whereNot({ id }) 
                     .first();
                 if (userSameFullName) {
                     throw new Error('Complete name is already in use by another user in the same institute');
@@ -268,7 +268,7 @@ class UserDAO {
             }
 
 
-            // 2️⃣ Update main user fields
+           
             const [updatedRow] = await trx('users')
                 .where({ id })
                 .update({
@@ -284,7 +284,7 @@ class UserDAO {
                 throw new Error('Failed to update user');
             }
 
-            // 3️⃣ Sync roles
+            
             const existingRoles = await trx('user_roles')
                 .where({ user_id: id })
                 .pluck('role');
@@ -337,8 +337,6 @@ class UserDAO {
             const result = await trx('users')
                 .where({ id })
                 .del();
-
-            await trx.commit();
 
             if (result > 0) {
                 await trx.commit();
@@ -496,7 +494,7 @@ class UserDAO {
                 throw new Error("Institute ID is required to get users");
             }
 
-            // You wrote this.trx instead of trx — that would cause an error
+            
             const rows = await trx("users").where({ institute_id });
 
             if (!rows || rows.length === 0) {

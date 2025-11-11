@@ -4,6 +4,7 @@ const UserDAO = require('./userDAO');
 const AreaDAO = require('./areaDAO');
 const User = require('../models/user');
 const Area = require('../models/area');
+const AreaManager = require('../models/areaManager')
 
 
 class ManagerDAO extends UserDAO {
@@ -19,23 +20,23 @@ class ManagerDAO extends UserDAO {
             if (!(managerData instanceof User || managerData instanceof Manager)) {
                 throw new Error("user must be an instance of user or Manager");
             }
-            // 1. Create user using the base class logic
+            
             const user = await super.create(managerData, trx);
 
-            // 2. Add the Manager role
+         
             await trx('user_roles').insert({
                 user_id: user.id,
                 role: 'Manager'
             });
 
-            // 3. Commit the transaction
+            
             await trx.commit();
 
-            // 4. Return a Manager instance (or reload from DB if needed)
+           
             return new Manager(user);
 
         } catch (error) {
-            // Rollback and handle the error
+            
             await trx.rollback();
             console.error('Error in create(): in manager', error);
             throw error;
@@ -47,30 +48,28 @@ class ManagerDAO extends UserDAO {
         const trx = await this.db.transaction();
 
         try {
-            // 1. Fetch user using the transaction
+           
             const user = await this.getUserById(id, trx);
             if (!user) {
                 throw new Error("User does not exist");
             }
 
-            // 2. Validate current roles
+            
             if (Array.isArray(user.roles) && user.roles.includes('Manager')) {
                 throw new Error("User is already a Manager");
             }
 
-            // 3. Insert the Manager role
+            
             await trx('user_roles').insert({
                 user_id: id,
                 role: 'Manager'
             });
 
-            // 4. Commit the transaction
+            
             await trx.commit();
 
-            // 5. Return updated user object
-            const updatedRoles = Array.isArray(user.roles)
-                ? [...user.roles, 'Manager']
-                : ['Manager'];
+            
+            const updatedRoles = Array.from(new Set([...user.roles,'Manager']));
 
             return new User({ ...user, roles: updatedRoles });
 
@@ -80,31 +79,35 @@ class ManagerDAO extends UserDAO {
             throw error;
         }
     }
+
     async assignManagerToArea(manager_id, area_id) {
         const trx = await this.db.transaction();
 
         try {
-            // 1. Validate manager existence
+            
             const manager = await this.getUserById(manager_id, trx);
             if (!manager) throw new Error("Manager not found");
 
-            // 2. Validate area existence
+            
             const area = await this.areaDAO.getAreaById(area_id, trx);
             if (!area) throw new Error("Area not found");
 
-            // 3. Prevent duplicate assignment
+            
             const exists = await trx('manager_area')
                 .where({ manager_id, area_id })
                 .first();
             if (exists) throw new Error("Manager already assigned to this area");
 
-            // 4. Insert relationship
-            await trx('manager_area').insert({ manager_id, area_id });
+            
+            const [newAreaManager] = await trx('manager_area').insert({ manager_id, area_id }).returning('*');
 
-            // 5. Commit
+            if(!newAreaManager){
+                throw new Error("Failed in assigning manager to area");
+            }
+
             await trx.commit();
 
-            return { manager_id, area_id, message: "Manager assigned successfully" };
+            return new AreaManager(manager_id,area_id);
 
         } catch (error) {
             await trx.rollback();
@@ -117,7 +120,7 @@ class ManagerDAO extends UserDAO {
         const trx = await this.db.transaction();
 
         try {
-            // 1. Ensure record exists
+            
             const existing = await trx('manager_area')
                 .where({ manager_id, area_id })
                 .first();
@@ -126,7 +129,7 @@ class ManagerDAO extends UserDAO {
                 throw new Error("Manager not assigned to this area");
             }
 
-            // 2. Delete the relation
+       
             const deleted = await trx('manager_area')
                 .where({ manager_id, area_id })
                 .del();
@@ -139,10 +142,6 @@ class ManagerDAO extends UserDAO {
                 return false;
             }
 
-            // 3. Commit
-            await trx.commit();
-
-            return { manager_id, area_id, message: "Manager removed from area successfully" };
 
         } catch (error) {
             await trx.rollback();
@@ -176,10 +175,6 @@ class ManagerDAO extends UserDAO {
                 return false;
             }
 
-            await trx.commit();
-            const roles = user.roles.filter(role => role !== 'Manager');
-
-            return new User({ ...user, roles });
 
         } catch (error) {
             await trx.rollback();
@@ -197,7 +192,7 @@ class ManagerDAO extends UserDAO {
                 return [];
             }
 
-            // ✅ Keep only users who *are* managers
+            
             const managers = users.filter(user =>
                 Array.isArray(user.roles) && user.roles.includes('Manager')
             );
@@ -219,7 +214,7 @@ class ManagerDAO extends UserDAO {
                 return [];
             }
 
-            // Fetch all managers (users) in parallel
+           
             const users = await Promise.all(
                 managersArea.map(ma => this.getUserById(ma.manager_id))
             );
