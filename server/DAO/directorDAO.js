@@ -8,7 +8,7 @@ class DirectorDAO extends UserDAO {
         super(db);
     }
 
-    async createDirector(userData) {
+    async create(userData) {
         const trx = await this.db.transaction();
         try {
             if(!(userData instanceof User || userData instanceof Director)){

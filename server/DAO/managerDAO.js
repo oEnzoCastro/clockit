@@ -12,7 +12,7 @@ class ManagerDAO extends UserDAO {
         this.areaDAO = new AreaDAO(db);
     }
 
-    async createManager(managerData) {
+    async create(managerData) {
         const trx = await this.db.transaction();
 
         try {
@@ -37,7 +37,7 @@ class ManagerDAO extends UserDAO {
         } catch (error) {
             // Rollback and handle the error
             await trx.rollback();
-            console.error('Error in createManager():', error);
+            console.error('Error in create(): in manager', error);
             throw error;
         }
     }
@@ -131,8 +131,12 @@ class ManagerDAO extends UserDAO {
                 .where({ manager_id, area_id })
                 .del();
 
-            if (deleted === 0) {
-                throw new Error("Failed to delete manager_area relation");
+            if (deleted > 0) {
+                await trx.commit();
+                return true;
+            } else {
+                await trx.rollback();
+                return false;
             }
 
             // 3. Commit
@@ -164,8 +168,12 @@ class ManagerDAO extends UserDAO {
 
             const rows = await trx('user_roles').where({ user_id: id, role: 'Manager' }).del();
 
-            if (rows <= 0) {
-                throw new Error("Error in deleting Manager role");
+            if (rows > 0) {
+                await trx.commit();
+                return true;
+            } else {
+                await trx.rollback();
+                return false;
             }
 
             await trx.commit();
