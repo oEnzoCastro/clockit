@@ -9,7 +9,7 @@ class Sector extends BaseModel {
                 acronym: { min: 1, max: 10 }
             });
         this.id = fields.id;
-        this.area_acronym = fields.area_id;
+        this.area_id = fields.area_id;
         this.acronym = fields.acronym;
         this.sector_name = fields.sector_name;
         this.is_hidden = fields.is_hidden;
@@ -19,8 +19,8 @@ class Sector extends BaseModel {
 
     toJSON() {
         const json = {
-            institute_id: this.institute_id,
-            area_acronym: this.area_acronym,
+            id:this.id,
+            area_id: this.area_acronym,
             acronym: this.acronym,
             sector_name: this.sector_name,
             is_hidden:this.is_hidden,
