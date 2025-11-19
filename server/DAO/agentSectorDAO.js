@@ -1,4 +1,4 @@
-const db = require('../database/db');
+//const db = require('../database/db');
 const AgentSector = require('../models/agentSector');
 const SectorDAO = require('./sectorDAO');
 const UserDAO = require('./userDAO');
@@ -17,15 +17,7 @@ class AgentSectorDAO {
             if (!(agentSector instanceof AgentSector)) {
                 throw new Error("agentSector must be an instance of AgentSector");
             }
-            if (!agentSector.agent_id) {
-                throw new Error("agentSector must have an agent_id");
-            }
-            if (!agentSector.sector_id) {
-                throw new Error("agentSector must have an sector_id");
-            }
-            if (!agentSector.sector_region) {
-                throw new Error("agentSector must have an sector_region");
-            }
+           
             const existingUser = await this.userDAO.getUserById(agentSector.agent_id, trx);
 
             const existingSector = await this.sectorDAO.getSectorById(agentSector.sector_id, trx);

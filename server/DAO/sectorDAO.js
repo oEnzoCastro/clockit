@@ -19,17 +19,6 @@ class SectorDAO {
                 throw new Error("sector must be an instance of Sector");
             }
 
-            if (!sector.sector_name) {
-                throw new Error("sector must have a name");
-            }
-
-            if (!sector.area_id) {
-                throw new Error("sector must have an area_id");
-            }
-
-            if (!sector.acronym) {
-                throw new Error("sector must have an acronym");
-            }
 
             const area = await this.areaDAO.getAreaById(sector.area_id);
 
@@ -68,19 +57,6 @@ class SectorDAO {
             }
 
             const { id, sector_name, acronym, is_hidden } = sector.toJSON();
-
-            if (!id) {
-                throw new Error("sector must have an id");
-            }
-
-
-            if (!sector_name) {
-                throw new Error("sector must have a name");
-            }
-
-            if (!acronym) {
-                throw new Error("sector must have an acronym");
-            }
 
 
             const existingSectorAcronym = await trx('sector').where({ acronym }).whereNot({ id }).first();

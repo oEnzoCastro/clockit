@@ -18,13 +18,7 @@ class InstituteDAO {
 
             const { acronym, institute_name } = institute.toJSON();
 
-            if (!acronym) {
-                throw new Error("Acronym is required to create institute");
-            }
-            if (!institute_name) {
-                throw new Error("Institute name is required to create institute");
-            }
-
+            
     
             const existingInstituteAcronym = await trx('institute')
                 .where({ acronym })

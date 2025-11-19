@@ -10,7 +10,7 @@ class UserToken extends BaseModel {
                 device_id: { min: 1, max: 50 }
             }
         )
-
+        
         this.id = fields.id;
         this.user_id = fields.user_id;
         this.token = fields.token;

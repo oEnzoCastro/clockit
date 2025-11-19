@@ -20,15 +20,7 @@ class AreaDAO {
             }
             const { institute_id, acronym, area_name, max_workload, is_hidden } = area.toJSON();
 
-            if (!institute_id) {
-                throw new Error("area must contain institute_id");
-            }
-            if (!acronym) {
-                throw new Error("area must contain acronym");
-            }
-            if (!area_name) {
-                throw new Error("area must contain area_name");
-            }
+            
             if (max_workload && max_workload < 0) {
                 throw new Error("Max_workload cannot be negative");
             }

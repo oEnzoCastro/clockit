@@ -44,11 +44,7 @@ class UserDAO {
             const { email, institute_id, code, first_name, surname, password_hash } = data;
 
 
-            if (!email) throw new Error('User must have an email');
-            if (!institute_id) throw new Error('User must have an institute_id');
-            if (!first_name) throw new Error('User must have a first name');
-            if (!password_hash) throw new Error('password_hash is required for user creation');
-
+           
 
             const instituteExists = await this.instituteDAO.exists(institute_id);
             if (!instituteExists) {
