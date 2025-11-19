@@ -1,4 +1,4 @@
-//const db = require('../database/db');
+const db = require('../database/db');
 const UserDAO = require('./userDAO');
 const User = require('../models/user');
 const SectorDAO = require('./sectorDAO');
@@ -101,7 +101,7 @@ class AgentDAO extends UserDAO {
 
 }
 module.exports = AgentDAO;
-/*
+
 async function main() {
     const agentDAO = new AgentDAO(db);
 
@@ -111,7 +111,7 @@ async function main() {
         // 1️⃣ Create a new user (who will be an Agent)
         console.log('Creating new agent...');
         const newUser = new User({
-            name: 'John Doe',
+            first_name: 'John Doe',
             email: 'john.doe@example.com',
             password_hash: '123456', // assuming hashing is handled in DAO or model
             institute_id:'3a2ad40e-c63d-48ee-baf1-bf56081edd25',
@@ -120,7 +120,7 @@ async function main() {
 
         const createdAgent = await agentDAO.create(newUser);
         console.log('✅ Created Agent:', createdAgent);
-
+        /*
         // 2️⃣ Promote an existing user to Agent
         console.log('Promoting existing user to Agent...');
         const promotedUser = await agentDAO.promoteToAgent(createdAgent.id);
@@ -145,7 +145,7 @@ async function main() {
             await agentDAO.removeAgent(createdAgent.id);
         } catch (err) {
             console.log('✅ Expected error:', err.message);
-        }
+        }*/
 
         console.log('=== TEST COMPLETE ===');
     } catch (error) {
@@ -155,4 +155,4 @@ async function main() {
     }
 }
 
-main();*/
+main();

@@ -249,9 +249,9 @@ class SectorDAO {
         }
     }
 
-    async getSectorsByAgentId(agent_id) {
+    async getSectorsByAgentId(agent_id,trx=this.db) {
         try {
-            const rows = await this.db('sector as a')
+            const rows = await trx('sector as a')
                 .select('a.*')
                 .join('agent_sector as b', 'a.id', 'b.sector_id')
                 .where('b.agent_id', agent_id);

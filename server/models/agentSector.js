@@ -4,7 +4,7 @@ const BaseModel = require('./baseModel');
 class AgentSector extends BaseModel {
     constructor(fields = {}) {
         super(fields,
-            ["agent_id",'sector_id', "region"],
+            ["agent_id",'sector_id', "sector_region"],
             {
                 area_acronym: { min: 1, max: 10 },
                 sector_acronym: { min: 1, max: 10 },
@@ -16,7 +16,7 @@ class AgentSector extends BaseModel {
         this.agent_workload = fields.agent_workload || 0;
         this.schedule = fields.schedule || null;
         this.location = fields.location;
-        this.region = fields.region;
+        this.sector_region = fields.sector_region;
         this.description = fields.description;
         this.is_hidden = fields.is_hidden ;
         Object.defineProperty(this, 'agent_id', { writable: false });
@@ -32,7 +32,7 @@ class AgentSector extends BaseModel {
             agent_workload: this.agent_workload,
             schedule: this.schedule,
             location: this.location,
-            region: this.region,
+            sector_region: this.sector_region,
             description: this.description,
             is_hidden: this.is_hidden,
             ...super.toJSON()
