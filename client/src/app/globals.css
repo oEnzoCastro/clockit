@@ -2,17 +2,23 @@
   --background-1: #f7feff;
   --text: #868686;
   --background-2: #e4ebec;
+
+  --Platinum: #EEEEEE;
+  --Periwinkle: #CCD7FF;
+  --Amarant: #D1495B;
+  --MidnightViolet: #412234;
+  --WisteriaBlue: #9EA7FF;
+  --DeepspaceBlue: #18314F;
 }
 
 html,
 body {
   color: var(--text);
-  background-color: var(--background-1);
 }
 
 main{
   display: flex;
-  gap: 3%;
+  gap: 1%;
   margin: 0 1%;
 }
 
