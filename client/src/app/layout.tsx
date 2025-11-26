@@ -20,11 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body
-        className={poppins.className}
-        style={{ position: "relative", height: "100vh" }}
-      >
+      <body className={poppins.className}>
+        <table>
         {children}
+        </table>
         <Background />
       </body>
     </html>

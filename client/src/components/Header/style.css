@@ -1,24 +1,31 @@
 header {
+    background-color: var(--Platinum-blur);
     display: flex;
+    width: 100%;
     justify-content: space-between;
-    padding: 0 2%;
-    height: 60px;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-
-    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    color: var(--DeepspaceBlue);
 }
 
-header h3 {
-    font-weight: lighter;
-    transition: .1s;
-}
-
-header h3:hover {
-    scale: 1.1;
-}
-
-.pages {
+.sec{
     display: flex;
-    gap: 50px;
+    gap: 20px;
 }
+
+.blocks{
+    background-color: var(--Platinum);
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.logo{
+    height: 100%;
+    background-color: var(--Platinum);
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+}   
