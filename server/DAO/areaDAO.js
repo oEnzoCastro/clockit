@@ -115,7 +115,7 @@ class AreaDAO {
             if (!institute_id) {
                 throw new Error("institute_id cannot be null or undefined");
             }
-            const [area] = await this.derrorb('area').where({ area_name, institute_id });
+            const [area] = await this.db('area').where({ area_name, institute_id });
 
             if (!area) {
                 return null;
