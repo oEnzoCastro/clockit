@@ -1,4 +1,4 @@
-const db = require('../database/db');
+
 const UserDAO = require('./userDAO');
 const User = require('../models/user');
 const SectorDAO = require('./sectorDAO');
@@ -101,6 +101,7 @@ class AgentDAO extends UserDAO {
 
 }
 module.exports = AgentDAO;
+/*
 
 async function main() {
     const agentDAO = new AgentDAO(db);
@@ -145,7 +146,7 @@ async function main() {
             await agentDAO.removeAgent(createdAgent.id);
         } catch (err) {
             console.log('✅ Expected error:', err.message);
-        }*/
+        }
 
         console.log('=== TEST COMPLETE ===');
     } catch (error) {
@@ -156,3 +157,4 @@ async function main() {
 }
 
 main();
+*/

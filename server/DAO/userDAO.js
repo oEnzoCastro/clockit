@@ -156,6 +156,37 @@ class UserDAO {
         }
     }
 
+
+     async getPasswordHashById(email) {
+        const trx = await this.db.transaction();
+        try {
+            if (email == null || email == undefined) {
+                throw new Error("email cannot be null or undefined");
+            }
+
+            const row = await trx('users')
+                .where({ email })
+                .select('password_hash')
+                .first();
+
+            if (!row) {
+                await trx.rollback();
+                return null;
+            }
+
+            await trx.commit();
+            return row.password_hash;
+        } catch (error) {
+            await trx.rollback();
+            console.error("Error occurred in getPasswordHashByEmail:", error);
+            throw error;
+        } finally {
+            if (!trx.isCompleted()) {
+                await trx.rollback();
+            }
+        }
+    }
+
     async updatePassword(id, password) {
         const trx = await this.db.transaction();
 

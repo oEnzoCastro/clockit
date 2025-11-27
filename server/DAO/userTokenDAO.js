@@ -30,6 +30,7 @@ class UserTokenDAO {
             return new UserToken(inserted);
 
         } catch (err) {
+            console.error("Error in UserToken DAO create");
             await trx.rollback();
             throw err;
         }
@@ -46,6 +47,7 @@ class UserTokenDAO {
             await trx.commit();
             return deletedCount > 0;
         } catch (err) {
+            console.error("Error in UserToken DAO cleanExpired");
             await trx.rollback();
             throw err;
         }
@@ -61,21 +63,22 @@ class UserTokenDAO {
             await trx.commit();
             return deletedCount > 0;
         } catch (err) {
+            console.error("Error in UserToken DAO cleanRevoked");
             await trx.rollback();
             throw err;
         }
     }
 
-    async refreshToken(id) {
+    async refreshToken(token) {
         const trx = await this.db.transaction();
         try {
-            const valid = await this.isValid(id, trx);
+            const valid = await this.isValid(token, trx);
             if (!valid) throw new Error("Token is either expired or revoked");
 
             const expires_at = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
             const [updated] = await trx("user_token")
-                .where({ id })
+                .where({ token })
                 .update({ expires_at })
                 .returning("*");
 
@@ -84,20 +87,21 @@ class UserTokenDAO {
             await trx.commit();
             return new UserToken(updated);
         } catch (err) {
+            console.error("Error in UserToken DAO refreshToken");
             await trx.rollback();
             throw err;
         }
     }
 
-    async invalidate(id) {
+    async invalidate(token) {
         const trx = await this.db.transaction();
         try {
-            const [token] = await trx("user_token")
-                .where({ id })
+            const [recieved_token] = await trx("user_token")
+                .where({ token })
                 .update({ revoked: true })
                 .returning("*");
 
-            if (!token) {
+            if (!recieved_token) {
                 await trx.rollback();
                 return false;
             }
@@ -110,23 +114,23 @@ class UserTokenDAO {
         }
     }
 
-    async isExpired(id, trx = this.db) {
+    async isExpired(token, trx = this.db) {
         try {
-            const token = await trx("user_token").where({ id }).first();
-            if (!token) throw new Error("Token does not exist");
-            return token.expires_at <= new Date();
+            const expired_token = await trx("user_token").where({ token }).first();
+            if (!expired_token) throw new Error("Token does not exist");
+            return expired_token.expires_at <= new Date();
         } catch (err) {
             throw err;
         }
     }
 
-    async isValid(id, trx = this.db) {
+    async isValid(token, trx = this.db) {
         try {
-            const token = await trx("user_token").where({ id }).first();
-            if (!token) throw new Error("Token does not exist");
+            const valid_token = await trx("user_token").where({ token }).first();
+            if (!valid_token) throw new Error("Token does not exist");
 
-            const notExpired = token.expires_at > new Date();
-            const notRevoked = !token.revoked;
+            const notExpired = valid_token.expires_at > new Date();
+            const notRevoked = !valid_token.revoked;
 
             return notExpired && notRevoked;
         } catch (err) {
@@ -134,15 +138,17 @@ class UserTokenDAO {
         }
     }
 
-    async isRevoked(id, trx = this.db) {
+    async isRevoked(token, trx = this.db) {
         try {
-            const token = await trx("user_token").where({ id }).first();
-            if (!token) throw new Error("Token does not exist");
-            return token.revoked;
+            const revoked_token = await trx("user_token").where({ token }).first();
+            if (!revoked_token) throw new Error("Token does not exist");
+            return revoked_token.revoked;
         } catch (err) {
             throw err;
         }
     }
+
+    
 }
 /*
 async function main() {
