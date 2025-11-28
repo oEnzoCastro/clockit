@@ -6,6 +6,7 @@ header {
     padding: 20px;
     border-radius: 20px;
     color: var(--DeepspaceBlue);
+    height: min-content;
 }
 
 .sec{
@@ -25,7 +26,10 @@ header {
     border-radius: 10px;
     aspect-ratio: 1 / 1;
     display: flex;
-    justify-content: center;
     align-items: center;
     justify-content: center;
-}   
+}
+.loginButton{
+    text-decoration: none;
+    color: var(--DeepspaceBlue);
+}

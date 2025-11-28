@@ -9,7 +9,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Meu Site",
+  title: "ClockIt",
   description: "Portfólio com Poppins",
 };
 
@@ -21,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={poppins.className}>
-        <table>
+        <div className="children">
+          <Header />
         {children}
-        </table>
+        </div>
         <Background />
       </body>
     </html>

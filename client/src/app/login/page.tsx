@@ -12,7 +12,8 @@ export default function Page() {
 
                 {/* LOGIN */}
                 <section className={`login form ${mostrarFrom ? 'hide' : 'show'}`}>
-                    <h1 className='title'>Login</h1>
+                    {/* <h1 className='title'>Login</h1> */}
+                    <h1 className='title'>ClockIt</h1>
 
                     <article className="inputs">
                         <input type="email" placeholder="Email:" />
@@ -20,25 +21,27 @@ export default function Page() {
                     </article>
 
                     <article className="buttons">
-                        <button
+                        {/* <button
                             className='cadas red'
                             onClick={() => setMostrarForm(true)}
                         >
                             <h1>Cadastrar</h1>
-                        </button>
+                        </button> */}
 
                         <button className='log'>
                             <h1>Login</h1>
-                         </button>
+                        </button>
+
                     </article>
                 </section>
 
                 {/* CADASTRO */}
                 <section className={`cadastro form ${mostrarFrom ? 'show' : 'hide'}`}>
-                    <h1 className='title'>Cadastro</h1>
+                    <h1 className="title">Cadastro</h1>
 
                     <article className="inputs">
-                        <input type="text" placeholder="Nome:" />
+                        <input type="text" placeholder="Primeiro nome:" />
+                        <input type="text" placeholder="Sobre nome:" />
                         <input type="email" placeholder="Email:" />
                         <input type="text" placeholder="Instituto:" />
                         <input type="password" placeholder="Senha:" />
@@ -46,21 +49,16 @@ export default function Page() {
                     </article>
 
                     <article className="buttons">
-                        <button className='cadas'>
+                        <button className="cadas">
                             <h1>Cadastrar</h1>
                         </button>
 
-                        <button
-                            className='log red'
-                            onClick={() => setMostrarForm(false)}
-                        >
+                        <button className="log red" onClick={() => setMostrarForm(false)}>
                             <h1>Login</h1>
                         </button>
                     </article>
                 </section>
             </div>
-
-
         </div>
     )
 }

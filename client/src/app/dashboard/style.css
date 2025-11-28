@@ -1,0 +1,63 @@
+
+main {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    min-height: 0; /* MUITO IMPORTANTE */
+}
+
+.mainContent {
+    color: var(--DeepspaceBlue);
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 80%;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+
+
+.title {
+    background-color: var(--Platinum);
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.areas {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    overflow-y: auto; /* scroll aparece quando precisar */
+    min-height: 0;    /* NECESSÁRIO PARA FUNCIONAR */
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+    height: 100%;
+
+
+}
+
+.linkArea{
+    text-decoration: none;
+    color: var(--DeepspaceBlue);
+}
+
+.mainHeader{
+    width: 100%;
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+}

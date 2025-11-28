@@ -18,4 +18,5 @@
     justify-content: center;
     border: none;
     color: var(--DeepspaceBlue);
+    height: 60px;
 }

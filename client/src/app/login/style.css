@@ -1,8 +1,12 @@
+.header{
+    display: none;
+}
+
 .loginForm {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 h1 {
