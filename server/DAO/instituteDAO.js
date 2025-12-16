@@ -1,6 +1,5 @@
-//const db = require('../database/db');
 const Institute = require("../models/institute");
-
+const db = require('../database/db');
 
 class InstituteDAO {
     constructor(db) {
@@ -9,20 +8,17 @@ class InstituteDAO {
 
     async create(institute) {
         const trx = await this.db.transaction();
-
         try {
-      
             if (!(institute instanceof Institute)) {
                 throw new Error("institute must be an instance of Institute");
             }
 
             const { acronym, institute_name } = institute.toJSON();
 
-            
-    
             const existingInstituteAcronym = await trx('institute')
                 .where({ acronym })
                 .first();
+
             const existingInstituteName = await trx('institute')
                 .where({ institute_name })
                 .first();
@@ -34,139 +30,126 @@ class InstituteDAO {
                 throw new Error("This name is already used by another institute");
             }
 
-     
             const [createdInstitute] = await trx('institute')
                 .insert({ acronym, institute_name })
                 .returning('*');
 
             await trx.commit();
-
             return new Institute(createdInstitute);
+
         } catch (error) {
             await trx.rollback();
             console.error('Error in create institute:', error);
             throw error;
-        } 
+        }
     }
 
+    async findInstitutes(filters = {}, trx = this.db) {
+        try {
+            const { id, acronym, institute_name } = filters;
 
+            const query = trx('institute');
+
+            if (id) query.where({ id });
+            if (acronym) query.where({ acronym });
+            if (institute_name) query.where({ institute_name });
+
+            const rows = await query;
+            return rows.map(row => new Institute(row));
+
+        } catch (error) {
+            console.error('Error in findInstitutes():', error);
+            throw error;
+        }
+    }
+
+ 
     async getInstitutes() {
-
-        try {
-            const rows = await this.db('institute');
-            if (!rows || rows.length <= 0) {
-                return null;
-            }
-            const institutes = rows.map(s => new Institute(s));
-
-            return institutes;
-        } catch (error) {
-            console.error('Error in create institute' + error);
-            throw error;
-        }
-    }
-
-    async getInstitutebyAcronym(acronym) {
-        try {
-            const institute = await this.db('institute').where({ acronym }).first();
-            if (!institute) {
-                return null;
-            }
-            return new Institute(institute);
-        } catch (error) {
-            console.error('Error in getInstitutebyAcronym' + error);
-            throw error;
-        }
+        return this.findInstitutes();
     }
 
     async getInstitutebyId(id) {
-        try {
-            const institute = await this.db('institute').where({ id }).first();
-            if (!institute) {
-                return null;
-            }
-            return new Institute(institute);
-        } catch (error) {
-            console.error('Error in getInstitutebyId' + error);
-            throw error;
-        }
+        const res = await this.findInstitutes({ id });
+        return res[0] || null;
     }
 
+    async getInstitutebyAcronym(acronym) {
+        const res = await this.findInstitutes({ acronym });
+        return res[0] || null;
+    }
+
+    async getInstitutebyName(institute_name) {
+        const res = await this.findInstitutes({ institute_name });
+        return res[0] || null;
+    }
+
+    // =========================
+    // EXISTS (UNCHANGED PURPOSE)
+    // =========================
     async exists(id, trx = this.db) {
         try {
             const institute = await trx('institute')
                 .where({ id })
                 .first();
-            return institute? true:false;
+            return !!institute;
         } catch (error) {
-            console.error('Error in exists(): ' + error);
+            console.error('Error in exists():', error);
             throw error;
         }
     }
 
-    async getInstitutebyName(institute_name) {
-        try {
-            const institute = this.db('institute').where({ institute_name }).first();
-            if (!institute) {
-                return null;
-            }
-            return new Institute(institute);
-        } catch (error) {
-            console.error('Error in getInstitutebyName' + error);
-            throw error;
-        }
-    }
-
-
-
+    // =========================
+    // DELETE (UNCHANGED LOGIC)
+    // =========================
     async delete(id) {
         const trx = await this.db.transaction();
         try {
             if (!id) {
                 throw new Error("delete() requires institute id");
-
             }
-            const result = await trx('institute').where({ id }).del();
-         
-            
-            if(result>0){
+
+            const result = await trx('institute')
+                .where({ id })
+                .del();
+
+            if (result > 0) {
                 await trx.commit();
                 return true;
-            }else{
+            } else {
                 await trx.rollback();
                 return false;
             }
 
         } catch (error) {
             await trx.rollback();
-            console.error('Error in deleting institute' + error);
+            console.error('Error in deleting institute', error);
             throw error;
         }
     }
 
+    // =========================
+    // UPDATE (UNCHANGED PURPOSE)
+    // =========================
     async update(institute) {
-        const trx = await db.transaction();
+        const trx = await this.db.transaction();
         try {
-
-            const { id, acronym, institute_name } = institute.toJSON();
-
             if (!(institute instanceof Institute)) {
                 throw new Error("institute must be an instance of Institute");
             }
 
-            if (!id) {
-                throw new Error("institute ID is required to update institute");
-            }
+            const { id, acronym, institute_name } = institute.toJSON();
 
-            if (!acronym) {
-                throw new Error("institute acronym is required to update institute");
-            }
-            if (!institute_name) {
-                throw new Error("institute institute_name is required to update institute");
-            }
+           
 
-            const existingInsituteAcronym = await trx('institute').where({ acronym }).whereNot({ id }).returning('*').first();
-            const existingInsituteName = await trx('institute').where({ institute_name }).whereNot({ id }).returning('*').first();
+            const existingInsituteAcronym = await trx('institute')
+                .where({ acronym })
+                .whereNot({ id })
+                .first();
+
+            const existingInsituteName = await trx('institute')
+                .where({ institute_name })
+                .whereNot({ id })
+                .first();
 
             if (existingInsituteAcronym) {
                 throw new Error("This acronym is already used by another institute");
@@ -175,51 +158,78 @@ class InstituteDAO {
                 throw new Error("This name is already used by another institute");
             }
 
-            const [updatedInstitute] = await trx('institute').where({ id }).update({ acronym, institute_name }).returning('*');
+            const [updatedInstitute] = await trx('institute')
+                .where({ id })
+                .update({ acronym, institute_name })
+                .returning('*');
 
             if (!updatedInstitute) {
-                throw new Error("Failed in updating institute or no user found");
+                throw new Error("Failed in updating institute or no institute found");
             }
 
             await trx.commit();
-            return updatedInstitute;
+            return new Institute(updatedInstitute);
 
         } catch (error) {
             await trx.rollback();
-            console.error('Error in updating institute' + error);
+            console.error('Error in updating institute', error);
             throw error;
         }
     }
-
-
 }
-
-/*async function main() {
-    const instituteDAO = new InstituteDAO(db);
-
-    // Example data for a new institute
-    const newInstituteData = {
-         // optional, can let DB generate if UUID default is set
-        acronym: 'PUC',
-        institute_name: 'Pontificia Universidade Catolica'
-    };
-
-    const institute = new Institute(newInstituteData);
-
-    try {
-        const createdInstitute = await instituteDAO.create(institute);
-        console.log('Institute created successfully:');
-        console.log(createdInstitute);
-    } catch (error) {
-        console.error('Failed to create institute:', error);
-    } finally {
-        // Close DB connection if needed
-        await db.destroy();
-    }
-}
-
-// Execute the main function
-main();*/
 
 module.exports = InstituteDAO;
 
+/*
+async function main() {
+    const instituteDAO = new InstituteDAO(db);
+
+    try {
+        console.log('=== CREATE ===');
+        const institute = new Institute({
+            acronym: 'IFSP',
+            institute_name: 'Instituto Federal de São Paulo'
+        });
+
+        const created = await instituteDAO.create(institute);
+        console.log('Created:', created);
+
+        console.log('\n=== FIND ALL ===');
+        const all = await instituteDAO.getInstitutes();
+        console.log(all);
+
+        console.log('\n=== FIND BY ID ===');
+        const byId = await instituteDAO.getInstitutebyId(created.id);
+        console.log(byId);
+
+        console.log('\n=== FIND BY ACRONYM ===');
+        const byAcronym = await instituteDAO.getInstitutebyAcronym('IFSP');
+        console.log(byAcronym);
+
+        console.log('\n=== UPDATE ===');
+        created.acronym = 'IFSP-UPDATED';
+        created.institute_name = 'Instituto Federal SP Atualizado';
+
+        const updated = await instituteDAO.update(created);
+        console.log(updated);
+
+        console.log('\n=== EXISTS ===');
+        const exists = await instituteDAO.exists(updated.id);
+        console.log('Exists?', exists);
+
+        console.log('\n=== DELETE ===');
+        const deleted = await instituteDAO.delete(updated.id);
+        console.log('Deleted?', deleted);
+
+        console.log('\n=== EXISTS AFTER DELETE ===');
+        const existsAfter = await instituteDAO.exists(updated.id);
+        console.log('Exists?', existsAfter);
+
+    } catch (error) {
+        console.error('Test failed:', error.message);
+    } finally {
+        await db.destroy(); // IMPORTANT: close knex connection
+    }
+}
+
+main();*/
