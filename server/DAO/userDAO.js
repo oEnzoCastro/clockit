@@ -1,89 +1,125 @@
 const User = require('../models/user');
-//const db = require('../database/db');
 const InstituteDAO = require('./instituteDAO');
 const bcrypt = require('bcrypt');
-
 
 class UserDAO {
     constructor(db) {
         this.db = db;
-        this.instituteDAO = new InstituteDAO(db); 
+        this.instituteDAO = new InstituteDAO(db);
     }
 
-    async getUserById(id,trx = this.db) {
-
+   
+    async findUsers(filters = {}, trx = this.db) {
         try {
-            const row = await trx('users')
-                .where({ id })
-                .first();
+            const {
+                id,
+                email,
+                first_name,
+                surname,
+                institute_id,
+                code,
+                institute_role,
+                sector_id
+            } = filters;
 
-            if (!row) {
-                return null;
-            }
-            const roles = await trx('user_roles')
-                .where({ user_id: id })
-                .pluck('role');
-            return new User({ ...row, roles });
+            const query = trx('users');
+
+            if (id) query.where({ id });
+            if (email) query.where({ email });
+            if (first_name) query.where({ first_name });
+            if (surname) query.where({ surname });
+            if (institute_id) query.where({ institute_id });
+            if (code) query.where({ code });
+            if (institute_role) query.where({ institute_role });
+            if (sector_id) query.where({ sector_id });
+
+            const rows = await query;
+            return rows.map(r => new User({ ...r }));
         } catch (error) {
-            console.error('Error in getUserById:' + error);
+            console.error('Error in findUsers():', error);
             throw error;
         }
-
     }
 
+    
+    async getUserById(id, trx = this.db) {
+        const res = await this.findUsers({ id }, trx);
+        return res[0] || null;
+    }
 
+    async getUserByEmail(email) {
+        const res = await this.findUsers({ email });
+        return res[0] || null;
+    }
+
+    async getUserByCodeInstitute(code, institute_id) {
+        const res = await this.findUsers({ code, institute_id });
+        return res[0] || null;
+    }
+
+    async getUsersByFirstName(first_name, institute_id) {
+        if (!first_name || !institute_id) {
+            throw new Error("first_name and institute_id are required");
+        }
+        const rows = await this.findUsers({ first_name, institute_id });
+        return rows; 
+    }
+
+    async getUsersByFullName(first_name, surname, institute_id) {
+        const res = await this.findUsers({ first_name, surname, institute_id });
+        return res[0] || null;
+    }
+
+    async getUsersByInstitute(institute_id) {
+        if (!institute_id) {
+            throw new Error("Institute ID is required to get users");
+        }
+        return this.findUsers({ institute_id });
+    }
+
+    async getUsersByInstituteRole(institute_role, institute_id) {
+        return this.findUsers({ institute_role, institute_id });
+    }
+
+  
     async create(user) {
-        const trx = await this.db.transaction();
+        let trx;
         try {
+            trx = await this.db.transaction();
+
             if (!(user instanceof User)) {
                 throw new Error("create() expects a User instance");
             }
 
-
             const data = user.toJSON();
-            const { email, institute_id, code, first_name, surname, password_hash } = data;
+            const { email, institute_id, code, first_name, surname, password, institute_role, sector_id } = data;
 
-
-           
-
-            const instituteExists = await this.instituteDAO.exists(institute_id);
+            const instituteExists = await this.instituteDAO.exists(institute_id, trx);
             if (!instituteExists) {
                 throw new Error("Institute does not exist");
             }
 
-         
-            const userSameEmail = await trx('users')
-                .where({ email })
-                .first();
-
+            const userSameEmail = await trx('users').where({ email }).first();
             if (userSameEmail) {
                 throw new Error('Email is already in use by another user');
             }
 
             if (code) {
-                const userInstituteCode = await trx('users')
-                    .where({ code, institute_id })
-                    .first();
-
+                const userInstituteCode = await trx('users').where({ code, institute_id }).first();
                 if (userInstituteCode) {
                     throw new Error('Code is already in use by another user in the same institute');
                 }
             }
 
             if (surname) {
-                const userSameFullName = await trx('users')
-                    .where({ first_name, surname, institute_id })
-                    .first();
-
+                const userSameFullName = await trx('users').where({ first_name, surname, institute_id }).first();
                 if (userSameFullName) {
                     throw new Error('Complete name is already in use by another user in the same institute');
                 }
             }
 
-            
-            const hashedPassword = await bcrypt.hash(password_hash, 10);
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-            
             const [createdRow] = await trx('users')
                 .insert({
                     code: code || null,
@@ -91,7 +127,9 @@ class UserDAO {
                     surname: surname || null,
                     password_hash: hashedPassword,
                     email,
+                    sector_id: sector_id || null,
                     institute_id,
+                    institute_role: institute_role || null,
                     created_at: trx.fn.now(),
                     updated_at: trx.fn.now()
                 })
@@ -101,105 +139,45 @@ class UserDAO {
                 throw new Error("Failed to create user");
             }
 
-           
-            if (Array.isArray(user.roles) && user.roles.length > 0) {
-                const roleInserts = user.roles.map(role => ({
-                    user_id: createdRow.id,
-                    role,
-                }));
-                await trx('user_roles').insert(roleInserts);
-            }
-
             await trx.commit();
 
-            return new User({
-                ...createdRow,
-                roles: user.roles || []
-            });
-
+            return new User({ ...createdRow });
         } catch (error) {
-            await trx.rollback();
-            console.error('Error in create user' + error);
+            if (trx) await trx.rollback();
+            console.error('Error in create user:', error);
             throw error;
         }
     }
 
-
-
+   
     async getPasswordHashById(id) {
-        const trx = await this.db.transaction();
         try {
-            if (id == null || id == undefined) {
-                throw new Error("Id cannot be null or undefined");
-            }
-
-            const row = await trx('users')
-                .where({ id })
-                .select('password_hash')
-                .first();
-
-            if (!row) {
-                await trx.rollback();
-                return null;
-            }
-
-            await trx.commit();
+            const row = await this.db('users').where({ id }).select('password_hash').first();
+            if (!row) return null;
             return row.password_hash;
         } catch (error) {
-            await trx.rollback();
             console.error("Error occurred in getPasswordHashById:", error);
             throw error;
-        } finally {
-            if (!trx.isCompleted()) {
-                await trx.rollback();
-            }
         }
     }
 
-
-     async getPasswordHashById(email) {
-        const trx = await this.db.transaction();
+    async getPasswordHashByEmail(email) {
         try {
-            if (email == null || email == undefined) {
-                throw new Error("email cannot be null or undefined");
-            }
-
-            const row = await trx('users')
-                .where({ email })
-                .select('password_hash')
-                .first();
-
-            if (!row) {
-                await trx.rollback();
-                return null;
-            }
-
-            await trx.commit();
+            const row = await this.db('users').where({ email }).select('password_hash').first();
+            if (!row) return null;
             return row.password_hash;
         } catch (error) {
-            await trx.rollback();
             console.error("Error occurred in getPasswordHashByEmail:", error);
             throw error;
-        } finally {
-            if (!trx.isCompleted()) {
-                await trx.rollback();
-            }
         }
     }
 
     async updatePassword(id, password) {
-        const trx = await this.db.transaction();
-
+        let trx;
         try {
-            if (id == null || id == undefined) {
-                throw new Error('Id cannot be undefined or null');
-            }
-            if (password == null || password == undefined) {
-                throw new Error('Password cannot be undefined or null');
-            }
+            trx = await this.db.transaction();
 
             const hashedPassword = await bcrypt.hash(password, 10);
-
 
             const [updatedRow] = await trx('users')
                 .where({ id })
@@ -210,37 +188,26 @@ class UserDAO {
                 .returning('*');
 
             if (!updatedRow) {
-                await trx.rollback();
                 throw new Error('User not found or failed to update password');
             }
 
-
-            const roles = await trx('user_roles')
-                .where({ user_id: id })
-                .select('role')
-                .pluck('role');
-
-
             await trx.commit();
 
-
-            return new User({
-                ...updatedRow,
-                roles
-            });
-
+            return new User({ ...updatedRow });
         } catch (error) {
-            await trx.rollback();
-            console.error('Error in updatePassword:' + error);
+            if (trx) await trx.rollback();
+            console.error('Error in updatePassword:', error);
             throw error;
         }
     }
 
 
+    
     async update(user) {
-        const trx = await this.db.transaction();
-
+        let trx;
         try {
+            trx = await this.db.transaction();
+
             if (!(user instanceof User)) {
                 throw new Error('update() expects a User instance');
             }
@@ -248,61 +215,32 @@ class UserDAO {
             const data = user.toJSON();
             const { id, email, institute_id, code, first_name, surname } = data;
 
-            if (!id) {
-                throw new Error('User must have an id');
-            }
-
-            if (!email) {
-                throw new Error('User must have an email');
-            }
-
-            if (!institute_id) {
-                throw new Error('User must have an institute_id');
-            }
-
-            if (!first_name) {
-                throw new Error('User must have an first_name');
-            }
-
-
-
-            const userSameEmail = await trx('users')
-                .where({ email })
-                .whereNot({ id }) 
-                .first();
+            const userSameEmail = await trx('users').where({ email }).whereNot({ id }).first();
             if (userSameEmail) {
                 throw new Error('Email is already in use by another user');
             }
 
             if (code) {
-                const userInstituteCode = await trx('users')
-                    .where({ code, institute_id })
-                    .whereNot({ id })
-                    .first();
+                const userInstituteCode = await trx('users').where({ code, institute_id }).whereNot({ id }).first();
                 if (userInstituteCode) {
                     throw new Error('Code is already in use by another user in the same institute');
                 }
             }
 
             if (surname) {
-                const userSameFullName = await trx('users')
-                    .where({ first_name, surname, institute_id })
-                    .whereNot({ id }) 
-                    .first();
+                const userSameFullName = await trx('users').where({ first_name, surname, institute_id }).whereNot({ id }).first();
                 if (userSameFullName) {
                     throw new Error('Complete name is already in use by another user in the same institute');
                 }
             }
 
-
-           
             const [updatedRow] = await trx('users')
                 .where({ id })
                 .update({
                     code: code || null,
-                    first_name: first_name,
+                    first_name,
                     surname: surname || null,
-                    email: email,
+                    email,
                     updated_at: trx.fn.now()
                 })
                 .returning('*');
@@ -311,59 +249,27 @@ class UserDAO {
                 throw new Error('Failed to update user');
             }
 
-            
-            const existingRoles = await trx('user_roles')
-                .where({ user_id: id })
-                .pluck('role');
-
-            const newRoles = Array.isArray(user.roles) ? user.roles : [];
-
-            const rolesToAdd = newRoles.filter(role => !existingRoles.includes(role));
-            const rolesToRemove = existingRoles.filter(role => !newRoles.includes(role));
-
-            if (rolesToAdd.length > 0) {
-                await trx('user_roles').insert(
-                    rolesToAdd.map(role => ({ user_id: id, role }))
-                );
-            }
-
-            if (rolesToRemove.length > 0) {
-                await trx('user_roles')
-                    .where({ user_id: id })
-                    .whereIn('role', rolesToRemove)
-                    .del();
-            }
-
-            const roles = await trx('user_roles')
-                .where({ user_id: id })
-                .pluck('role');
-
             await trx.commit();
 
-            return new User({
-                ...updatedRow,
-                roles
-            });
-
+            return new User({ ...updatedRow });
         } catch (error) {
-            await trx.rollback();
-            console.error('Error in update user' + error);
+            if (trx) await trx.rollback();
+            console.error('Error in update user:', error);
             throw error;
         }
     }
 
-
-
+ 
     async delete(id) {
-        const trx = await this.db.transaction();
+        let trx;
         try {
+            trx = await this.db.transaction();
+
             if (!id) {
                 throw new Error('delete() requires a user id');
             }
 
-            const result = await trx('users')
-                .where({ id })
-                .del();
+            const result = await trx('users').where({ id }).del();
 
             if (result > 0) {
                 await trx.commit();
@@ -373,193 +279,100 @@ class UserDAO {
                 return false;
             }
         } catch (error) {
-            await trx.rollback();
-            console.error('Error in delete user:' + error);
+            if (trx) await trx.rollback();
+            console.error('Error in delete user:', error);
             throw error;
         }
     }
-
-    async getUserByCodeInstitute(code, institute_id) {
-        try {
-            const row = await this.db('users')
-                .where({ institute_id, code })
-                .first();
-
-            if (!row) {
-                return null;
-            }
-
-            const roles = await this.db('user_roles')
-                .where({ user_id: row.id })
-                .pluck('role');
-
-            const user = new User({
-                ...row,
-                roles
-            });
-
-            return user;
-
-        } catch (error) {
-            console.error('Error in getUserByCodeInstitute: ' + error);
-            throw error;
-        }
-    }
-
-    async getUsersByFirstName(first_name, institute_id) {
-
-
-        try {
-            if (!first_name || !institute_id) {
-                throw new Error("first_name and institute_id are required");
-            }
-
-            const rows = await this.db("users").where({ first_name, institute_id });
-
-            if (!rows || rows.length === 0) {
-                return [];
-            }
-
-            const users = [];
-
-            for (const row of rows) {
-                const roles = await this.db("user_roles")
-                    .where({ user_id: row.id })
-                    .pluck("role");
-
-                const user = new User({
-                    ...row,
-                    roles: roles || []
-                });
-
-                users.push(user);
-            }
-
-
-            return users;
-
-        } catch (error) {
-
-            console.error("Error in getUsersByFirstName:" + error);
-            throw error;
-        }
-    }
-
-    async getUsersByFullName(first_name, surname, institute_id) {
-
-
-        try {
-            if (!first_name || !institute_id) {
-                throw new Error("first_name and institute_id are required");
-            }
-
-            const rows = await this.db("users").where({ first_name, surname, institute_id }).first();
-
-            if (!rows || rows.length === 0) {
-                return [];
-            }
-
-            const users = [];
-
-            for (const row of rows) {
-                const roles = await this.db("user_roles")
-                    .where({ user_id: row.id })
-                    .pluck("role");
-
-                const user = new User({
-                    ...row,
-                    roles: roles || []
-                });
-
-                users.push(user);
-            }
-
-
-            return users;
-
-        } catch (error) {
-
-            console.error("Error in getUsersByFullName:" + error);
-            throw error;
-        }
-    }
-
-
-    async getUserByEmail(email) {
-
-        try {
-            if (!email) {
-                throw new Error("Email is required to get user");
-            }
-
-            const row = await this.db('users')
-                .where({ email })
-                .first();
-            if (!row) {
-                return null;
-            }
-            const roles = await this.db('user_roles')
-                .where({ user_id: row.id })
-                .pluck('role');
-            return new User({
-                ...row,
-                roles
-            });
-
-        } catch (error) {
-            console.error('Error in getUserByEmail:' + error);
-            throw error;
-        }
-    }
-
-
-    async getUsersByInstitute(institute_id) {
-        const trx = await this.db.transaction();
-
-        try {
-            if (!institute_id) {
-                throw new Error("Institute ID is required to get users");
-            }
-
-            
-            const rows = await trx("users").where({ institute_id });
-
-            if (!rows || rows.length === 0) {
-                await trx.rollback();
-                return [];
-            }
-
-            const users = [];
-
-            for (const row of rows) {
-                const roles = await trx("user_roles")
-                    .where({ user_id: row.id })
-                    .pluck("role");
-
-                const user = new User({
-                    ...row,
-                    roles: roles || []
-                });
-
-                users.push(user);
-            }
-
-            await trx.commit();
-            return users;
-
-        } catch (error) {
-            await trx.rollback();
-            console.error("Error in getUsersByInstitute:" + error);
-            throw error;
-
-        }
-    }
-
-
 }
 
 module.exports = UserDAO;
+/*
+async function main() {
+    const userDAO = new UserDAO(db);
+    const instituteDAO = new InstituteDAO(db);
 
+    try {
+        console.log('=== GET INSTITUTE ===');
+        const institute = (await instituteDAO.getInstitutes())[0];
+
+        if (!institute) {
+            throw new Error('No institute found. Create one before testing UserDAO.');
+        }
+
+        console.log('Using institute:', institute);
+
+        console.log('\n=== CREATE USER ===');
+        const user = new User({
+            code: 'U001',
+            first_name: 'John',
+            surname: 'Doe',
+            email: 'john.doe@test.com',
+            password: 'secret123',
+            institute_id: institute.id,
+            institute_role: 'agent', // or manager / director
+            sector_id: null
+        });
+
+        const created = await userDAO.create(user);
+        console.log('Created:', created);
+
+        console.log('\n=== GET USER BY ID ===');
+        const byId = await userDAO.getUserById(created.id);
+        console.log(byId);
+
+        console.log('\n=== GET USER BY EMAIL ===');
+        const byEmail = await userDAO.getUserByEmail('john.doe@test.com');
+        console.log(byEmail);
+
+        console.log('\n=== GET USER BY CODE + INSTITUTE ===');
+        const byCodeInstitute = await userDAO.getUserByCodeInstitute('U001', institute.id);
+        console.log(byCodeInstitute);
+
+        console.log('\n=== GET USERS BY FIRST NAME ===');
+        const byFirstName = await userDAO.getUsersByFirstName('John', institute.id);
+        console.log(byFirstName);
+
+        console.log('\n=== GET USERS BY FULL NAME ===');
+        const byFullName = await userDAO.getUsersByFullName('John', 'Doe', institute.id);
+        console.log(byFullName);
+
+        console.log('\n=== GET USERS BY INSTITUTE ===');
+        const byInstitute = await userDAO.getUsersByInstitute(institute.id);
+        console.log(byInstitute);
+
+        console.log('\n=== UPDATE USER ===');
+        created.first_name = 'Johnny';
+        created.surname = 'Doe Updated';
+        created.email = 'johnny.doe@test.com';
+
+        const updated = await userDAO.update(created);
+        console.log(updated);
+
+        console.log('\n=== UPDATE PASSWORD ===');
+        const passwordUpdated = await userDAO.updatePassword(updated.id, 'newSecret123');
+        console.log(passwordUpdated);
+
+        console.log('\n=== GET PASSWORD HASH ===');
+        const hashById = await userDAO.getPasswordHashById(updated.id);
+        console.log('Password hash exists?', !!hashById);
+        
+        console.log('\n=== DELETE USER ===');
+        const deleted = await userDAO.delete(updated.id);
+        console.log('Deleted?', deleted);
+
+        console.log('\n=== FIND AFTER DELETE ===');
+        const afterDelete = await userDAO.getUserById(updated.id);
+        console.log(afterDelete);
+
+    } catch (error) {
+        console.error('Test failed:', error.message);
+    } finally {
+        await db.destroy(); // IMPORTANT: close knex connection
+    }
+}
+
+main();*/
 
 
 
