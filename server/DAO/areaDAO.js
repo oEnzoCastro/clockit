@@ -1,7 +1,6 @@
-//const db = require('../database/db');
 const Area = require('../models/area');
-const Institute = require('../models/institute');
 const InstituteDAO = require('./instituteDAO');
+const db = require('../database/db');
 
 class AreaDAO {
     constructor(db) {
@@ -9,22 +8,18 @@ class AreaDAO {
         this.instituteDAO = new InstituteDAO(db);
     }
 
-
-
+  
     async create(area) {
         const trx = await this.db.transaction();
         try {
-
             if (!(area instanceof Area)) {
                 throw new Error("area must be an instance of Area");
             }
             const { institute_id, acronym, area_name, max_workload, is_hidden } = area.toJSON();
 
-            
             if (max_workload && max_workload < 0) {
                 throw new Error("Max_workload cannot be negative");
             }
-
 
             const instituteExists = await this.instituteDAO.exists(institute_id);
             if (!instituteExists) {
@@ -38,7 +33,6 @@ class AreaDAO {
                 })
                 .first();
 
-
             if (existing) {
                 if (existing.acronym === acronym) {
                     throw new Error("Cannot create an area with the same acronym in the same institute");
@@ -47,8 +41,6 @@ class AreaDAO {
                     throw new Error("Cannot create an area with the same name in the same institute");
                 }
             }
-
-
 
             const [createdArea] = await trx('area').insert({ institute_id, acronym, area_name, is_hidden: is_hidden || false }).returning('*');
 
@@ -58,7 +50,6 @@ class AreaDAO {
             }
 
             await trx.commit();
-
             return new Area(createdArea);
 
         } catch (error) {
@@ -66,90 +57,54 @@ class AreaDAO {
             console.error('Error in create() area: ' + error);
             throw error;
         }
-
     }
 
-    async getAreaById(id) {
+ 
+    async findAreas(filters = {}, trx = this.db) {
         try {
-            if (!id) {
-                throw new Error("Id not found");
-            }
-            const area = await this.db('area').where({ id }).first();
-            if (!area) {
-                return null;
-            }
-            return new Area(area);
+            const { id, acronym, area_name, institute_id } = filters;
+            const query = trx('area');
+
+            if (id) query.where({ id });
+            if (acronym) query.where({ acronym });
+            if (area_name) query.where({ area_name });
+            if (institute_id) query.where({ institute_id });
+
+            const rows = await query;
+            return rows.map(row => new Area(row));
+
         } catch (error) {
-            console.error('Error in getById area: ' + error);
+            console.error('Error in findAreas():', error);
             throw error;
         }
+    }
+
+
+    async getAreaById(id) {
+        const res = await this.findAreas({ id });
+        return res[0] || null;
     }
 
     async getByAcronymInstitute(acronym, institute_id) {
-        try {
-            if (!acronym) {
-                throw new Error("Acronym cannot be null or undefined");
-            }
-            if (!institute_id) {
-                throw new Error("institute_id cannot be null or undefined");
-            }
-            const [area] = await this.db('area').where({ acronym, institute_id });
-
-            if (!area) {
-                return null;
-            }
-
-            return new Area(area);
-
-        } catch (error) {
-            console.error('Error in getByAcronymInstitute area: ' + error);
-            throw error;
-        }
+        const res = await this.findAreas({ acronym, institute_id });
+        return res[0] || null;
     }
 
     async getByNameInstitute(area_name, institute_id) {
-        try {
-            if (!area_name) {
-                throw new Error("area_name cannot be null or undefined");
-            }
-            if (!institute_id) {
-                throw new Error("institute_id cannot be null or undefined");
-            }
-            const [area] = await this.db('area').where({ area_name, institute_id });
-
-            if (!area) {
-                return null;
-            }
-
-            return new Area(area);
-
-        } catch (error) {
-            console.error('Error in getByNameInstitute area: ' + error);
-            throw error;
-        }
+        const res = await this.findAreas({ area_name, institute_id });
+        return res[0] || null;
     }
 
+    async getAreasByInstitute(institute_id) {
+        return this.findAreas({ institute_id });
+    }
+
+ 
     async update(area) {
         const trx = await this.db.transaction();
         try {
             const { id, area_name, institute_id, acronym, max_workload, is_hidden } = area.toJSON();
 
-            if (!id) {
-                throw new Error("update() needs id");
-            }
-
-            if (!area_name) {
-                throw new Error("update() needs area_name");
-            }
-            if (!acronym) {
-                throw new Error("update() needs acronym");
-            }
-            if (!institute_id) {
-                throw new Error("update() needs institute_id");
-            }
-            if (max_workload && max_workload < 0) {
-                throw new Error("Max_workload cannot be negative");
-            }
 
             const existing = await trx('area')
                 .where({ institute_id })
@@ -158,7 +113,6 @@ class AreaDAO {
                 })
                 .andWhereNot({ id })
                 .first();
-
 
             if (existing) {
                 if (existing.acronym === acronym) {
@@ -169,38 +123,18 @@ class AreaDAO {
                 }
             }
 
-
-
             const [updatedArea] = await trx('area').where({ id }).update({ area_name, institute_id, acronym, max_workload: max_workload, is_hidden }).returning('*');
 
             if (!updatedArea) {
-                throw new Error("Falied to update area or area not found");
+                throw new Error("Failed to update area or area not found");
             }
+
             await trx.commit();
             return new Area(updatedArea);
+
         } catch (error) {
             await trx.rollback();
             console.error('Error in update() area: ' + error);
-            throw error;
-        }
-    }
-
-
-    async getAreasByInstitute(institute_id) {
-        try {
-            if (!institute_id) {
-                throw new Error("Must have an institute id in getAreasbyInstitute");
-
-            }
-            const rows = await this.db('area').where({ institute_id });
-            if (!rows || rows.length <= 0) {
-                return null;
-            }
-            const areas = rows.map(s => new Area(s));
-            return areas;
-
-        } catch (error) {
-            console.error('Error in getAreasByInstitute area: ' + error);
             throw error;
         }
     }
@@ -209,7 +143,7 @@ class AreaDAO {
         const trx = await this.db.transaction();
         try {
             if (!id) {
-                throw new Error("delete() needs a id");
+                throw new Error("delete() needs an id");
             }
             const result = await trx('area').where({ id }).del();
 
@@ -236,7 +170,6 @@ class AreaDAO {
                 return [];
             }
 
-            // Fetch all related areas in parallel using AreaDAO
             const areas = await Promise.all(
                 managerAreas.map(ma => this.getAreaById(ma.area_id))
             );
@@ -250,57 +183,97 @@ class AreaDAO {
         }
     }
 
-    async UpdateHiddenArea(id, hidden = true) {
+    async updateHiddenArea(id, hidden = true) {
         const trx = await this.db.transaction();
         try {
             const [updated] = await trx('area')
                 .where({ id })
                 .update({ is_hidden: hidden })
                 .returning('*');
+
             if (!updated) {
-                throw new Error("Could not update sector or sector does not exist");
+                throw new Error("Could not update area or area does not exist");
             }
+
             await trx.commit();
             return updated;
+
         } catch (error) {
             await trx.rollback();
-            console.error("Error in UpdateHiddenArea:", error);
+            console.error("Error in updateHiddenArea:", error);
             throw error;
         }
     }
-    
-
 }
+
+module.exports = AreaDAO;
 /*
 async function main() {
     const areaDAO = new AreaDAO(db);
-
-    // Example data for the new area
-    const newAreaData = {
-        
-        institute_id: '3a2ad40e-c63d-48ee-baf1-bf56081edd25',
-        acronym: 'ES',
-        area_name: 'Engenharia de Software',
-        max_workload: 200,
-        is_hidden: false
-    };
-
-    const area = new Area(newAreaData);
+    const instituteDAO = new InstituteDAO(db);
 
     try {
-        const createdArea = await areaDAO.create(area);
-        console.log('Area created successfully:');
-        console.log(createdArea);
+        console.log('=== GET INSTITUTE ===');
+        const institute = (await instituteDAO.getInstitutes())[0];
+
+        if (!institute) {
+            throw new Error('No institute found. Create one before testing AreaDAO.');
+        }
+
+        console.log('Using institute:', institute);
+
+        console.log('\n=== CREATE AREA ===');
+        const area = new Area({
+            institute_id: institute.id,
+            acronym: 'CS',
+            area_name: 'Computer Science',
+            max_workload: 40,
+            is_hidden: false
+        });
+
+        const created = await areaDAO.create(area);
+        console.log('Created:', created);
+
+        console.log('\n=== FIND BY ID ===');
+        const byId = await areaDAO.getAreaById(created.id);
+        console.log(byId);
+
+        console.log('\n=== FIND BY ACRONYM + INSTITUTE ===');
+        const byAcronym = await areaDAO.getByAcronymInstitute('CS', institute.id);
+        console.log(byAcronym);
+
+        console.log('\n=== FIND BY NAME + INSTITUTE ===');
+        const byName = await areaDAO.getByNameInstitute('Computer Science', institute.id);
+        console.log(byName);
+
+        console.log('\n=== FIND ALL AREAS BY INSTITUTE ===');
+        const areasByInstitute = await areaDAO.getAreasByInstitute(institute.id);
+        console.log(areasByInstitute);
+
+        console.log('\n=== UPDATE AREA ===');
+        created.area_name = 'Computer Science Updated';
+        created.acronym = 'CS-UPD';
+        created.max_workload = 50;
+
+        const updated = await areaDAO.update(created);
+        console.log(updated);
+
+        console.log('\n=== HIDE AREA ===');
+        const hidden = await areaDAO.updateHiddenArea(updated.id, true);
+        console.log(hidden);
+       
+        console.log('\n=== DELETE AREA ===');
+        const deleted = await areaDAO.delete(updated.id);
+        console.log('Deleted?', deleted);
+
+        console.log('\n=== FIND AFTER DELETE ===');
+        const afterDelete = await areaDAO.getAreaById(updated.id);
+        console.log(afterDelete);
     } catch (error) {
-        console.error('Failed to create area:', error);
+        console.error('Test failed:', error.message);
     } finally {
-        // Close DB connection if needed
-        await db.destroy();
+        await db.destroy(); // IMPORTANT
     }
 }
 
-// Execute the main function
-main();
-
-*/
-module.exports = AreaDAO;
+main();*/
