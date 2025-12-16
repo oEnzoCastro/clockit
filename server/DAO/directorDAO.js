@@ -1,5 +1,3 @@
-//const db = require('../database/db');
-const Director = require("../models/director");
 const User = require("../models/user");
 const UserDAO = require('./userDAO');
 
@@ -8,198 +6,64 @@ class DirectorDAO extends UserDAO {
         super(db);
     }
 
-    async create(userData) {
-        const trx = await this.db.transaction();
+
+    async findDirectors(filters = {}, trx = this.db) {
         try {
-            if(!(userData instanceof User || userData instanceof Director)){
-                throw new Error("user must be an instance of user or Director");
-            }
-            const user = await super.create(userData, trx);
+            const {
+                id,
+                email,
+                first_name,
+                surname,
+                institute_id,
+                code
+            } = filters;
 
-            await trx('user_roles').insert({
-                user_id: user.id,
-                role: 'Director'
-            });
-            await trx('user_roles').insert({
-                user_id: user.id,
-                role: 'Manager'
-            });
+            const query = trx('users')
+                .where({ institute_role: 'director' });
 
-            await trx.commit();
-            return new Director(user);
-        } catch (err) {
-            await trx.rollback();
-            throw err;
-        }
-    }
+            if (id) query.where('id', id);
+            if (email) query.where('email', email);
+            if (first_name) query.where('first_name', first_name);
+            if (surname) query.where('surname', surname);
+            if (institute_id) query.where('institute_id', institute_id);
+            if (code) query.where('code', code);
 
-    async promoteToDirector(id) {
-        const trx = await this.db.transaction();
-        try {
-
-            const user = await this.getUserById(id, trx);
-            if (!user) throw new Error("User does not exist");
-
-            if (user.roles.includes('Director')) {
-                throw new Error("User is already a Director");
-            }
-
-            await trx('user_roles').insert({ user_id: id, role: 'Director' });
-             if (!user.roles.includes('Manager')) {
-                await trx('user_roles').insert({ user_id: id, role: 'Manager' });
-            }
-
-            await trx.commit();
-
-            const updatedRoles = Array.from(new Set([...user.roles, 'Director', 'Manager']));
-
-            return new User({ ...user, roles: updatedRoles });
+            const rows = await query;
+            return rows.map(row => new User(row));
 
         } catch (error) {
-            await trx.rollback();
-            console.error("Error in addDirector:", error);
-            throw error;
-        }
-    }
-
-    async removeDirector(id) {
-        const trx = await this.db.transaction();
-        try {
-
-            const user = await this.getUserById(id, trx);
-            if (!user) throw new Error("User does not exist");
-            console.log(user.roles)
-            if (!user.roles.includes('Director')) {
-                throw new Error("User is not a director");
-            }
-
-            const rows = await trx('user_roles').where({ user_id: id, role: 'Director' }).del();
-
-            if (rows > 0) {
-                await trx.commit();
-                return true;
-            } else {
-                await trx.rollback();
-                return false;
-            }
-
-
-        } catch (error) {
-            await trx.rollback();
-            console.error("Error in removeDirector:", error);
-            throw error;
-        }
-    }
-
-    async getDirectorsByInstitute(institute_id) {
-        try {
-            const users = await this.getUsersByInstitute(institute_id);
-
-
-            if (!users || users.length <= 0) {
-                ; // commit, not rollback — nothing went wrong
-                return [];
-            }
-            console.log('teste');
-
-            const directors = users.filter(user =>
-                !user.roles || !user.roles.includes('Director')
-            );
-
-            return directors
-
-        } catch (error) {
-            console.error("Error in getDirectorsByInstitute:", error);
-            throw error;
-
-        }
-    }
-
-    async getDirectors(trx = this.db){
-        try {
-            const userRoles = await trx('user_roles').where({role:'Director'});
-            if(!userRoles){
-                return null;
-            }
-            const users = [];
-            for(userRole of userRoles){
-                user = await this.getUserById(userRole.user_id);
-                users.push(user);
-            }
-            return users;
-            
-        } catch (error) {
-            console.error("Error in getDirectors:", error);
+            console.error('Error in findDirectors():', error);
             throw error;
         }
     }
 
     async getDirectorById(id) {
-        try {
-            const director = await this.getUserById(id);
-            if (!director && !director.roles.includes('Director')) {
-                return null;
-            }
+        const res = await this.findDirectors({ id });
+        return res[0] || null;
+    }
 
-            return director
-        } catch (error) {
+    async getDirectorsByInstitute(institute_id) {
+        return this.findDirectors({ institute_id });
+    }
 
+    async getDirectorByCodeInstitute(code, institute_id) {
+        const res = await this.findDirectors({ code, institute_id });
+        return res[0] || null;
+    }
+
+    async getDirectors() {
+        return this.findDirectors();
+    }
+
+
+    async create(userData) {
+        if (!(userData instanceof User)) {
+            throw new Error("create() expects a User instance");
         }
-    }
 
-
-}
-/*
-async function main() {
-    const directorDAO = new DirectorDAO();
-
-    // Example institute (UUID)
-    const institute_id = '3a2ad40e-c63d-48ee-baf1-bf56081edd25';
-    const id = 'dbdc7e29-60f1-4e9a-a72f-a89ed0d57aae';
-
-    try {
-        console.log('--- Creating a new director ---');
-        /*const newDirector = await directorDAO.createDirector(new User({
-            first_name: 'Alice',
-            last_name: 'Santos',
-            email: 'alice.santos@example.com',
-            password_hash: '123456',
-            institute_id:institute_id,
-        }));
-        const newDirector = await directorDAO.createDirector(new User({
-            first_name: 'Bruno',
-            last_name: 'Ferreira',
-            email: 'bruno.ferreira@example.com',
-            password_hash: '123456', // Remember to hash in production
-            institute_id: institute_id,
-        }));
-
-        
-        console.log('\n--- Getting directors by institute ---');
-        const directors = await directorDAO.getDirectorsByInstitute(institute_id);
-        console.log('✅ Directors:', directors);
-        
-        console.log('\n--- Removing director role ---');
-        const removed = await directorDAO.removeDirector(id);
-        console.log('✅ After removal:', removed);
-
-        console.log('\n--- Promoting existing user to director ---');
-        const promoted = await directorDAO.promoteToDirector(id);
-        console.log('✅ Promoted user:', promoted);
-
-        console.log('\n--- Getting director by ID ---');
-        const found = await directorDAO.getDirectorById(id);
-        console.log('✅ Found:', found);
-
-    } catch (error) {
-        console.error('❌ Test failed:', error);
-    } finally {
-        await db.destroy(); // close Knex connection
+        userData.institute_role = 'director';
+        return super.create(userData);
     }
 }
-
-main();
-
-*/
 
 module.exports = DirectorDAO;
