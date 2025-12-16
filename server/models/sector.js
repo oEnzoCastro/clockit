@@ -10,7 +10,7 @@ class Sector extends BaseModel {
             });
         this.id = fields.id;
         this.area_id = fields.area_id;
-        this.acronym = fields.acronym;
+        this.acronym = fields.acronym.toUpperCase();
         this.sector_name = fields.sector_name;
         this.is_hidden = fields.is_hidden;
         Object.defineProperty(this, 'institute_id', { writable: false });

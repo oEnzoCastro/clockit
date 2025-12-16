@@ -83,9 +83,7 @@ class InstituteDAO {
         return res[0] || null;
     }
 
-    // =========================
-    // EXISTS (UNCHANGED PURPOSE)
-    // =========================
+    
     async exists(id, trx = this.db) {
         try {
             const institute = await trx('institute')
@@ -98,9 +96,6 @@ class InstituteDAO {
         }
     }
 
-    // =========================
-    // DELETE (UNCHANGED LOGIC)
-    // =========================
     async delete(id) {
         const trx = await this.db.transaction();
         try {
@@ -127,9 +122,7 @@ class InstituteDAO {
         }
     }
 
-    // =========================
-    // UPDATE (UNCHANGED PURPOSE)
-    // =========================
+   
     async update(institute) {
         const trx = await this.db.transaction();
         try {

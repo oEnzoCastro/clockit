@@ -14,7 +14,7 @@ class Institute extends BaseModel {
         )
 
         this.id = fields.id;
-        this.acronym = fields.acronym;
+        this.acronym = fields.acronym.toUpperCase();
         this.institute_name = fields.institute_name;
         Object.defineProperty(this, 'id', { writable: false });
         Object.defineProperty(this, 'acronym', { writable: false });

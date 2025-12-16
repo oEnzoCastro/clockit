@@ -13,7 +13,7 @@ class Area extends BaseModel {
     this.id = fields.id;
     this.area_name = fields.area_name;
     this.institute_id = fields.institute_id;
-    this.acronym = fields.acronym;
+    this.acronym = fields.acronym.toUpperCase();
     this.max_workload = fields.max_workload || 200;
     this.is_hidden = fields.is_hidden;
     Object.defineProperty(this, 'acronym', { writable: false });

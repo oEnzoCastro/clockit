@@ -2,11 +2,12 @@ const BaseModel = require('./baseModel');
 
 class User extends BaseModel {
     constructor(fields = {}) {
-        // Ensure roles is always an array
-        fields.roles = Array.isArray(fields.roles) ? fields.roles : [];
+        if(fields.password_hash){
+             fields.password = fields.password_hash;
+        }
 
-        // Define required fields based on role
-        const requiredFields = ["first_name", "email", "password_hash","institute_id"];
+   
+        const requiredFields = ["first_name", "email", "password","institute_id"];
         
 
         
@@ -19,15 +20,16 @@ class User extends BaseModel {
         this.first_name = fields.first_name;
         this.surname = fields.surname || null;
         this.email = fields.email;
-        this.password_hash = fields.password_hash;
+        this.sector = fields.sector||null;
+        this.password = fields.password||fields.password_hash;
         this.institute_id = fields.institute_id || null;
         this.code = fields.code || null;
-        this.roles = fields.roles;
+        this.institute_role = fields.institute_role || null;
 
         // Make immutable fields
         Object.defineProperty(this, "id", { writable: false });
         Object.defineProperty(this, "email", { writable: false });
-        Object.defineProperty(this, "roles", { writable: false });
+        
     }
 
     toJSON() {
@@ -36,10 +38,11 @@ class User extends BaseModel {
             code: this.code,
             first_name: this.first_name,
             surname: this.surname,
-            password_hash:this.password_hash,
+            sector:this.sector,
+            password:this.password,
             email: this.email,
             institute_id: this.institute_id,
-            roles: this.roles,
+            institute_role: this.institute_role,
             ...super.toJSON()
         };
 
@@ -52,12 +55,10 @@ class User extends BaseModel {
     }
 
     hasRole(role) {
-        return this.roles.includes(role);
+        return this.role = role;
     }
 
-    isDirector() {
-        return this.hasRole("director");
-    }
+    
 }
 
 module.exports = User;
