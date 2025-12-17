@@ -17,10 +17,21 @@ class DaySchedule extends BaseModel {
             throw new Error("Value is not a weekday");
         }
         this.schedule_day = fields.schedule_day; // enum: week_day
+        if(!this.checkScheduleTime(fields.schedule)){
+            throw new Error("Invalid time format");
+        }
         this.schedule = fields.schedule;
 
         this.created_at = fields.created_at;
         this.updated_at = fields.updated_at;
+    }
+
+    checkScheduleTime(schedule_day){
+        const timeRegex = /^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d(\|([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d)*$/;
+        if(!timeRegex.test(schedule_day)){
+            return true;
+        }
+        return false;
     }
 
     toJSON() {

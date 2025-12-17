@@ -20,7 +20,7 @@ class User extends BaseModel {
         this.first_name = fields.first_name;
         this.surname = fields.surname || null;
         this.email = fields.email;
-        this.sector = fields.sector||null;
+        this.area = fields.area||null;
         this.password = fields.password||fields.password_hash;
         this.institute_id = fields.institute_id || null;
         this.code = fields.code || null;
@@ -38,7 +38,7 @@ class User extends BaseModel {
             code: this.code,
             first_name: this.first_name,
             surname: this.surname,
-            sector:this.sector,
+            area:this.area?this.area.toJSON : null,
             password:this.password,
             email: this.email,
             institute_id: this.institute_id,
