@@ -5,91 +5,55 @@ const Area = require('../models/area');
 
 const areaDAO = new AreaDAO(db);
 
+function formatAreas(areas) {
+    const result = [];
+    areas.forEach(element => {
+        result.push(areas.toJSON());
+    });
+}
 
 exports.getAreas = async (req, res, next) => {
-    const { institute_id } = req.body;
     try {
-        const areas = await areaDAO.getAreasByInstitute(institute_id);
-        if (!areas) {
-            return res.status(404).send("No Areas Found");
-        } else {
-            
-            const areasJson = areas.map(a => a.toJSON());
-            return res.status(202).json({
-                data: areasJson,
-                message: "Successful in getArea",
-            });
+        const areas = await areaDAO.find(req.body); 
+        if (!areas || (Array.isArray(areas) && areas.length === 0)) {
+            return res.status(404).send("Area not found");
         }
-    } catch (error) {
-        return res.status(500).send("Error in getAreas: " + error);
-    }
-}
 
-exports.getAreaById = async (req, res, next) => {
-    const { area_id } = req.body;
-    try {
-        const areas = await areaDAO.getAreaById(area_id);
-        if (!areas) {
-            return res.status(404).send("No Areas Found");
-        } else {
-            return res.status(202).json({
-                data: area.toJSON(),
-                message: "Successful in getArea",
-            });
-        }
-    } catch (error) {
-        return res.status(500).send("Error in getAreaById: " + error);
-    }
-}
-
-exports.getAreaByName = async (req, res, next) => {
-    const { area_name, institute_id } = req.body;
-    try {
-        const area = await areaDAO.getByNameInstitute(area_name, institute_id);
-        if (!area ) {
-            return res.status(404).send("No Area Found");
-        }
-       
-        return res.status(202).json({
-            data: area.toJSON(),
-            message: "Successful in getAreaByName",
+        return res.status(200).json({
+            data: formatAreas(areas), // always an array
+            message: "Areas retrieved successfully"
         });
     } catch (error) {
-        return res.status(500).send("Error in getAreaByNameInstitute: " + error);
+        return res.status(400).send("Failed to get Agent(s): " + error);
     }
-}
-
-exports.getAreaByAcronym = async (req, res, next) => {
-    const { acronym, institute_id } = req.body;
-    try {
-        const area = await areaDAO.getByAcronymInstitute(acronym, institute_id);
-        if (!area ) {
-            return res.status(404).send("No Area Found");
-        }
-       
-        return res.status(202).json({
-            data: area.toJSON(),
-            message: "Successful in getAreaByAcronym",
-        });
-    } catch (error) {
-        return res.status(500).send("Error in getAreaByAcronym: " + error);
-    }
-}
+};
 
 exports.updateArea = async (req, res, next) => {
-    const {institute_id, area_id, acronym, area_name, max_workload, is_hidden } = req.body;
-    const area = new Area({ institute_id,id:area_id, acronym, area_name, max_workload, is_hidden });
+    const { institute_id, area_id, acronym, area_name, max_workload, is_hidden } = req.body;
+    const area = new Area({ institute_id, id: area_id, acronym, area_name, max_workload, is_hidden });
     try {
         const updatedArea = await areaDAO.update(area);
         if (!updatedArea) {
-            return res.status(404).send('No areas found');
+            return res.status(404).json(
+                {
+                    message: "Area not Found",
+                    success: false
+                }
+            );
         } else {
             return res.status(200).json({
-                data:updatedArea.toJSON(),
-                message:"Successful in updating Area"
+                data: updatedArea.toJSON(),
+                message: "Successful in updating Area",
+                success: true
             })
         }
     } catch (error) {
-        return res.status(500).send("Error in updateArea: " + error);
+        return res.status(500).json(
+            {
+                message: "Error in updating area" + error,
+                success: false,
+
+            }
+        )
     }
 }
