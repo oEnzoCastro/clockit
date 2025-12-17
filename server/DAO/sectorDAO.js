@@ -1,6 +1,7 @@
 const AreaDAO = require('./areaDAO');
 const Sector = require('../models/sector');
-
+const db = require('../database/db');
+const InstituteDAO = require('./instituteDAO');
 
 class SectorDAO {
     constructor(db) {
@@ -69,8 +70,8 @@ class SectorDAO {
             }
 
             if (id) query.where('a.id', id);
-            if (sector_name) query.where('a.sector_name', sector_name);
-            if (acronym) query.where('a.acronym', acronym);
+            if (institute_id && sector_name) query.where('a.sector_name', sector_name);
+            if (institute_id && acronym) query.where('a.acronym', acronym);
             if (area_id) query.where('a.area_id', area_id);
 
             const rows = await query;
@@ -254,8 +255,8 @@ async function main() {
 
         console.log('\n=== CREATE SECTOR ===');
         const sector = new Sector({
-            sector_name: 'Artificial Intelligence',
-            acronym: 'AI',
+            sector_name: 'TESTE',
+            acronym: 'TT',
             area_id: area.id,
             is_hidden: false
         });

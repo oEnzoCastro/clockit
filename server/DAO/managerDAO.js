@@ -27,8 +27,8 @@ class ManagerDAO extends UserDAO {
 
             if (id) query.where('users.id', id);
             if (email) query.where('users.email', email);
-            if (first_name) query.where('users.first_name', first_name);
-            if (surname) query.where('users.surname', surname);
+            if (institute_id && first_name) query.where('users.first_name', first_name);
+            if (institute_id && surname) query.where('users.surname', surname);
             if (institute_id) query.where('users.institute_id', institute_id);
             if (code) query.where('users.code', code);
 

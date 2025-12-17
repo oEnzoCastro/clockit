@@ -58,7 +58,7 @@ class DayScheduleDAO {
     // =========================
     // DELETE
     // =========================
-    async deleteSchedule(agent_id, sector_id, schedule_day) {
+    async delete(agent_id, sector_id, schedule_day) {
         const trx = await this.db.transaction();
         try {
             const rows = await trx('day_schedule')
@@ -161,6 +161,7 @@ class DayScheduleDAO {
         const rows = await query;
         return rows.map(r => new DaySchedule(r));
     }
+
 }
 
 module.exports = DayScheduleDAO;

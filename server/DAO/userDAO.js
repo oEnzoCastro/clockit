@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const InstituteDAO = require('./instituteDAO');
 const bcrypt = require('bcrypt');
+const db = require('../database/db');
 
 class UserDAO {
     constructor(db) {
@@ -8,7 +9,7 @@ class UserDAO {
         this.instituteDAO = new InstituteDAO(db);
     }
 
-   
+
     async findUsers(filters = {}, trx = this.db) {
         try {
             const {
@@ -19,29 +20,49 @@ class UserDAO {
                 institute_id,
                 code,
                 institute_role,
-                sector_id
+                area_id
             } = filters;
 
-            const query = trx('users');
 
-            if (id) query.where({ id });
-            if (email) query.where({ email });
-            if (first_name) query.where({ first_name });
-            if (surname) query.where({ surname });
-            if (institute_id) query.where({ institute_id });
-            if (code) query.where({ code });
-            if (institute_role) query.where({ institute_role });
-            if (sector_id) query.where({ sector_id });
+            const query = trx('users')
+                .leftJoin('area', 'users.area_id', 'area.id')
+                .select(
+                    'users.*',
+                    'area.id as area_id',
+                    'area.area_name as area_name',
+                    'area.acronym as area_acronym'
+                );
+
+
+            if (id) query.where('users.id', id);
+            if (email) query.where('users.email', email);
+            if (first_name) query.where('users.first_name', first_name);
+            if (surname) query.where('users.surname', surname);
+            if (institute_id) query.where('users.institute_id', institute_id);
+            if (code) query.where('users.code', code);
+            if (institute_role) query.where('users.institute_role', institute_role);
+            if (area_id) query.where('users.area_id', area_id);
 
             const rows = await query;
-            return rows.map(r => new User({ ...r }));
+
+
+            return rows.map(r => new User({
+                ...r,
+                area: r.area_id ? {
+                    id: r.area_id,
+                    name: r.area_name,
+                    acronym: r.area_acronym
+                } : null
+            }));
         } catch (error) {
             console.error('Error in findUsers():', error);
             throw error;
         }
     }
 
-    
+
+
+
     async getUserById(id, trx = this.db) {
         const res = await this.findUsers({ id }, trx);
         return res[0] || null;
@@ -62,7 +83,7 @@ class UserDAO {
             throw new Error("first_name and institute_id are required");
         }
         const rows = await this.findUsers({ first_name, institute_id });
-        return rows; 
+        return rows;
     }
 
     async getUsersByFullName(first_name, surname, institute_id) {
@@ -81,7 +102,7 @@ class UserDAO {
         return this.findUsers({ institute_role, institute_id });
     }
 
-  
+
     async create(user) {
         let trx;
         try {
@@ -92,7 +113,7 @@ class UserDAO {
             }
 
             const data = user.toJSON();
-            const { email, institute_id, code, first_name, surname, password, institute_role, sector_id } = data;
+            const { email, institute_id, code, first_name, surname, password, institute_role, area_id } = data;
 
             const instituteExists = await this.instituteDAO.exists(institute_id, trx);
             if (!instituteExists) {
@@ -100,26 +121,21 @@ class UserDAO {
             }
 
             const userSameEmail = await trx('users').where({ email }).first();
-            if (userSameEmail) {
-                throw new Error('Email is already in use by another user');
-            }
+            if (userSameEmail) throw new Error('Email is already in use');
 
             if (code) {
-                const userInstituteCode = await trx('users').where({ code, institute_id }).first();
-                if (userInstituteCode) {
-                    throw new Error('Code is already in use by another user in the same institute');
-                }
+                const userCode = await trx('users').where({ code, institute_id }).first();
+                if (userCode) throw new Error('Code already in use in this institute');
             }
 
             if (surname) {
-                const userSameFullName = await trx('users').where({ first_name, surname, institute_id }).first();
-                if (userSameFullName) {
-                    throw new Error('Complete name is already in use by another user in the same institute');
-                }
+                const userFullName = await trx('users').where({ first_name, surname, institute_id }).first();
+                if (userFullName) throw new Error('Full name already in use in this institute');
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
+        
             const [createdRow] = await trx('users')
                 .insert({
                     code: code || null,
@@ -127,7 +143,7 @@ class UserDAO {
                     surname: surname || null,
                     password_hash: hashedPassword,
                     email,
-                    sector_id: sector_id || null,
+                    area_id: area_id || null,
                     institute_id,
                     institute_role: institute_role || null,
                     created_at: trx.fn.now(),
@@ -135,13 +151,30 @@ class UserDAO {
                 })
                 .returning('*');
 
-            if (!createdRow) {
-                throw new Error("Failed to create user");
+            if (!createdRow) throw new Error("Failed to create user");
+
+       
+            let area = null;
+            if (createdRow.area_id) {
+                const areaRow = await trx('areas')
+                    .select('id', 'name', 'acronym')
+                    .where('id', createdRow.area_id)
+                    .first();
+
+                if (areaRow) {
+                    area = {
+                        id: areaRow.id,
+                        name: areaRow.name,
+                        acronym: areaRow.acronym
+                    };
+                }
             }
 
             await trx.commit();
 
-            return new User({ ...createdRow });
+            
+            return new User({ ...createdRow, area });
+
         } catch (error) {
             if (trx) await trx.rollback();
             console.error('Error in create user:', error);
@@ -149,7 +182,7 @@ class UserDAO {
         }
     }
 
-   
+
     async getPasswordHashById(id) {
         try {
             const row = await this.db('users').where({ id }).select('password_hash').first();
@@ -202,7 +235,7 @@ class UserDAO {
     }
 
 
-    
+
     async update(user) {
         let trx;
         try {
@@ -259,16 +292,13 @@ class UserDAO {
         }
     }
 
- 
+
     async delete(id) {
         let trx;
         try {
             trx = await this.db.transaction();
 
-            if (!id) {
-                throw new Error('delete() requires a user id');
-            }
-
+           
             const result = await trx('users').where({ id }).del();
 
             if (result > 0) {
@@ -311,7 +341,7 @@ async function main() {
             password: 'secret123',
             institute_id: institute.id,
             institute_role: 'agent', // or manager / director
-            sector_id: null
+            area_id: null
         });
 
         const created = await userDAO.create(user);

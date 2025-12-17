@@ -209,7 +209,6 @@ async function main() {
         console.log('\n=== EXISTS ===');
         const exists = await instituteDAO.exists(updated.id);
         console.log('Exists?', exists);
-
         console.log('\n=== DELETE ===');
         const deleted = await instituteDAO.delete(updated.id);
         console.log('Deleted?', deleted);
