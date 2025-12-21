@@ -3,11 +3,11 @@ const agentSectorController = require('../controllers/agentSectorController');
 
 const router = express.Router();
 
-router.post("/cancelContract", agentSectorController.create);
-router.get("/getAgentSector", agentSectorController.get);
-router.patch("/updateContract",agentSectorController.update);
-router.patch("/endContract",agentSectorController.cancelContract);
-router.delete("/deleteContract/:id", agentSectorController.delete);
+router.post("/create", agentSectorController.create);
+router.get("/get", agentSectorController.get);
+router.put("/update",agentSectorController.update);
+router.put("/endContract/:agent_id/:sector_id",agentSectorController.cancelContract);
+router.delete("/delete/:agent_id/:sector_id", agentSectorController.delete);
 
 
 

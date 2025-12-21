@@ -4,8 +4,8 @@ const areaController = require('../controllers/areaController');
 const router = express.Router();
 
 
-router.get('/getAreas',areaController.getAreas);
-router.patch('/updateArea',areaController.updateArea);
+router.get('/get',areaController.getAreas);
+router.patch('/update',areaController.updateArea);
 
 
 module.exports = router;
