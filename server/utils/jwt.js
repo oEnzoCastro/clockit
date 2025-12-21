@@ -1,12 +1,16 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
+const Institute = require("../models/institute");
 
-const ACCESS_EXPIRES= "7d";
+const ACCESS_EXPIRES = "7d";
 
 const jwtService = {
-    generateAccessToken(userId) {
+    generateAccessToken(id,institute_role) {
         return jwt.sign(
-            { sub: userId },
+            {
+                id: id,
+                institute_role:institute_role,
+            },
             process.env.JWT_SECRET,
             { expiresIn: ACCESS_EXPIRES }
         );
@@ -14,8 +18,16 @@ const jwtService = {
 
 
     verifyAccessToken(token) {
-        return jwt.verify(token, process.env.JWT_SECRET);
-    },
+        try {
+            return jwt.verify(token, process.env.JWT_SECRET);
+        } catch (error) {
+            console.error("Token verification failed:", error.message);
+            throw error; 
+        }
+    }
+
+
+
 
 };
 

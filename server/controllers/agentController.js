@@ -36,7 +36,7 @@ function isEmail(email){
 
 
 exports.createAgent = async (req, res, next) => {
-    const { first_name, surname, email, password, institute_id, roles,area} = req.body;
+    const { first_name, surname, email, password, institute_id, institute_role,area} = req.body;
     try {
         if(!email || !isEmail(email)){
             throw new Error("invalid email");
@@ -92,6 +92,7 @@ exports.updateAgent = async (req, res, next) => {
 exports.getAgent = async (req, res, next) => {
    
     try {
+        
         const agent = await agentDAO.findAgents(req.query);
 
         if (!agent || (Array.isArray(agent) && agent.length === 0)) {

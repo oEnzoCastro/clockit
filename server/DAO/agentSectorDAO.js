@@ -103,6 +103,8 @@ class AgentSectorDAO {
             currentContract,
             area_name,
             area_acronym,
+            user_first_name,
+            user_surname
         } = filters;
 
         const query = trx('users as u')
@@ -146,6 +148,10 @@ class AgentSectorDAO {
             if (sector_name) query.where('s.sector_name', sector_name);
             if (sector_acronym) query.where('s.acronym', sector_acronym);
             if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
+            if (user_first_name) {
+                query.where('u.first_name', user_first_name);
+                if (user_surname) query.where('u.surname', user_surname);
+            }
         }
 
 
@@ -346,9 +352,18 @@ class AgentSectorDAO {
 
     async findSectors(filters = {}, trx = this.db) {
         const {
-            agent_id, sector_id, institute_id, area_id,
-            sector_name, sector_acronym, is_hidden,
-            currentContract, area_name, area_acronym
+            agent_id,
+            sector_id,
+            institute_id,
+            area_id,
+            sector_name,
+            sector_acronym,
+            is_hidden,
+            user_first_name,
+            user_surname,
+            area_name,
+            area_acronym,
+            currentContract
         } = filters;
 
         const query = trx('users as u')
@@ -363,6 +378,8 @@ class AgentSectorDAO {
                 'asg.sector_region',
                 'asg.sector_location',
                 'asg.description',
+                'asg.is_hidden',
+                'asg.contract_end',
 
                 's.id as sector_id',
                 's.acronym as sector_acronym',
@@ -376,32 +393,41 @@ class AgentSectorDAO {
             .leftJoin('day_schedule as ds', function () {
                 this.on('asg.agent_id', 'ds.agent_id')
                     .andOn('asg.sector_id', 'ds.sector_id');
-            });
+            })
+            .leftJoin('area as a', 's.area_id', 'a.id');
 
-        if (area_id || institute_id) {
-            query.leftJoin('area as a', 's.area_id', 'a.id');
-        }
-
-
+        if (institute_id) query.where('u.institute_id', institute_id);
         if (agent_id) query.where('u.id', agent_id);
         if (sector_id) query.where('asg.sector_id', sector_id);
-        if (institute_id && sector_name) query.where('s.sector_name', sector_name);
-        if (institute_id && sector_acronym) query.where('s.acronym', sector_acronym);
         if (area_id) query.where('a.id', area_id);
-        if (institute_id) query.where('u.institute_id', institute_id);
-        if (institute_id && area_name) query.where('a.area_name', area_name);
-        if (institute_id && area_acronym) query.where('a.acronym', area_acronym);
-        if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
 
-        query.where('asg.contract_end', '>', new Date());
+        if (institute_id || area_id) {
+            if (sector_name) query.where('s.sector_name', sector_name);
+            if (sector_acronym) query.where('s.acronym', sector_acronym);
+            if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
+        }
+
+        if (institute_id) {
+            if (area_name) query.where('a.area_name', area_name);
+            if (area_acronym) query.where('a.acronym', area_acronym);
+
+            if (user_first_name) {
+                query.where('u.first_name', user_first_name);
+                if (user_surname) query.where('u.surname', user_surname);
+            }
+        }
+
+        if (currentContract === true) {
+            query.where('asg.contract_end', '>', new Date());
+        }
 
         query.where('u.institute_role', 'agent');
 
         const rows = await query;
 
-        // Use the separate grouping function
         return this.groupBySector(rows);
     }
+
 
 
 

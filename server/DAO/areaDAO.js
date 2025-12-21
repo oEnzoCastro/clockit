@@ -60,36 +60,41 @@ class AreaDAO {
     }
 
 
-   async findAreas(filters = {}, trx = this.db) {
-    try {
-        const { id, acronym, area_name, institute_id } = filters;
-        const query = trx('area');
+    async findAreas(filters = {}, trx = this.db) {
+        try {
+            const { id, acronym, area_name, institute_id, manager_id } = filters;
+            const query = trx('area');
 
-        if (id) {
-            query.where({ id });
-        }
-
-        if (institute_id) {
-            query.where({ institute_id });
-
-            if (acronym) {
-                query.where({ acronym });
+            if (id) {
+                query.where({ id });
+            }
+            if (manager_id) {
+                query
+                    .join('manager_area as ma', 'ma.area_id', 'a.id')
+                    .where('ma.manager_id', manager_id);
             }
 
-            if (area_name) {
-                query.where({ area_name });
-                
+            if (institute_id) {
+                query.where({ institute_id });
+
+                if (acronym) {
+                    query.where({ acronym });
+                }
+
+                if (area_name) {
+                    query.where({ area_name });
+
+                }
             }
+
+            const rows = await query;
+            return rows.map(row => new Area(row));
+
+        } catch (error) {
+            console.error('Error in findAreas():', error);
+            throw error;
         }
-
-        const rows = await query;
-        return rows.map(row => new Area(row));
-
-    } catch (error) {
-        console.error('Error in findAreas():', error);
-        throw error;
     }
-}
 
 
     async getAreaById(id) {

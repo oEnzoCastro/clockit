@@ -82,7 +82,7 @@ class UserTokenDAO {
                 .update({ expires_at })
                 .returning("*");
 
-            if (!updated) throw new Error("Token does not exist");
+            if (!updated) return null;
 
             await trx.commit();
             return new UserToken(updated);

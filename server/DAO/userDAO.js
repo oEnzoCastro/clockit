@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const InstituteDAO = require('./instituteDAO');
 const bcrypt = require('bcrypt');
-const db = require('../database/db');
+
 
 class UserDAO {
     constructor(db) {

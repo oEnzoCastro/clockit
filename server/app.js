@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("./routes/auth");
+const authRoutes = require("./routes/authRoutes");
 const areaRoutes = require("./routes/areaRoutes");
 const agentRoutes = require("./routes/agentRoutes");
 const agentSectorRoutes = require("./routes/agentSectorRoutes");
@@ -11,9 +11,9 @@ const app = express();
 
 app.use(express.json());
 
-// Necessário para receber form-data / x-www-form-urlencoded
+
 app.use(express.urlencoded({ extended: true }));
-app.use('/auth',auth);
+app.use('/auth',authRoutes);
 app.use('/areas',areaRoutes);
 app.use('/agents',agentRoutes);
 app.use('/agentSectors',agentSectorRoutes);
