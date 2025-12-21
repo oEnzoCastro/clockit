@@ -10,19 +10,29 @@ const AgentSectorDAO = require('../DAO/agentSectorDAO');
 const agentSectorDAO = new AgentSectorDAO(db);
 
 
-exports.get = async (req, res, next) => {
+exports.get = async (req, res) => {
     try {
-        const result = await agentSectorDAO.findSectors(req.body);
+        const result = await agentSectorDAO.findSectors(req.query);
 
-        if (!result) {
-            return res.status(500).send("Failed to get sectors");
+        if (!result || (Array.isArray(result) && result.length === 0)) {
+            return res.status(404).json({
+                success: false,
+                error: null,
+                message: "agentSectors not found"
+            });
         }
 
         return res.status(200).json({
-            data: result, // always an array
+            success: true,
+            data: result, // already an array
             message: "Successfully fetched agentSectors"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to get agentSectos: " + error);
+        return res.status(400).json({
+            success: false,
+            error: error.message || error,
+            message: "Failed to get agentSectors"
+        });
     }
-}
+};

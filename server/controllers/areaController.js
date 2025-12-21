@@ -1,4 +1,3 @@
-
 const db = require('../database/db');
 const AreaDAO = require('../DAO/areaDAO');
 const Area = require('../models/area');
@@ -6,54 +5,70 @@ const Area = require('../models/area');
 const areaDAO = new AreaDAO(db);
 
 function formatAreas(areas) {
-    const result = [];
-    areas.forEach(element => {
-        result.push(areas.toJSON());
-    });
+    return areas.map(a => a.toJSON());
 }
 
-exports.getAreas = async (req, res, next) => {
+exports.getAreas = async (req, res) => {
     try {
-        const areas = await areaDAO.find(req.body); 
+        const areas = await areaDAO.findAreas(req.query);
+
         if (!areas || (Array.isArray(areas) && areas.length === 0)) {
-            return res.status(404).send("Area not found");
+            return res.status(404).json({
+                success: false,
+                error: null,
+                message: "Areas not found"
+            });
         }
 
         return res.status(200).json({
-            data: formatAreas(areas), // always an array
+            success: true,
+            data: formatAreas(areas),
             message: "Areas retrieved successfully"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to get Agent(s): " + error);
+        return res.status(400).json({
+            success: false,
+            error: error.message || error,
+            message: "Failed to get Areas"
+        });
     }
 };
 
-exports.updateArea = async (req, res, next) => {
+exports.updateArea = async (req, res) => {
     const { institute_id, area_id, acronym, area_name, max_workload, is_hidden } = req.body;
-    const area = new Area({ institute_id, id: area_id, acronym, area_name, max_workload, is_hidden });
+
+    const area = new Area({
+        institute_id,
+        id: area_id,
+        acronym,
+        area_name,
+        max_workload,
+        is_hidden
+    });
+
     try {
         const updatedArea = await areaDAO.update(area);
-        if (!updatedArea) {
-            return res.status(404).json(
-                {
-                    message: "Area not Found",
-                    success: false
-                }
-            );
-        } else {
-            return res.status(200).json({
-                data: updatedArea.toJSON(),
-                message: "Successful in updating Area",
-                success: true
-            })
-        }
-    } catch (error) {
-        return res.status(500).json(
-            {
-                message: "Error in updating area" + error,
-                success: false,
 
-            }
-        )
+        if (!updatedArea) {
+            return res.status(404).json({
+                success: false,
+                error: null,
+                message: "Area not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: updatedArea.toJSON(),
+            message: "Successfully updated Area"
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error.message || error,
+            message: "Error updating Area"
+        });
     }
-}
+};

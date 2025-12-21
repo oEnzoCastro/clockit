@@ -4,18 +4,34 @@ const jwtService = require("../utils/jwt");
 const UserToken = require("../models/userToken");
 const UserTokenDAO = require("../DAO/userTokenDAO");
 const db = require('../database/db');
+const InstituteDAO = require("../DAO/instituteDAO");
 
 
 const userDAO = new UserDAO(db);
 const userTokenDAO = new UserTokenDAO(db);
-
+const instituteDAO = new InstituteDAO(db);
 
 exports.login = async (req, res, next) => {
     try {
         console.log(req.body);
-        const { email, password } = req.body;
+        const { email, password ,institute_name,institute_acronym} = req.body;
+        let institute = null; 
+        if(institute_name){
+            institute = await instituteDAO.getInstitutebyName(institute_name);
+        }
 
-        const user = await userDAO.getUserByEmail(email);
+        if(institute_acronym){
+            institute = await instituteDAO.getInstitutebyName(institute_acronym);
+        }
+        if (!user) {
+            return res.status(404).json({
+                message: "Institute Does not Exist",
+                success: false
+            });
+        }
+
+
+        const user = await userDAO.getUserByEmail(email,institute_name.institute_id);
         if (!user) {
             return res.status(404).json({
                 message: "User Does not Exist",
