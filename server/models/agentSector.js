@@ -11,6 +11,7 @@ class AgentSector extends BaseModel {
                 schedule: { max: 255 }
             }
         );
+        
         this.agent_id = fields.agent_id;
         this.agent = fields.agent;
         this.sector = fields.sector
@@ -42,7 +43,7 @@ class AgentSector extends BaseModel {
 
             agent_workload: this.agent_workload,
             daySchedules: this.formatSchedules(),
-            sector_location: this.sector_loaction,
+            sector_location: this.sector_locaction,
             sector_region: this.sector_region,
             description: this.description,
             is_hidden: this.is_hidden,
@@ -57,10 +58,13 @@ class AgentSector extends BaseModel {
 
         return json;
     }
+
+    
+
     formatSchedules() {
         const schedules = [];
         this.daySchedules.map(daySchedule => {
-            schedules.push({day:daySchedule.schedule_day,schedule:daySchedule.schedule})
+            schedules.push({schedule_day:daySchedule.schedule_day,schedule:daySchedule.schedule})
         })
         return schedules;
     }

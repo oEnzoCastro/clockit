@@ -13,26 +13,13 @@ class DaySchedule extends BaseModel {
 
         this.agent_id = fields.agent_id;
         this.sector_id = fields.sector_id;
-        if (!this.isWeekDay(fields.schedule_day)) {
-            throw new Error("Value is not a weekday");
-        }
         this.schedule_day = fields.schedule_day; // enum: week_day
-        if(!this.checkScheduleTime(fields.schedule)){
-            throw new Error("Invalid time format");
-        }
         this.schedule = fields.schedule;
-
         this.created_at = fields.created_at;
         this.updated_at = fields.updated_at;
     }
 
-    checkScheduleTime(schedule_day){
-        const timeRegex = /^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d(\|([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d)*$/;
-        if(!timeRegex.test(schedule_day)){
-            return true;
-        }
-        return false;
-    }
+   
 
     toJSON() {
         const json = {
@@ -53,10 +40,7 @@ class DaySchedule extends BaseModel {
         return json;
     }
 
-    isWeekDay(schedule_day) {
-        const WEEK_DAYS = ['SEG', 'TER', 'QUA', 'QUI', 'SEX'];
-        return WEEK_DAYS.includes(schedule_day);
-    }
+    
 
 }
 

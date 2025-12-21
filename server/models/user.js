@@ -31,6 +31,7 @@ class User extends BaseModel {
         Object.defineProperty(this, "email", { writable: false });
         
     }
+    
 
     toJSON() {
         const json = {
@@ -38,7 +39,7 @@ class User extends BaseModel {
             code: this.code,
             first_name: this.first_name,
             surname: this.surname,
-            area:this.area?this.area.toJSON : null,
+            area:this.area?this.area : null,
             password:this.password,
             email: this.email,
             institute_id: this.institute_id,
