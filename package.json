@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/oEnzoCastro/clockit/issues"
   },
-  "homepage": "https://github.com/oEnzoCastro/clockit#readme"
+  "homepage": "https://github.com/oEnzoCastro/clockit#readme",
+  "dependencies": {
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
