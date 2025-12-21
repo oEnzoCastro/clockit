@@ -1,9 +1,7 @@
 const db = require('../database/db');
-
 const AgentDAO = require('../DAO/agentDAO');
 const User = require('../models/user');
 const AgentSectorDAO = require('../DAO/agentSectorDAO');
-
 
 const agentDAO = new AgentDAO(db);
 const agentSectorDAO = new AgentSectorDAO(db);
@@ -11,7 +9,6 @@ const agentSectorDAO = new AgentSectorDAO(db);
 function filterAgents(agentOrArray) {
     if (!agentOrArray) return [];
 
-    // Convert single agent to array for uniform processing
     const agents = Array.isArray(agentOrArray) ? agentOrArray : [agentOrArray];
 
     return agents.map(agent => {
@@ -32,98 +29,123 @@ function isEmail(email){
     return emailRegex.test(email);
 }
 
-
-
-
-exports.createAgent = async (req, res, next) => {
-    const { first_name, surname, email, password, institute_id, institute_role,area} = req.body;
+exports.createAgent = async (req, res) => {
+    const { first_name, surname, email, password, institute_id, institute_role, area } = req.body;
     try {
         if(!email || !isEmail(email)){
-            throw new Error("invalid email");
+            throw new Error("Invalid email");
         }
+
         const agent = await agentDAO.create(new User({ first_name, surname, email, password_hash: password, institute_id, institute_role, area }));
         
         if (!agent) {
-            return res.status(500).send("Failed to create Agent");
+            return res.status(500).send({
+                success: false,
+                data: null,
+                message: "Failed to create agent"
+            });
         }
-        return res.status(200).json({
+
+        return res.status(200).send({
+            success: true,
             data: filterAgents(agent),
-            message: "Succesful in creating agent"
+            message: "Successfully created agent"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to  create Agent" + error);
+        return res.status(400).send({
+            success: false,
+            data: null,
+            message: "Failed to create agent: " + error.message
+        });
     }
 };
 
-exports.updateAgent = async (req, res, next) => {
-    const { id, first_name, surname, email, password, institute_id, institute_role, area} = req.body;
+exports.updateAgent = async (req, res) => {
+    const { id, first_name, surname, email, password, institute_id, institute_role, area } = req.body;
     try {
-        if(!email || !isEmail(email)){
-            throw new Error("invalid email");
-        }
         if(!id){
-            throw new Error("id is missing");
+            throw new Error("ID is missing");
+        }
+        if(!email || !isEmail(email)){
+            throw new Error("Invalid email");
         }
 
-        const agent = await agentDAO.update(new User({
-            id,
-            first_name,
-            surname,
-            email,
-            password_hash: password,
-            institute_id,
-            institute_role,
-            area
-        }));
-
+        const agent = await agentDAO.update(new User({ id, first_name, surname, email, password_hash: password, institute_id, institute_role, area }));
         
         if (!agent) {
-            return res.status(500).send("Failed to update Agent");
+            return res.status(500).send({
+                success: false,
+                data: null,
+                message: "Failed to update agent"
+            });
         }
 
-        return res.status(200).json({
-            data: filterAgents(agent), // always an array
+        return res.status(200).send({
+            success: true,
+            data: filterAgents(agent),
             message: "Successfully updated agent"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to update Agent: " + error);
+        return res.status(400).send({
+            success: false,
+            data: null,
+            message: "Failed to update agent: " + error.message
+        });
     }
 };
-exports.getAgent = async (req, res, next) => {
-   
+
+exports.getAgent = async (req, res) => {
     try {
-        
         const agent = await agentDAO.findAgents(req.query);
 
         if (!agent || (Array.isArray(agent) && agent.length === 0)) {
-            return res.status(404).send("Agent not found");
+            return res.status(404).send({
+                success: false,
+                data: null,
+                message: "Agent not found"
+            });
         }
 
-        return res.status(200).json({
-            data: filterAgents(agent), // always an array
-            message: "Successfully fetch agent"
+        return res.status(200).send({
+            success: true,
+            data: filterAgents(agent),
+            message: "Successfully fetched agent"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to fetch Agent: " + error);
+        return res.status(400).send({
+            success: false,
+            data: null,
+            message: "Failed to fetch agent: " + error.message
+        });
     }
 };
 
-
-
-
-exports.deleteAgent = async (req, res, next) => {
+exports.deleteAgent = async (req, res) => {
     const { id } = req.params;
     try {
         const rows = await agentDAO.delete(id);
         if (!rows) {
-            return res.status(500).send("Agent Not found");
+            return res.status(500).send({
+                success: false,
+                data: null,
+                message: "Agent not found"
+            });
         }
-        return res.status(200).json({
-            success:true,
-            message: "Succesful in deleting agent"
+
+        return res.status(200).send({
+            success: true,
+            data: null,
+            message: "Successfully deleted agent"
         });
+
     } catch (error) {
-        return res.status(400).send("Failed to delete Agent" + error);
+        return res.status(400).send({
+            success: false,
+            data: null,
+            message: "Failed to delete agent: " + error.message
+        });
     }
 };
-
