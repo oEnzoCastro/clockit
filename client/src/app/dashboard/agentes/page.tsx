@@ -47,6 +47,8 @@ export default function page() {
         <article className='agentes'>
           <Agent />
           <Agent />
+          <Agent />
+          <Agent />
         </article>
       </section>
     </main>

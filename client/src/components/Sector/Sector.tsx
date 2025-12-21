@@ -3,7 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './style.css'
 import Image from 'next/image'
-import Pen from '../../../public/pencil-simple(1).svg'
+import { usePathname } from 'next/navigation'
+
+import Pen from '../../../public/pencil-simple.svg'
 import Trash from '../../../public/trash.svg'
 import Cancel from '../../../public/x.svg'
 import ConfirmWhite from '../../../public/check-white.svg'
@@ -12,10 +14,15 @@ export default function Setor() {
   const [open, setOpen] = useState(false)
   const [del, setDel] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+
   const [editNome, setEditNome] = useState(false)
-  const [nome, setNome] = useState("Exemplo de nome")
+  const [nome, setNome] = useState('Exemplo de nome')
+
   const [editSigla, setEditSigla] = useState(false)
-  const [sigla, setSigla] = useState("Exemplo de sigla")
+  const [sigla, setSigla] = useState('Exemplo de sigla')
+
+  const pathname = usePathname()
+  const isSetoresPage = pathname === '/dashboard/agentes/setores'
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -30,39 +37,48 @@ export default function Setor() {
   }, [])
 
   return (
-    <div ref={ref} className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}>
+    <div
+      ref={ref}
+      className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}
+    >
 
       {/* NORMAL */}
       {!del && (
         <div className="default box">
-          <div className='sectorHeader'>
+          <div className="sectorHeader">
             <h2 className="sectorTitle">Setor 1</h2>
-            <div className='sectorEdit'>
 
-              {/* BOTÕES QUANDO O SETOR ESTÁ FECHADO */}
+            <div className="sectorEdit">
+
+              {/* BOTÕES QUANDO FECHADO */}
               {!open && (
                 <>
+                  {/* LIXEIRA SEMPRE VISÍVEL */}
                   <Image
-                    className='pen'
-                    src={Pen}
-                    alt='Pen'
-                    onClick={() => setOpen(true)}
-                  />
-                  <Image
-                    className='trash'
+                    className="trash"
                     src={Trash}
-                    alt='Trash'
+                    alt="Trash"
                     onClick={() => setDel(true)}
                   />
+
+                  {/* CANETA SÓ FORA DA PÁGINA DE SETORES */}
+                  {!isSetoresPage && (
+                    <Image
+                      className="pen"
+                      src={Pen}
+                      alt="Pen"
+                      onClick={() => setOpen(true)}
+                    />
+                  )}
                 </>
               )}
 
-              {/* BOTÃO QUANDO O SETOR ESTÁ ABERTO */}
-              {open && (
+              {/* BOTÃO FECHAR */}
+              {open && !isSetoresPage && (
                 <Image
-                  className='closeBtn'
+                  className="closeBtn"
                   src={Cancel}
-                  alt='fechar'
+                  alt="fechar"
                   onClick={() => setOpen(false)}
                 />
               )}
@@ -70,19 +86,19 @@ export default function Setor() {
             </div>
           </div>
 
-
           <div className="sectorContent">
+
             {/* NOME */}
             <div className="field">
               <input
-                className={editNome ? "editing" : ""}
+                className={editNome ? 'editing' : ''}
                 type="text"
                 value={nome}
-                readOnly={!editNome}
+                readOnly={!editNome || isSetoresPage}
                 onChange={(e) => setNome(e.target.value)}
               />
 
-              {!editNome && (
+              {!editNome && !isSetoresPage && (
                 <Image
                   src={Pen}
                   alt="editar"
@@ -91,7 +107,7 @@ export default function Setor() {
                 />
               )}
 
-              {editNome && (
+              {editNome && !isSetoresPage && (
                 <div className="confirmBtn">
                   <Image
                     src={ConfirmWhite}
@@ -105,14 +121,14 @@ export default function Setor() {
             {/* SIGLA */}
             <div className="field">
               <input
-                className={editSigla ? "editing" : ""}
+                className={editSigla ? 'editing' : ''}
                 type="text"
                 value={sigla}
-                readOnly={!editSigla}
+                readOnly={!editSigla || isSetoresPage}
                 onChange={(e) => setSigla(e.target.value)}
               />
 
-              {!editSigla && (
+              {!editSigla && !isSetoresPage && (
                 <Image
                   src={Pen}
                   alt="editar"
@@ -121,13 +137,11 @@ export default function Setor() {
                 />
               )}
 
-              {editSigla && (
+              {editSigla && !isSetoresPage && (
                 <div className="confirmBtn">
-
                   <Image
                     src={ConfirmWhite}
                     alt="confirmar"
-                    className="confirmBtn"
                     onClick={() => setEditSigla(false)}
                   />
                 </div>
@@ -141,11 +155,21 @@ export default function Setor() {
       {/* MODO DELETAR */}
       {del && (
         <div className="delete box">
-          <div className='sectorHeader'>
+          <div className="sectorHeader">
             <h2 className="sectorTitle">Deletar?</h2>
-            <div className='sectorEdit'>
-              <Image className='cancel' src={Cancel} alt='Cancel' onClick={() => setDel(false)} />
-              <Image className='trueTrash' src={Trash} alt='Trash' />
+
+            <div className="sectorEdit">
+              <Image
+                className="cancel"
+                src={Cancel}
+                alt="Cancel"
+                onClick={() => setDel(false)}
+              />
+              <Image
+                className="trueTrash"
+                src={Trash}
+                alt="Trash"
+              />
             </div>
           </div>
         </div>

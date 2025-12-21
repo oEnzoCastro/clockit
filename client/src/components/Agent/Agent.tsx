@@ -3,10 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './style.css'
 import Image from 'next/image'
-import Pen from '../../../public/pencil-simple(1).svg'
+import Pen from '../../../public/pencil-simple.svg'
+import Square from '../../../public/squares-four.svg'
 import Trash from '../../../public/trash.svg'
 import Cancel from '../../../public/x.svg'
 import ConfirmWhite from '../../../public/check-white.svg'
+import Link from 'next/link'
 
 export default function Agent() {
   const [open, setOpen] = useState(false)
@@ -47,6 +49,9 @@ export default function Agent() {
             <div className='sectorEdit'>
               {!open && (
                 <>
+                  <Link href="/dashboard/agentes/setores">
+                    <Image className="square" src={Square} alt="Setores" />
+                  </Link>
                   <Image className='pen' src={Pen} alt='Pen' onClick={() => setOpen(true)} />
                   <Image className='trash' src={Trash} alt='Trash' onClick={() => setDel(true)} />
                 </>
