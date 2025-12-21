@@ -3,8 +3,8 @@ const DaySchedule = require('../models/daySchedule');
 const UserDAO = require('./userDAO');
 const SectorDAO = require('./sectorDAO');
 const DayScheduleDAO = require('./dayScheduleDAO');
-const db = require('../database/db');
-const { json } = require('body-parser');
+
+
 
 class AgentSectorDAO {
     constructor(db) {
@@ -51,7 +51,7 @@ class AgentSectorDAO {
 
             if (exists) {
                 throw new Error("Agent already assigned to this sector");
-            }
+            } c
 
             await trx('agent_sector').insert({
                 agent_id,
@@ -59,7 +59,7 @@ class AgentSectorDAO {
                 agent_workload,
                 sector_region,
                 sector_location,
-                sector_description: description,
+                description: description,
                 is_hidden: is_hidden ?? false,
                 contract_start,
                 contract_end
@@ -71,7 +71,7 @@ class AgentSectorDAO {
                         new DaySchedule({
                             agent_id,
                             sector_id,
-                            schedule_day: ds.day,      // ✅ FIX HERE
+                            schedule_day: ds.schedule_day,      // ✅ FIX HERE
                             schedule: ds.schedule
                         }),
                         trx
@@ -127,68 +127,164 @@ class AgentSectorDAO {
             .leftJoin('day_schedule as ds', function () {
                 this.on('asg.agent_id', 'ds.agent_id')
                     .andOn('asg.sector_id', 'ds.sector_id');
-            });
+            })
+            .leftJoin('area as a', 's.area_id', 'a.id');
 
-        if (area_id || institute_id) {
-            query.leftJoin('area as a', 's.area_id', 'a.id');
+
+        if (institute_id) {
+            query.where('u.institute_id', institute_id);
         }
+
 
         if (agent_id) query.where('u.id', agent_id);
         if (sector_id) query.where('asg.sector_id', sector_id);
-        if (institute_id && sector_name) query.where('s.sector_name', sector_name);
-        if (institute_id && sector_acronym) query.where('s.acronym', sector_acronym);
         if (area_id) query.where('a.id', area_id);
-        if (institute_id) query.where('u.institute_id', institute_id);
-        if (institute_id && area_name) query.where('a.area_name', area_name);
-        if (institute_id && area_acronym) query.where('a.acronym', area_acronym);
-        if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
 
-        // Only filter current contracts if requested
+
+
+        if (institute_id || area_id) {
+            if (sector_name) query.where('s.sector_name', sector_name);
+            if (sector_acronym) query.where('s.acronym', sector_acronym);
+            if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
+        }
+
+
+        if (institute_id) {
+            if (area_name) query.where('a.area_name', area_name);
+            if (area_acronym) query.where('a.acronym', area_acronym);
+        }
+
+
         if (currentContract === true) {
-            query.where('asg.contract_end', '>=', new Date());
+            query.where('asg.contract_end', '>', new Date());
         }
 
         query.where('u.institute_role', 'agent');
 
         const rows = await query;
-        return this._group(rows); // Uses your improved grouping
+        return this._group(rows);
     }
 
 
-    async cancelContract(agent_id, sector_id) {
+    async update(agentSector) {
         const trx = await this.db.transaction();
         try {
-
-            const agent = await this.userDAO.getUserById(agent_id, trx);
-            if (!agent || agent.institute_role !== 'agent') {
-                throw new Error("User does not exist or is not an agent");
+            if (!(agentSector instanceof AgentSector)) {
+                throw new Error("agentSector must be an instance of AgentSector");
             }
 
-
-            if (sector_id) {
-                const sector = await this.sectorDAO.getSectorById(sector_id);
-                if (!sector) throw new Error("Sector does not exist");
-            }
-
+            const {
+                agent_id,
+                sector_id,
+                agent_workload,
+                sector_region,
+                sector_location,
+                description,
+                is_hidden,
+                contract_start,
+                contract_end,
+                daySchedules
+            } = agentSector.toJSON();
 
             const exists = await trx('agent_sector')
                 .where({ agent_id, sector_id })
                 .first();
 
             if (!exists) {
-                throw new Error("Agent is not assigned to this sector");
+                throw new Error("Contract does not exist for this agent and sector");
             }
 
+            const agent = await this.userDAO.getUserById(agent_id, trx);
+            if (!agent || agent.institute_role !== 'agent') {
+                throw new Error("User does not exist or is not an agent");
+            }
 
-            const row = await trx('agent_sector')
+            const sector = await this.sectorDAO.getSectorById(sector_id);
+            if (!sector) {
+                throw new Error("Sector does not exist");
+            }
+
+            const updateData = {};
+            if (typeof agent_workload !== 'undefined') updateData.agent_workload = agent_workload;
+            if (typeof sector_region !== 'undefined') updateData.sector_region = sector_region;
+            if (typeof sector_location !== 'undefined') updateData.sector_location = sector_location;
+            if (typeof description !== 'undefined') updateData.description = description;
+            if (typeof is_hidden !== 'undefined') updateData.is_hidden = is_hidden;
+            if (typeof contract_start !== 'undefined') updateData.contract_start = contract_start;
+            if (typeof contract_end !== 'undefined') updateData.contract_end = contract_end;
+
+            if (Object.keys(updateData).length > 0) {
+                await trx('agent_sector')
+                    .where({ agent_id, sector_id })
+                    .update(updateData);
+            }
+
+            await trx('day_schedule')
                 .where({ agent_id, sector_id })
+                .del();
+
+            if (Array.isArray(daySchedules) && daySchedules.length > 0) {
+                for (const ds of daySchedules) {
+                    await this.dayScheduleDAO.create(
+                        new DaySchedule({
+                            agent_id,
+                            sector_id,
+                            schedule_day: ds.schedule_day,
+                            schedule: ds.schedule
+                        }),
+                        trx
+                    );
+                }
+            }
+
+            await trx.commit();
+            return this.getByAgentSector(agent_id, sector_id);
+        } catch (error) {
+            await trx.rollback();
+            throw error;
+        }
+    }
+
+
+
+
+    async cancelContract(agent_id, sector_id) {
+        if (!agent_id) {
+            throw new Error("agent_id is required");
+        }
+
+        const trx = await this.db.transaction();
+        try {
+            const agent = await this.userDAO.getUserById(agent_id, trx);
+            if (!agent || agent.institute_role !== 'agent') {
+                throw new Error("User does not exist or is not an agent");
+            }
+
+            if (sector_id) {
+                const sector = await this.sectorDAO.getSectorById(sector_id);
+                if (!sector) throw new Error("Sector does not exist");
+
+                const exists = await trx('agent_sector')
+                    .where({ agent_id, sector_id })
+                    .first();
+
+                if (!exists) {
+                    throw new Error("Agent is not assigned to this sector");
+                }
+            }
+
+            const affectedRows = await trx('agent_sector')
+                .where({ agent_id })
+                .modify(qb => {
+                    if (sector_id) qb.andWhere({ sector_id });
+                })
                 .update({
                     contract_end: new Date()
                 });
 
-            if (row <= 0) {
+            if (affectedRows === 0) {
                 await trx.rollback();
-                return false
+                return false;
             }
 
             await trx.commit();
@@ -196,7 +292,7 @@ class AgentSectorDAO {
 
         } catch (error) {
             await trx.rollback();
-            console.error("Error in AgentSectorDAO.update:", error);
+            console.error("Error in AgentSectorDAO.cancelContract:", error);
             throw error;
         }
     }
@@ -205,24 +301,25 @@ class AgentSectorDAO {
 
 
 
+
     async getByAgentSector(agent_id, sector_id) {
-        const results = await this.find({ agent_id, sector_id });
+        const results = await this.findByAgent({ agent_id, sector_id });
         return results.length ? results[0] : null;
     }
 
     async getByAgent(agent_id) {
-        return this.find({ agent_id });
+        return this.findByAgent({ agent_id });
     }
 
     async getBySector(sector_id) {
-        return this.find({ sector_id });
+        return this.findByAgent({ sector_id });
     }
 
     async getByInstitute(institute_id) {
-        return this.find({ institute_id });
+        return this.findByAgent({ institute_id });
     }
     async getByInstitute(institute_id) {
-        return this.find({ institute_id });
+        return this.findByAgent({ institute_id });
     }
 
     async delete(agent_id, sector_id) {
@@ -262,15 +359,14 @@ class AgentSectorDAO {
                 'u.email as agent_email',
                 'u.institute_id as agent_institute_id',
 
-                'asg.*',
+                'asg.agent_workload',
+                'asg.sector_region',
+                'asg.sector_location',
+                'asg.description',
 
                 's.id as sector_id',
                 's.acronym as sector_acronym',
-                's.sector_name as sector_name',
-                's.sector_region',
-                's.sector_location',
-                's.description as sector_description',
-                'asg.agent_workload',
+                's.sector_name',
 
                 'ds.schedule_day',
                 'ds.schedule'
@@ -282,7 +378,10 @@ class AgentSectorDAO {
                     .andOn('asg.sector_id', 'ds.sector_id');
             });
 
-        if (area_id || institute_id) query.leftJoin('area as a', 's.area_id', 'a.id');
+        if (area_id || institute_id) {
+            query.leftJoin('area as a', 's.area_id', 'a.id');
+        }
+
 
         if (agent_id) query.where('u.id', agent_id);
         if (sector_id) query.where('asg.sector_id', sector_id);
@@ -294,14 +393,14 @@ class AgentSectorDAO {
         if (institute_id && area_acronym) query.where('a.acronym', area_acronym);
         if (typeof is_hidden === 'boolean') query.where('asg.is_hidden', is_hidden);
 
-        if (currentContract === true) query.where('asg.contract_end', '>=', new Date());
+        query.where('asg.contract_end', '>', new Date());
 
         query.where('u.institute_role', 'agent');
 
         const rows = await query;
 
         // Use the separate grouping function
-        return groupBySector(rows);
+        return this.groupBySector(rows);
     }
 
 
@@ -335,7 +434,7 @@ class AgentSectorDAO {
                     agent_workload: row.agent_workload || 0,
                     sector_region: row.sector_region || null,
                     sector_location: row.sector_location || null,
-                    description: row.sector_description || null,
+                    description: row.description || null,
                     is_hidden: row.is_hidden || false,
                     contract_start: row.contract_start || null,
                     contract_end: row.contract_end || null
@@ -361,7 +460,7 @@ class AgentSectorDAO {
         const sectorMap = new Map();
 
         for (const row of rows) {
-            
+
             if (row.sector_id) {
                 if (!sectorMap.has(row.sector_id)) {
                     sectorMap.set(row.sector_id, {
@@ -370,7 +469,7 @@ class AgentSectorDAO {
                         sector_name: row.sector_name,
                         sector_region: row.sector_region || null,
                         sector_location: row.sector_location || null,
-                        description: row.sector_description || null,
+                        description: row.description || null,
                         is_hidden: row.is_hidden || false,
                         agents: []
                     });
@@ -378,7 +477,7 @@ class AgentSectorDAO {
 
                 const sectorGroup = sectorMap.get(row.sector_id);
 
-                
+
                 let agent = sectorGroup.agents.find(a => a.id === row.agent_id);
                 if (!agent) {
                     agent = {
@@ -387,13 +486,12 @@ class AgentSectorDAO {
                         surname: row.agent_surname,
                         email: row.agent_email,
                         institute_id: row.agent_institute_id,
-                        agent_workload: row.agent_workload || 0,
                         schedules: []
                     };
                     sectorGroup.agents.push(agent);
                 }
 
-                
+
                 if (row.schedule_day && row.schedule) {
                     const alreadyHas = agent.schedules.some(
                         s => s.schedule_day === row.schedule_day && s.schedule === row.schedule

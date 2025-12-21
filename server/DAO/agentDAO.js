@@ -2,7 +2,7 @@
 const UserDAO = require('./userDAO');
 const User = require('../models/user');
 const SectorDAO = require('./sectorDAO');
-const db = require('../database/db');
+
 
 
 
@@ -53,12 +53,22 @@ class AgentDAO extends UserDAO {
             )
             .where('users.institute_role', 'agent');
 
+        if (institute_id) {
+            query.andWhere('users.institute_id', institute_id);
+        }
+        if (area_id) {
+            query.andWhere('users.area_id', area_id);
+        }
+
+        if (area_id || institute_id) {
+            if (email) query.andWhere('users.email', email);
+
+            if (first_name) query.andWhere('users.first_name', first_name);
+            if (surname) query.andWhere('users.surname', surname);
+        }
+
+
         if (id) query.andWhere('users.id', id);
-        if (email) query.andWhere('users.email', email);
-        if (institute_id) query.andWhere('users.institute_id', institute_id);
-        if (institute_id && first_name) query.andWhere('users.first_name', first_name);
-        if (institute_id && first_name && surname) query.andWhere('users.surname', surname);
-        if (area_id) query.andWhere('users.area_id', area_id);
 
         const rows = await query;
 

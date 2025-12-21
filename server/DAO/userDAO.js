@@ -24,6 +24,7 @@ class UserDAO {
             } = filters;
 
 
+
             const query = trx('users')
                 .leftJoin('area', 'users.area_id', 'area.id')
                 .select(
@@ -35,13 +36,16 @@ class UserDAO {
 
 
             if (id) query.where('users.id', id);
-            if (email) query.where('users.email', email);
-            if (first_name) query.where('users.first_name', first_name);
-            if (surname) query.where('users.surname', surname);
-            if (institute_id) query.where('users.institute_id', institute_id);
-            if (code) query.where('users.code', code);
-            if (institute_role) query.where('users.institute_role', institute_role);
             if (area_id) query.where('users.area_id', area_id);
+
+            if (institute_id || area_id) {
+                query.where('users.institute_id', institute_id);
+                if (email) query.where('users.email', email);
+                if (first_name) query.where('users.first_name', first_name);
+                if (surname) query.where('users.surname', surname);
+                if (code) query.where('users.code', code);
+                if (institute_role) query.where('users.institute_role', institute_role);
+            }
 
             const rows = await query;
 
@@ -68,8 +72,8 @@ class UserDAO {
         return res[0] || null;
     }
 
-    async getUserByEmail(email) {
-        const res = await this.findUsers({ email });
+    async getUserByEmail(email,institute_id) {
+        const res = await this.findUsers({ email,institute_id });
         return res[0] || null;
     }
 
@@ -111,16 +115,20 @@ class UserDAO {
             if (!(user instanceof User)) {
                 throw new Error("create() expects a User instance");
             }
+            let area_id = null;
 
             const data = user.toJSON();
-            const { email, institute_id, code, first_name, surname, password, institute_role, area_id } = data;
+            const { email, institute_id, code, first_name, surname, password, institute_role, area } = data;
+            if (area) {
+                area_id = area.id;
+            }
 
             const instituteExists = await this.instituteDAO.exists(institute_id, trx);
             if (!instituteExists) {
                 throw new Error("Institute does not exist");
             }
 
-            const userSameEmail = await trx('users').where({ email }).first();
+            const userSameEmail = await trx('users').where({ email,institute_id }).first();
             if (userSameEmail) throw new Error('Email is already in use');
 
             if (code) {
@@ -135,7 +143,7 @@ class UserDAO {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-        
+
             const [createdRow] = await trx('users')
                 .insert({
                     code: code || null,
@@ -153,18 +161,18 @@ class UserDAO {
 
             if (!createdRow) throw new Error("Failed to create user");
 
-       
-            let area = null;
+
+            let userArea = null;
             if (createdRow.area_id) {
-                const areaRow = await trx('areas')
-                    .select('id', 'name', 'acronym')
+                const areaRow = await trx('area')
+                    .select('id', 'area_name', 'acronym')
                     .where('id', createdRow.area_id)
                     .first();
 
                 if (areaRow) {
-                    area = {
+                    userArea = {
                         id: areaRow.id,
-                        name: areaRow.name,
+                        name: areaRow.area_name,
                         acronym: areaRow.acronym
                     };
                 }
@@ -172,8 +180,8 @@ class UserDAO {
 
             await trx.commit();
 
-            
-            return new User({ ...createdRow, area });
+
+            return new User({ ...createdRow, area: userArea });
 
         } catch (error) {
             if (trx) await trx.rollback();
@@ -246,45 +254,88 @@ class UserDAO {
             }
 
             const data = user.toJSON();
-            const { id, email, institute_id, code, first_name, surname } = data;
+            const { id, email, institute_id, code, first_name, surname, area, institute_role } = data;
 
+            // fetch current row to use existing institute_id if none provided
+            const existingRow = await trx('users').where({ id }).first();
+            if (!existingRow) throw new Error('User not found');
+
+            const effectiveInstituteId = institute_id || existingRow.institute_id;
+
+            
+            
+
+           
             const userSameEmail = await trx('users').where({ email }).whereNot({ id }).first();
             if (userSameEmail) {
                 throw new Error('Email is already in use by another user');
             }
 
+            
             if (code) {
-                const userInstituteCode = await trx('users').where({ code, institute_id }).whereNot({ id }).first();
+                const userInstituteCode = await trx('users')
+                    .where({ code, institute_id: effectiveInstituteId })
+                    .whereNot({ id })
+                    .first();
                 if (userInstituteCode) {
                     throw new Error('Code is already in use by another user in the same institute');
                 }
             }
 
+
             if (surname) {
-                const userSameFullName = await trx('users').where({ first_name, surname, institute_id }).whereNot({ id }).first();
+                const userSameFullName = await trx('users')
+                    .where({ first_name, surname, institute_id: effectiveInstituteId })
+                    .whereNot({ id })
+                    .first();
                 if (userSameFullName) {
                     throw new Error('Complete name is already in use by another user in the same institute');
                 }
             }
 
+            let area_id = null;
+            if (area) area_id = area.id;
+
+            const updateData = {
+                code: code || null,
+                first_name,
+                surname: surname || null,
+                email,
+                updated_at: trx.fn.now()
+            };
+
+
+            if (area !== undefined) updateData.area_id = area_id || null;
+
             const [updatedRow] = await trx('users')
                 .where({ id })
-                .update({
-                    code: code || null,
-                    first_name,
-                    surname: surname || null,
-                    email,
-                    updated_at: trx.fn.now()
-                })
+                .update(updateData)
                 .returning('*');
 
             if (!updatedRow) {
                 throw new Error('Failed to update user');
             }
 
+
+            let userArea = null;
+            if (updatedRow.area_id) {
+                const areaRow = await trx('area')
+                    .select('id', 'area_name', 'acronym')
+                    .where('id', updatedRow.area_id)
+                    .first();
+
+                if (areaRow) {
+                    userArea = {
+                        id: areaRow.id,
+                        name: areaRow.area_name,
+                        acronym: areaRow.acronym
+                    };
+                }
+            }
+
             await trx.commit();
 
-            return new User({ ...updatedRow });
+            return new User({ ...updatedRow, area: userArea });
         } catch (error) {
             if (trx) await trx.rollback();
             console.error('Error in update user:', error);
@@ -298,7 +349,7 @@ class UserDAO {
         try {
             trx = await this.db.transaction();
 
-           
+
             const result = await trx('users').where({ id }).del();
 
             if (result > 0) {

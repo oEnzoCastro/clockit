@@ -21,22 +21,31 @@ class ManagerDAO extends UserDAO {
                 area_id
             } = filters;
 
-           
+            if (institute_id) {
+                query.where('users.institute_id', institute_id);
+            }
+
+
             let query = trx('users')
                 .where({ institute_role: 'manager' });
 
             if (id) query.where('users.id', id);
-            if (email) query.where('users.email', email);
-            if (institute_id && first_name) query.where('users.first_name', first_name);
-            if (institute_id && surname) query.where('users.surname', surname);
-            if (institute_id) query.where('users.institute_id', institute_id);
-            if (code) query.where('users.code', code);
-
             
+
+
             if (area_id) {
                 query = query
                     .join('manager_area', 'users.id', 'manager_area.manager_id')
                     .where('manager_area.area_id', area_id);
+            }
+
+            if (area_id || institute_id) {
+                if (email) query.where('users.email', email);
+                if (first_name) query.where('users.first_name', first_name);
+                if (surname) query.where('users.surname', surname);
+
+                if (code) query.where('users.code', code);
+
             }
 
             const rows = await query;
@@ -48,7 +57,7 @@ class ManagerDAO extends UserDAO {
         }
     }
 
- 
+
     async getManagerById(id) {
         const res = await this.findManagers({ id });
         return res[0] || null;
@@ -76,7 +85,7 @@ class ManagerDAO extends UserDAO {
         return super.create(manager);
     }
 
-    
+
     async assignManagerToArea(manager_id, area_id) {
         let trx;
         try {

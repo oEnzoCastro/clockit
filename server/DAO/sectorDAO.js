@@ -56,11 +56,19 @@ class SectorDAO {
             } = filters;
 
             let query = trx('sector as a').select('a.*');
-
             if (institute_id) {
                 query = query
                     .join('area as b', 'a.area_id', 'b.id')
                     .where('b.institute_id', institute_id);
+            }
+            if (area_id) {
+                if (area_id) query.where('a.area_id', area_id);
+
+            }
+
+            if (area_id || institute_id) {
+                if (sector_name) query.where('a.sector_name', sector_name);
+                if (acronym) query.where('a.acronym', acronym);
             }
 
             if (agent_id) {
@@ -70,9 +78,7 @@ class SectorDAO {
             }
 
             if (id) query.where('a.id', id);
-            if (institute_id && sector_name) query.where('a.sector_name', sector_name);
-            if (institute_id && acronym) query.where('a.acronym', acronym);
-            if (area_id) query.where('a.area_id', area_id);
+
 
             const rows = await query;
             return rows.map(row => new Sector(row));
@@ -119,7 +125,7 @@ class SectorDAO {
         return this.findSectors({ agent_id }, trx);
     }
 
-    
+
     async update(sector) {
         const trx = await this.db.transaction();
         try {
@@ -169,7 +175,7 @@ class SectorDAO {
         }
     }
 
-    
+
     async delete(id) {
         const trx = await this.db.transaction();
         try {
@@ -187,7 +193,7 @@ class SectorDAO {
         }
     }
 
-    
+
     async exists(id, trx = this.db) {
         const sector = await trx('sector').where({ id }).first();
         return !!sector;
@@ -203,13 +209,13 @@ class SectorDAO {
         return !!sector;
     }
 
-    
-    async updateHiddenSector(id, hidden = true) {
+
+    async updateHiddenSector(id, is_hidden = true) {
         const trx = await this.db.transaction();
         try {
             const [updated] = await trx('sector')
                 .where({ id })
-                .update({ is_hidden: hidden })
+                .update({ is_hidden })
                 .returning('*');
 
             if (!updated) {

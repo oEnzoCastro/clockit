@@ -8,9 +8,6 @@ class DayScheduleDAO {
 
     }
 
-    // =========================
-    // CREATE
-    // =========================
     async create(daySchedule, trx = this.db) {
         let localTrx = null;
 
@@ -55,9 +52,6 @@ class DayScheduleDAO {
     }
 
 
-    // =========================
-    // DELETE
-    // =========================
     async delete(agent_id, sector_id, schedule_day) {
         const trx = await this.db.transaction();
         try {
@@ -74,9 +68,6 @@ class DayScheduleDAO {
         }
     }
 
-    // =========================
-    // UPDATE
-    // =========================
     async update(daySchedule) {
         const trx = await this.db.transaction();
         try {
@@ -108,9 +99,7 @@ class DayScheduleDAO {
         }
     }
 
-    // =========================
-    // GET ONE (COMPOSITE KEY)
-    // =========================
+
     async getDaySchedule(daySchedule, trx = this.db) {
         const { agent_id, sector_id, schedule_day } = daySchedule.toJSON();
 
@@ -121,9 +110,7 @@ class DayScheduleDAO {
         return row ? new DaySchedule(row) : null;
     }
 
-    // =========================
-    // FIND (FILTERS)
-    // =========================
+    
     async find(filters = {}, trx = this.db) {
         const {
             agent_id,
@@ -136,31 +123,48 @@ class DayScheduleDAO {
         } = filters;
 
         const query = trx('day_schedule as ds')
-            .select('ds.*');
+            .select('ds.*')
+            .join('sector as s', 'ds.sector_id', 's.id')
+            .join('area as a', 's.area_id', 'a.id');
 
-        if (area_id || institute_id || sector_name || sector_acronym) {
-            query.join('sector as s', 'ds.sector_id', 's.id');
-        }
-
-        if (area_id || institute_id) {
-            query.join('area as a', 's.area_id', 'a.id');
-        }
-
+    
         if (institute_id) {
-            query.join('institute as i', 'a.institute_id', 'i.id');
+            query.join('institute as i', 'a.institute_id', 'i.id')
+                .where('i.id', institute_id);
         }
 
-        if (agent_id) query.where('ds.agent_id', agent_id);
-        if (sector_id) query.where('ds.sector_id', sector_id);
-        if (schedule_day) query.where('ds.schedule_day', schedule_day);
-        if (area_id) query.where('a.id', area_id);
-        if (institute_id) query.where('i.id', institute_id);
-        if (sector_name) query.where('s.sector_name', sector_name);
-        if (sector_acronym) query.where('s.acronym', sector_acronym);
+        if (agent_id) {
+            query.where('ds.agent_id', agent_id);
+        }
+
+        if (sector_id) {
+            query.where('ds.sector_id', sector_id);
+        }
+
+
+
+        if (area_id) {
+            query.where('a.id', area_id);
+        }
+
+        if (institute_id || area_id) {
+            if (sector_name) {
+                query.where('s.sector_name', sector_name);
+
+            }
+            if (schedule_day) {
+                query.where('ds.schedule_day', schedule_day);
+            }
+
+            if (sector_acronym) {
+                query.where('s.acronym', sector_acronym);
+            }
+        }
 
         const rows = await query;
-        return rows.map(r => new DaySchedule(r));
+        return rows.map(row => new DaySchedule(row));
     }
+
 
 }
 

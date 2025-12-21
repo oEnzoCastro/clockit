@@ -21,12 +21,32 @@ class DirectorDAO extends UserDAO {
             const query = trx('users')
                 .where({ institute_role: 'director' });
 
-            if (id) query.where('id', id);
-            if (email) query.where('email', email);
-            if (first_name) query.where('first_name', first_name);
-            if (surname) query.where('surname', surname);
-            if (institute_id) query.where('institute_id', institute_id);
-            if (code) query.where('code', code);
+            
+            if (id) {
+                query.where('id', id);
+            }
+
+            
+            if (institute_id) {
+                query.where('institute_id', institute_id);
+
+                
+                if (email) {
+                    query.where('email', email);
+                }
+
+                if (first_name) {
+                    query.where('first_name', first_name);
+                }
+
+                if (surname) {
+                    query.where('surname', surname);
+                }
+
+                if (code) {
+                    query.where('code', code);
+                }
+            }
 
             const rows = await query;
             return rows.map(row => new User(row));
@@ -36,6 +56,7 @@ class DirectorDAO extends UserDAO {
             throw error;
         }
     }
+
 
     async getDirectorById(id) {
         const res = await this.findDirectors({ id });

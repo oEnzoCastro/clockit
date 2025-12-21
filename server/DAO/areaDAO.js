@@ -8,7 +8,7 @@ class AreaDAO {
         this.instituteDAO = new InstituteDAO(db);
     }
 
-  
+
     async create(area) {
         const trx = await this.db.transaction();
         try {
@@ -59,25 +59,37 @@ class AreaDAO {
         }
     }
 
- 
-    async findAreas(filters = {}, trx = this.db) {
-        try {
-            const { id, acronym, area_name, institute_id } = filters;
-            const query = trx('area');
 
-            if (id) query.where({ id });
-            if (acronym) query.where({ acronym });
-            if (area_name) query.where({ area_name });
-            if (institute_id) query.where({ institute_id });
+   async findAreas(filters = {}, trx = this.db) {
+    try {
+        const { id, acronym, area_name, institute_id } = filters;
+        const query = trx('area');
 
-            const rows = await query;
-            return rows.map(row => new Area(row));
-
-        } catch (error) {
-            console.error('Error in findAreas():', error);
-            throw error;
+        if (id) {
+            query.where({ id });
         }
+
+        if (institute_id) {
+            query.where({ institute_id });
+
+            if (acronym) {
+                query.where({ acronym });
+            }
+
+            if (area_name) {
+                query.where({ area_name });
+                
+            }
+        }
+
+        const rows = await query;
+        return rows.map(row => new Area(row));
+
+    } catch (error) {
+        console.error('Error in findAreas():', error);
+        throw error;
     }
+}
 
 
     async getAreaById(id) {
@@ -99,7 +111,7 @@ class AreaDAO {
         return this.findAreas({ institute_id });
     }
 
- 
+
     async update(area) {
         const trx = await this.db.transaction();
         try {
@@ -126,7 +138,7 @@ class AreaDAO {
             const [updatedArea] = await trx('area').where({ id }).update({ area_name, institute_id, acronym, max_workload: max_workload, is_hidden }).returning('*');
 
             if (!updatedArea) {
-                throw new Error("Failed to update area or area not found");
+                return null;
             }
 
             await trx.commit();
