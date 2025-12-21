@@ -8,14 +8,20 @@ import Trash from '../../../public/trash.svg'
 import Cancel from '../../../public/x.svg'
 import ConfirmWhite from '../../../public/check-white.svg'
 
-export default function Setor() {
+export default function Agent() {
   const [open, setOpen] = useState(false)
   const [del, setDel] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+
+  // Estados dos campos
   const [editNome, setEditNome] = useState(false)
-  const [nome, setNome] = useState("Exemplo de nome")
-  const [editSigla, setEditSigla] = useState(false)
-  const [sigla, setSigla] = useState("Exemplo de sigla")
+  const [nome, setNome] = useState('Exemplo de nome')
+
+  const [editEmail, setEditEmail] = useState(false)
+  const [email, setEmail] = useState('exemplo@email.com')
+
+  const [editCarga, setEditCarga] = useState(false)
+  const [cargaHoraria, setCargaHoraria] = useState('40h')
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -36,28 +42,16 @@ export default function Setor() {
       {!del && (
         <div className="default box">
           <div className='sectorHeader'>
-            <h2 className="sectorTitle">Setor 1</h2>
-            <div className='sectorEdit'>
+            <h2 className="sectorTitle">Agente</h2>
 
-              {/* BOTÕES QUANDO O SETOR ESTÁ FECHADO */}
+            <div className='sectorEdit'>
               {!open && (
                 <>
-                  <Image
-                    className='pen'
-                    src={Pen}
-                    alt='Pen'
-                    onClick={() => setOpen(true)}
-                  />
-                  <Image
-                    className='trash'
-                    src={Trash}
-                    alt='Trash'
-                    onClick={() => setDel(true)}
-                  />
+                  <Image className='pen' src={Pen} alt='Pen' onClick={() => setOpen(true)} />
+                  <Image className='trash' src={Trash} alt='Trash' onClick={() => setDel(true)} />
                 </>
               )}
 
-              {/* BOTÃO QUANDO O SETOR ESTÁ ABERTO */}
               {open && (
                 <Image
                   className='closeBtn'
@@ -66,16 +60,15 @@ export default function Setor() {
                   onClick={() => setOpen(false)}
                 />
               )}
-
             </div>
           </div>
 
-
           <div className="sectorContent">
+
             {/* NOME */}
             <div className="field">
               <input
-                className={editNome ? "editing" : ""}
+                className={editNome ? 'editing' : ''}
                 type="text"
                 value={nome}
                 readOnly={!editNome}
@@ -83,53 +76,54 @@ export default function Setor() {
               />
 
               {!editNome && (
-                <Image
-                  src={Pen}
-                  alt="editar"
-                  className="icon"
-                  onClick={() => setEditNome(true)}
-                />
+                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditNome(true)} />
               )}
 
               {editNome && (
                 <div className="confirmBtn">
-                  <Image
-                    src={ConfirmWhite}
-                    alt="confirmar"
-                    onClick={() => setEditNome(false)}
-                  />
+                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditNome(false)} />
                 </div>
               )}
             </div>
 
-            {/* SIGLA */}
+            {/* EMAIL */}
             <div className="field">
               <input
-                className={editSigla ? "editing" : ""}
-                type="text"
-                value={sigla}
-                readOnly={!editSigla}
-                onChange={(e) => setSigla(e.target.value)}
+                className={editEmail ? 'editing' : ''}
+                type="email"
+                value={email}
+                readOnly={!editEmail}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
-              {!editSigla && (
-                <Image
-                  src={Pen}
-                  alt="editar"
-                  className="icon"
-                  onClick={() => setEditSigla(true)}
-                />
+              {!editEmail && (
+                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditEmail(true)} />
               )}
 
-              {editSigla && (
+              {editEmail && (
                 <div className="confirmBtn">
+                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditEmail(false)} />
+                </div>
+              )}
+            </div>
 
-                  <Image
-                    src={ConfirmWhite}
-                    alt="confirmar"
-                    className="confirmBtn"
-                    onClick={() => setEditSigla(false)}
-                  />
+            {/* CARGA HORÁRIA */}
+            <div className="field">
+              <input
+                className={editCarga ? 'editing' : ''}
+                type="text"
+                value={cargaHoraria}
+                readOnly={!editCarga}
+                onChange={(e) => setCargaHoraria(e.target.value)}
+              />
+
+              {!editCarga && (
+                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditCarga(true)} />
+              )}
+
+              {editCarga && (
+                <div className="confirmBtn">
+                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditCarga(false)} />
                 </div>
               )}
             </div>
@@ -150,7 +144,6 @@ export default function Setor() {
           </div>
         </div>
       )}
-
     </div>
   )
 }

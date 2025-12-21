@@ -4,7 +4,7 @@ main {
     height: 100%;
     width: 100%;
     gap: 30px;
-    min-height: 0; /* MUITO IMPORTANTE */
+    min-height: 0;
 }
 
 .mainContent {
@@ -40,8 +40,8 @@ main {
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 
-    overflow-y: auto; /* scroll aparece quando precisar */
-    min-height: 0;    /* NECESSÁRIO PARA FUNCIONAR */
+    overflow-y: auto; 
+    min-height: 0;
     background-color: var(--Platinum-blur);
     padding: 20px;
     border-radius: 20px;

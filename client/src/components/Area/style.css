@@ -17,6 +17,11 @@
     overflow: hidden;
 }
 
+.imagem{
+    width: 100%;
+    height: 100%;
+}
+
 .areaImage {
     width: 100%;
     height: 100%;

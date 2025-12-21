@@ -8,14 +8,14 @@ interface Props {
   alt: string
 }
 
-export default function Content({text, src, alt}: Props) {
+export default function Area(){
     return (
 
         <div className="area">
             <div className="imageWrapper">
-                <Image src={src} alt={alt} className="areaImage" />
+                <Image className="imagem" src="/Organization-Team-Work 1.png" alt="Plus" width={24} height={24} />
             </div>
-            <h2>{text}</h2>
+            <h2>Area 1</h2>
         </div>
 
     )

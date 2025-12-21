@@ -4,7 +4,6 @@ main {
     width: 100%;
     gap: 30px;
     min-height: 0;
-    /* MUITO IMPORTANTE */
 }
 
 .mainContent {
@@ -36,13 +35,10 @@ main {
     justify-content: center;
 }
 
-/* container pra permitir transição de largura */
 .wrapper {
     width: fit-content;
-    /* não muda nada visualmente */
 }
 
-/* adicionada apenas a animação */
 .animated {
     transition: width 0.25s ease, padding 0.25s ease;
 }
@@ -103,9 +99,9 @@ main {
 .setores {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* duas colunas */
-    grid-auto-rows: max-content;           /* impede esticar */
-    gap: 20px;                             /* sempre igual */
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: max-content;
+    gap: 20px;
     
     overflow-y: auto; 
     min-height: 0;
