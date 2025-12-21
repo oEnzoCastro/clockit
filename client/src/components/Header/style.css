@@ -1,0 +1,35 @@
+header {
+    background-color: var(--Platinum-blur);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 20px;
+    color: var(--DeepspaceBlue);
+    height: min-content;
+}
+
+.sec{
+    display: flex;
+    gap: 20px;
+}
+
+.blocks{
+    background-color: var(--Platinum);
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.logo{
+    height: 100%;
+    background-color: var(--Platinum);
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginButton{
+    text-decoration: none;
+    color: var(--DeepspaceBlue);
+}

@@ -1,0 +1,126 @@
+
+main {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    min-height: 0;
+}
+
+.mainContent {
+    color: var(--DeepspaceBlue);
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 80%;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+
+
+.title {
+    background-color: var(--Platinum);
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.areas {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    overflow-y: auto; 
+    min-height: 0;
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+    height: 100%;
+
+
+}
+
+.linkArea{
+    text-decoration: none;
+    color: var(--DeepspaceBlue);
+}
+
+.mainHeader{
+    width: 100%;
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.wrapper {
+    width: fit-content;
+}
+
+.animated {
+    transition: width 0.25s ease, padding 0.25s ease;
+}
+
+.newSector {
+    display: flex;
+    background-color: var(--Platinum);
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 10px;
+    width: 210px;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    background-color: var(--Platinum);
+    border-radius: 10px;
+    width: 200px;
+}
+
+.expanded {
+    width: 700px;
+    height: 60px;
+}
+
+.sectorSeach {
+    height: 60px;
+    border: none;
+    background-color: rgba(240, 248, 255, 0);
+    padding: 20px;
+    outline: none;
+    border-radius: 10px;
+    color: var(--DeepspaceBlue);
+    font-size: x-large;
+    width: 100%;
+    transition: width 0.25s ease;
+}
+
+.sectorSeach::placeholder {
+    color: var(--DeepspaceBlue-blur);
+}
+
+.lupe {
+    opacity: 0;
+}
+
+.search:focus-within .lupe {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+}

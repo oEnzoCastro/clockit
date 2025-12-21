@@ -1,0 +1,40 @@
+:root {
+  --background-1: #f7feff;
+  --text: #868686;
+  --background-2: #e4ebec;
+
+  --Platinum: #EEEEEE;
+  --Platinum-blur: hsla(0, 0%, 93%, 0.5);
+  --DeepspaceBlue: #18314F;
+  --DeepspaceBlue-blur: #18304e80;
+  --Periwinkle: #CCD7FF;
+  --Amarant: #D1495B;
+  --MidnightViolet: #412234;
+  --WisteriaBlue: #9EA7FF;
+  --Emerald: #4EC969;
+}
+
+html,
+body {
+  color: var(--text);
+  height: 100%;
+  max-height: 100dvh;
+}
+
+.children {
+  display: flex;
+  padding: 30px;
+  height: 100%;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
