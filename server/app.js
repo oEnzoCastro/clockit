@@ -21,7 +21,7 @@ app.use('/calendar',calendarRoutes);
 app.use('/daySchedules',dayScheduleRoutes);
 app.use('/sectors',sectorRoutes);
 
-app.listen(3000,()=>{
-    console.log("app running on localhost:3000");
+app.listen(5000,()=>{
+    console.log("app running on localhost:5000");
 });
 
