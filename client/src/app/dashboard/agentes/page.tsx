@@ -24,7 +24,7 @@ export default function page() {
                 onClick={() => setEditing(true)}
               >
                 <Image src="/plus.svg" alt="Plus" width={24} height={24} />
-                <h2>Novo setor</h2>
+                <h2>Novo monitor</h2>
               </div>
             ) : (
               <div className="search animated expanded">
@@ -42,13 +42,9 @@ export default function page() {
               </div>
             )}
           </div>
-          <h2 className='title'>Minhas areas</h2>
+          <h2 className='title'>Monitores</h2>
         </article>
         <article className='agentes'>
-          <Agent />
-          <Agent />
-          <Agent />
-          <Agent />
         </article>
       </section>
     </main>

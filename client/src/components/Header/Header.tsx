@@ -19,8 +19,8 @@ export default async function Header() {
       </section>
 
       <section className='pages sec'>
-        <h2 className='blocks'>Calendário</h2>
-        <h2 className='blocks'>Dashboard</h2>
+        <Link className='pagesRedirect' href="/calendario"> <h2 className='blocks'>Calendário</h2> </Link>
+        <Link className='pagesRedirect' href="/dashboard"> <h2 className='blocks'>Dashboard</h2> </Link>
         {!loggedIn && (
           <Link className='loginButton' href="/login">
             <h2 className="blocks">Logar</h2>

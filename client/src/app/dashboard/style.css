@@ -24,6 +24,7 @@ main {
 
 .title {
     background-color: var(--Platinum);
+    background-color: red;
     padding: 10px;
     width: 100%;
     border-radius: 10px;

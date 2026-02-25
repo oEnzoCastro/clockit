@@ -37,7 +37,7 @@ export default function Page() {
 
                 {/* CADASTRO */}
                 <section className={`cadastro form ${mostrarFrom ? 'show' : 'hide'}`}>
-                    <h1 className="title">Cadastro</h1>
+                    {/* <h1 className="title">Cadastro</h1>
 
                     <article className="inputs">
                         <input type="text" placeholder="Primeiro nome:" />
@@ -56,7 +56,7 @@ export default function Page() {
                         <button className="log red" onClick={() => setMostrarForm(false)}>
                             <h1>Login</h1>
                         </button>
-                    </article>
+                    </article> */}
                 </section>
             </div>
         </div>

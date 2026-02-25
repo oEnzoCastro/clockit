@@ -28,7 +28,7 @@ export default function page() {
                                 onClick={() => setEditing(true)}
                             >
                                 <Image src="/plus.svg" alt="Plus" width={24} height={24} />
-                                <h2>Novo setor</h2>
+                                <h2>Nova matéria</h2>
                             </div>
                         ) : (
                             <div className="search animated expanded">

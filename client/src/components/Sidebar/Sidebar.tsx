@@ -22,14 +22,14 @@ export default function Sidebar() {
         href="/dashboard/areas"
         className={`opcoes ${isAreas ? 'ativo' : ''}`}
       >
-        <h1 className='pageName'>Áreas</h1>
+        <h1 className='pageName'>Matérias</h1>
       </Link>
 
       <Link
         href="/dashboard/agentes"
         className={`opcoes ${isAgentes ? 'ativo' : ''}`}
       >
-        <h1 className='pageName'>Agentes</h1>
+        <h1 className='pageName'>Monitores  </h1>
       </Link>
     </aside>
   )

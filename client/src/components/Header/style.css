@@ -15,9 +15,16 @@ header {
 }
 
 .blocks{
+    color: var(--DeepspaceBlue);
     background-color: var(--Platinum);
+    text-decoration: none;
     padding: 0 10px;
     border-radius: 10px;
+
+}
+
+.pagesRedirect{
+    text-decoration: none;
 }
 
 .logo{
