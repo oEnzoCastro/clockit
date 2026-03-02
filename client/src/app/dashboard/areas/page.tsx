@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import React from 'react'
 import './style.css'
 
@@ -8,10 +8,20 @@ import Area from '../../../components/Area/Area'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export default function page() {
+export default function Page() {
 
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState('')
+  const [areas, setAreas] = useState<any[]>([])
+
+  useEffect(() => {
+    fetch('http://localhost:5000/areas/get')
+      .then(res => res.json())
+      .then(json => {
+        setAreas(json.data)
+      })
+      .catch(err => console.error('Erro ao buscar áreas:', err))
+  }, [])
 
   return (
     <main>
@@ -25,12 +35,11 @@ export default function page() {
                 onClick={() => setEditing(true)}
               >
                 <Image src="/plus.svg" alt="Plus" width={24} height={24} />
-                <h2>Nova matéria</h2>
+                <h2>Novo Curso</h2>
               </div>
             ) : (
               <div className="search animated expanded">
                 <Image src="/magnifying-glass.svg" alt="Plus" width={24} height={24} />
-
                 <input
                   className="sectorSeach"
                   type="text"
@@ -43,12 +52,22 @@ export default function page() {
               </div>
             )}
           </div>
-          <h2 className='title'>Matérias</h2>
+          <h2 className='title'>Cursos</h2>
         </article>
+
         <article className='areas'>
-          <Link className='linkArea' href="/dashboard/areas/area"> <Area /> </Link>
+          {areas.map((area) => (
+            <Link
+              key={area.id}
+              className='linkArea'
+              href={`/dashboard/areas/${area.id}`}
+            >
+              <Area {...area} />
+            </Link>
+          ))}
         </article>
+
       </section>
     </main>
   );
-} 
+}

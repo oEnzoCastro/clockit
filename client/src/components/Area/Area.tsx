@@ -1,22 +1,23 @@
 import React from 'react'
 import './style.css'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 
 interface Props {
-  text: string
-  src: StaticImageData
-  alt: string
+  area_name: string
 }
 
-export default function Area(){
-    return (
-
-        <div className="area">
-            <div className="imageWrapper">
-                <Image className="imagem" src="/Organization-Team-Work 1.png" alt="Plus" width={24} height={24} />
-            </div>
-            <h2>Area 1</h2>
-        </div>
-
-    )
+export default function Area({ area_name }: Props) {
+  return (
+    <div className="area">
+      <div className="imageWrapper">
+        <Image
+        src="/Organization-Team-Work 1.png"
+        alt={area_name}
+        fill
+        className="areaImage"
+        />
+      </div>
+      <h2 className='areaName'>{area_name}</h2>
+    </div>
+  )
 }

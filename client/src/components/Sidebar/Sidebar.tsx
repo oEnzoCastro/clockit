@@ -22,7 +22,7 @@ export default function Sidebar() {
         href="/dashboard/areas"
         className={`opcoes ${isAreas ? 'ativo' : ''}`}
       >
-        <h1 className='pageName'>Matérias</h1>
+        <h1 className='pageName'>Cursos</h1>
       </Link>
 
       <Link

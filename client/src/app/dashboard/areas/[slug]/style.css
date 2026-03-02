@@ -35,24 +35,16 @@ main {
     justify-content: center;
 }
 
-.wrapper {
-    width: fit-content;
-}
-
-.animated {
-    transition: width 0.25s ease, padding 0.25s ease;
-}
-
 .newSector {
     display: flex;
     background-color: var(--Platinum);
     height: 60px;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     border-radius: 10px;
     gap: 10px;
-    width: 240px;
+    padding: 20px;
+    width: 320px;
 }
 
 .search {
@@ -102,8 +94,8 @@ main {
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: max-content;
     gap: 20px;
-    
-    overflow-y: auto; 
+
+    overflow-y: auto;
     min-height: 0;
 
     background-color: var(--Platinum-blur);
@@ -125,7 +117,7 @@ main {
     justify-content: center;
 }
 
-.mainHeader{
+.mainHeader {
     width: 100%;
     background-color: var(--Platinum-blur);
     padding: 20px;

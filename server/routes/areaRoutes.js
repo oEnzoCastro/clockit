@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/get',areaController.getAreas);
 router.put('/update',authMiddleware.isAuthorized,areaController.updateArea);
-
+router.get('/:id', areaController.getAreaById);
 
 module.exports = router;

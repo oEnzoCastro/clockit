@@ -72,3 +72,33 @@ exports.updateArea = async (req, res) => {
         });
     }
 };
+
+exports.getAreaById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const area = await areaDAO.getAreaById(id);
+
+        if (!area) {
+            return res.status(404).json({
+                success: false,
+                error: null,
+                message: "Area not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: area.toJSON(),
+            message: "Area retrieved successfully"
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            error: error.message || error,
+            message: "Failed to get Area"
+        });
+    }
+};
+
