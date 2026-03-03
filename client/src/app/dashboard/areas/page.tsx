@@ -1,7 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import React from 'react'
-import './style.css'
+import './areas.css'
+import { useProtectedPage } from '@/hooks/useProtectedPage';
 
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import Area from '../../../components/Area/Area'
@@ -9,6 +10,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Page() {
+
+  const { checking } = useProtectedPage(['manager']); // <-- aqui define a role
 
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState('')
@@ -23,6 +26,7 @@ export default function Page() {
       .catch(err => console.error('Erro ao buscar áreas:', err))
   }, [])
 
+  if (checking) return <div>Carregando...</div>;
   return (
     <main>
       <Sidebar />

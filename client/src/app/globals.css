@@ -6,7 +6,8 @@
   --Platinum: #EEEEEE;
   --Platinum-blur: hsla(0, 0%, 93%, 0.5);
   --DeepspaceBlue: #18314F;
-  --DeepspaceBlue-blur: #18304e80;
+  --DeepspaceBlue-blur: hsla(213, 53%, 20%, 0.5);
+  --DeepspaceBlue-blur-focus: hsla(213, 53%, 20%, 0.2);
   --Periwinkle: #CCD7FF;
   --Amarant: #D1495B;
   --MidnightViolet: #412234;

@@ -1,5 +1,5 @@
 import React from 'react'
-import './style.css'
+import './dashboard.css'
 
 import fotoArea from '../../../public/Organization-Team-Work 1.png'
 import Sidebar from '@/components/Sidebar/Sidebar'
@@ -13,7 +13,6 @@ export default async function page() {
   redirect('/dashboard/areas')
 
   return (
-    <main>
-    </main>
+    <></>
   );
 } 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import "./style.css";
+import "./calendario.css";
 import Image from "next/image";
 import backDay from "../../../public/back-day.svg";
 

@@ -1,0 +1,196 @@
+main {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    min-height: 0;
+}
+
+.mainContent {
+    color: var(--DeepspaceBlue);
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 80%;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.mainHeader {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.arrowBack {
+    display: flex;
+    background-color: var(--Platinum);
+    aspect-ratio: 1 / 1;
+    height: 60px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    transition: ease .1s;
+}
+
+.newSector {
+    all: unset;
+    display: flex;
+    background-color: var(--Platinum);
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    gap: 10px;
+    padding: 0 20px;
+    width: 320px;
+    cursor: pointer;
+    transition: ease-in .1s;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    background-color: var(--Platinum);
+    border-radius: 10px;
+    width: 200px;
+}
+
+.expanded {
+    width: 700px;
+    height: 60px;
+}
+
+.setores {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: max-content;
+    gap: 20px;
+
+    overflow-y: auto;
+    min-height: 0;
+
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+    height: 100%;
+}
+
+
+.titleArea {
+    background-color: var(--Platinum);
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainHeader {
+    width: 100%;
+    background-color: var(--Platinum-blur);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--DeepspaceBlue-blur-focus);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--Platinum-blur);
+    width: 500px;
+    max-width: 90%;
+
+    padding: 30px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    color: var(--DeepspaceBlue);
+}
+
+.modal h2 {
+    background-color: var(--Platinum);
+    height: 60px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup label {
+    font-weight: 500;
+}
+
+.formGroup input[type="text"] {
+    all: unset;
+    background-color: var(--Platinum);
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 15px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalActions button {
+    all: unset;
+    background-color: var(--Platinum);
+    height: 50px;
+    padding: 0 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: ease-in .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalCancel:hover {
+    background-color: var(--Amarant);
+    color: var(--Platinum);
+}
+
+.modalCreate:hover {
+    background-color: var(--DeepspaceBlue);
+    color: var(--Platinum);
+}

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import React from 'react'
-import './style.css'
+import './setores_agentes.css'
 import Image from 'next/image'
 import Link from 'next/link'
 

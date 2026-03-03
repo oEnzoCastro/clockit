@@ -2,10 +2,11 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header/Header";
 import Background from "@/components/Background/Background";
+import { AuthProvider } from "../contexts/AuthContext"; // <-- import do AuthProvider
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "600", "700"], // pesos que vai usar
+  weight: ["400", "600", "700"],
 });
 
 export const metadata = {
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={poppins.className}>
-        <div className="children">
-          <Header />
-          {children}
-        </div>
-        <Background />
+        <AuthProvider> {/* <-- envolve todo o front-end */}
+          <div className="children">
+            <Header />
+            {children}
+          </div>
+          <Background />
+        </AuthProvider>
       </body>
     </html>
   );

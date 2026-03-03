@@ -7,12 +7,12 @@ const db = require('../database/db');
 const InstituteDAO = require("../DAO/instituteDAO");
 const AreaDAO = require("../DAO/areaDAO");
 
-
 const userDAO = new UserDAO(db);
 const areaDAO = new AreaDAO(db);
 const userTokenDAO = new UserTokenDAO(db);
 const instituteDAO = new InstituteDAO(db);
 
+// ------------------- LOGIN -------------------
 exports.login = async (req, res) => {
     try {
         const { email, password, institute_name, institute_acronym } = req.body;
@@ -20,117 +20,116 @@ exports.login = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
-                error: null,
                 message: "Email and password are required"
             });
         }
 
+        // buscar instituto
         let institute = null;
-
         if (institute_name) {
             institute = await instituteDAO.getInstitutebyName(institute_name);
         } else if (institute_acronym) {
-            institute = await instituteDAO.getInstitutebyAcronym(institute_acronym);
+            institute = await instituteDAO.getInstitutebyAcronym(
+                institute_acronym.toUpperCase()
+            );
         }
 
         if (!institute) {
-            return res.status(404).json({
-                success: false,
-                error: null,
-                message: "Institute does not exist"
-            });
+            return res.status(404).json({ success: false, message: "Institute does not exist" });
         }
 
+        // buscar usuário
         const user = await userDAO.getUserByEmail(email, institute.id);
-
         if (!user || !user.password) {
-            return res.status(404).json({
-                success: false,
-                error: null,
-                message: "User does not exist or password not set"
-            });
+            return res.status(404).json({ success: false, message: "User does not exist or password not set" });
         }
 
+        // validar senha
         const validPassword = await bcrypt.compare(password, user.password.toString());
-
         if (!validPassword) {
-            return res.status(400).json({
-                success: false,
-                error: null,
-                message: "Invalid password"
-            });
+            return res.status(400).json({ success: false, message: "Invalid password" });
         }
 
+        // buscar áreas se manager
         let areas = null;
         if (user.institute_role === 'manager') {
             areas = await areaDAO.getAreasByManager(user.id);
         }
 
-        const token = jwtService.generateAccessToken(
-            user.id,
-            user.institute_role
-        );
+        // gerar tokens
+        const accessToken = jwtService.generateAccessToken(user.id, user.institute_role);
+        const refreshToken = jwtService.generateRefreshToken(user.id);
 
-        await userTokenDAO.create(
-            new UserToken({ user_id: user.id, token })
-        );
+        // salvar refresh token no banco
+        await userTokenDAO.create(new UserToken({ user_id: user.id, token: refreshToken, type: 'refresh' }));
 
+        // enviar refresh token via cookie HTTP-only
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 7 dias
+        });
+
+        // retornar access token no body
         return res.status(200).json({
             success: true,
             message: "Login successful",
             data: {
-                token,
+                accessToken,
                 id: user.id,
                 name: user.name,
                 email: user.email,
                 institute_role: user.institute_role,
-                area: user.area
+                area: areas
             }
         });
 
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            error: error.message || error,
-            message: "Error in login"
-        });
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Error in login", error: error.message });
     }
 };
 
+// ------------------- REFRESH TOKEN -------------------
+exports.refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) return res.status(401).json({ message: 'No refresh token provided' });
 
+        // verificar token
+        const decoded = jwtService.verifyRefreshToken(refreshToken);
+
+        // checar se existe no banco
+        const storedToken = await userTokenDAO.findToken(decoded.userId, refreshToken);
+        if (!storedToken) return res.status(403).json({ message: 'Refresh token revoked' });
+
+        // gerar novo access token
+        const user = await userDAO.getUserById(decoded.userId);
+        const newAccessToken = jwtService.generateAccessToken(user.id, user.institute_role);
+
+        return res.status(200).json({ accessToken: newAccessToken });
+    } catch (err) {
+        console.error(err);
+        return res.status(401).json({ message: 'Invalid refresh token', error: err.message });
+    }
+};
+
+// ------------------- LOGOUT -------------------
 exports.logout = async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) return res.status(401).json({ message: "No refresh token provided" });
 
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ message: "No token provided" });
-        }
+        // invalidar refresh token no banco
+        await userTokenDAO.invalidate(refreshToken);
 
-        const token = authHeader.split(' ')[1];
+        // limpar cookie
+        res.clearCookie('refreshToken');
 
-        const revoked = await userTokenDAO.invalidate(token);
-        if (!revoked) {
-            return res.status(404).json({
-                success: false,
-                error: null,
-                message: "No token"
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Token successfully revoked"
-        });
-
+        return res.status(200).json({ success: true, message: "Logged out successfully" });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            error: error.message || error,
-            message: "Error in logout"
-        });
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Error in logout", error: error.message });
     }
 };
-
-
-
-

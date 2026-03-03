@@ -1,64 +1,102 @@
 'use client';
-import './style.css'
-import React, { useState } from 'react'
+import './login.css';
+import React, { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+// import { useGuestOnlyPage } from '@/hooks/useGuestOnlyPage';
 
 export default function Page() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [instituteAcronym, setInstituteAcronym] = useState('');
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    const [mostrarFrom, setMostrarForm] = useState(false)
+  const { login } = useAuth();
+  const router = useRouter();
 
-    return (
-        <div className='loginForm '>
-            <div className='forms'>
+  const { accessToken } = useAuth();
+  useEffect(() => {
+    if (accessToken) router.replace('/dashboard');
+  }, [accessToken, router]);
 
-                {/* LOGIN */}
-                <section className={`login form ${mostrarFrom ? 'hide' : 'show'}`}>
-                    {/* <h1 className='title'>Login</h1> */}
-                    <h1 className='title'>ClockIt</h1>
+  // const { checking } = useGuestOnlyPage('/dashboard');
+  // if (checking) return <div>Carregando...</div>;
 
-                    <article className="inputs">
-                        <input type="email" placeholder="Email:" />
-                        <input type="password" placeholder="Senha:" />
-                    </article>
+  const handleLogin = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setMessage('');
 
-                    <article className="buttons">
-                        {/* <button
-                            className='cadas red'
-                            onClick={() => setMostrarForm(true)}
-                        >
-                            <h1>Cadastrar</h1>
-                        </button> */}
+    try {
+      const res = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password, institute_acronym: instituteAcronym })
+      });
 
-                        <button className='log'>
-                            <h1>Login</h1>
-                        </button>
+      const data = await res.json();
 
-                    </article>
-                </section>
+      if (!res.ok) {
+        setMessage(data.message || 'Erro no login');
+        return;
+      }
 
-                {/* CADASTRO */}
-                <section className={`cadastro form ${mostrarFrom ? 'show' : 'hide'}`}>
-                    {/* <h1 className="title">Cadastro</h1>
+      login(data.data.accessToken, {
+        id: data.data.id,
+        name: data.data.name,
+        email: data.data.email,
+        institute_role: data.data.institute_role,
+        area: data.data.area,
+      });
 
-                    <article className="inputs">
-                        <input type="text" placeholder="Primeiro nome:" />
-                        <input type="text" placeholder="Sobre nome:" />
-                        <input type="email" placeholder="Email:" />
-                        <input type="text" placeholder="Instituto:" />
-                        <input type="password" placeholder="Senha:" />
-                        <input type="password" placeholder="Confirmar senha:" />
-                    </article>
+      router.replace('/dashboard');
+    } catch (err) {
+      console.error(err);
+      setMessage('Erro ao conectar com o servidor');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-                    <article className="buttons">
-                        <button className="cadas">
-                            <h1>Cadastrar</h1>
-                        </button>
+  return (
+    <div className='loginForm'>
+      <div className='forms'>
+        <section className="login form">
+          <h1 className='title'>ClockIt</h1>
 
-                        <button className="log red" onClick={() => setMostrarForm(false)}>
-                            <h1>Login</h1>
-                        </button>
-                    </article> */}
-                </section>
-            </div>
-        </div>
-    )
+          <article className="inputs">
+            <input
+              type="email"
+              placeholder="Email:"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Senha:"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Sigla do instituto:"
+              value={instituteAcronym}
+              onChange={(e) => setInstituteAcronym(e.target.value.toUpperCase())}
+            />
+          </article>
+
+          <article className="buttons">
+            <button className='log' onClick={handleLogin} disabled={isLoading}>
+              <h1>{isLoading ? 'Entrando...' : 'Login'}</h1>
+            </button>
+          </article>
+
+          {message && <p className="loginMessage">{message}</p>}
+        </section>
+      </div>
+    </div>
+  );
 }

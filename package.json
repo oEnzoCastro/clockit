@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/oEnzoCastro/clockit#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "pg": "^8.16.3"
   },

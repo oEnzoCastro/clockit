@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser"); // <-- ADICIONAR
 
 const authRoutes = require("./routes/authRoutes");
 const areaRoutes = require("./routes/areaRoutes");
@@ -11,9 +12,13 @@ const sectorRoutes = require("./routes/sectorRoutes");
 
 const app = express();
 
+// 🔥 CORS CORRIGIDO
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3000",
+    credentials: true // <-- ESSENCIAL PARA COOKIES
 }));
+
+app.use(cookieParser()); // <-- ESSENCIAL PARA req.cookies
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

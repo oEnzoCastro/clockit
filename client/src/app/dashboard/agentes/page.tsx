@@ -1,16 +1,17 @@
 'use client'
 import { useState } from 'react'
-import './style.css'
+import './agentes.css'
 
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import Image from 'next/image'
-import Agent from '../../../components/Agent/Agent'
-
+import { useProtectedPage } from '@/hooks/useProtectedPage';
 export default function page() {
-
+  const { checking } = useProtectedPage(['manager']); // <-- aqui define a role
+  
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState('')
-
+  
+  if (checking) return <div>Carregando...</div>;
   return (
     <main>
       <Sidebar />
@@ -20,7 +21,7 @@ export default function page() {
           <div className="wrapper">
             {!editing ? (
               <div
-                className="newSector animated"
+              className="newSector animated"
                 onClick={() => setEditing(true)}
               >
                 <Image src="/plus.svg" alt="Plus" width={24} height={24} />

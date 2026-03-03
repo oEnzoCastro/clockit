@@ -9,6 +9,7 @@ class UserTokenDAO {
         this.userDAO = new UserDAO(db);
     }
 
+    // ------------------- CREATE -------------------
     async create(userToken) {
         const trx = await this.db.transaction();
         try {
@@ -18,10 +19,11 @@ class UserTokenDAO {
             const user = await this.userDAO.getUserById(userToken.user_id);
             if (!user) throw new Error("User does not exist");
 
-            const expires_at = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+            // expires_at agora é 7 dias
+            const expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
             const [inserted] = await trx("user_token")
-                .insert({ ...userToken.toJSON(), expires_at })
+                .insert({ ...userToken.toJSON(), expires_at, type: 'refresh' })
                 .returning("*");
 
             if (!inserted) throw new Error("Failed to insert userToken");
@@ -36,7 +38,15 @@ class UserTokenDAO {
         }
     }
 
+    // ------------------- FIND TOKEN -------------------
+    async findToken(userId, token, trx = this.db) {
+        const stored = await trx("user_token")
+            .where({ user_id: userId, token, type: 'refresh', revoked: false })
+            .first();
+        return stored ? new UserToken(stored) : null;
+    }
 
+    // ------------------- CLEAN EXPIRED -------------------
     async cleanExpired() {
         const trx = await this.db.transaction();
         try {
@@ -53,6 +63,7 @@ class UserTokenDAO {
         }
     }
 
+    // ------------------- CLEAN REVOKED -------------------
     async cleanRevoked() {
         const trx = await this.db.transaction();
         try {
@@ -69,13 +80,14 @@ class UserTokenDAO {
         }
     }
 
+    // ------------------- REFRESH TOKEN -------------------
     async refreshToken(token) {
         const trx = await this.db.transaction();
         try {
             const valid = await this.isValid(token, trx);
             if (!valid) throw new Error("Token is either expired or revoked");
 
-            const expires_at = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+            const expires_at = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
             const [updated] = await trx("user_token")
                 .where({ token })
@@ -93,6 +105,7 @@ class UserTokenDAO {
         }
     }
 
+    // ------------------- INVALIDATE -------------------
     async invalidate(token) {
         const trx = await this.db.transaction();
         try {
@@ -114,107 +127,30 @@ class UserTokenDAO {
         }
     }
 
+    // ------------------- CHECK EXPIRED -------------------
     async isExpired(token, trx = this.db) {
-        try {
-            const expired_token = await trx("user_token").where({ token }).first();
-            if (!expired_token) throw new Error("Token does not exist");
-            return expired_token.expires_at <= new Date();
-        } catch (err) {
-            throw err;
-        }
+        const expired_token = await trx("user_token").where({ token }).first();
+        if (!expired_token) throw new Error("Token does not exist");
+        return expired_token.expires_at <= new Date();
     }
 
+    // ------------------- CHECK VALID -------------------
     async isValid(token, trx = this.db) {
-        try {
-            const valid_token = await trx("user_token").where({ token }).first();
-            if (!valid_token) throw new Error("Token does not exist");
+        const valid_token = await trx("user_token").where({ token }).first();
+        if (!valid_token) throw new Error("Token does not exist");
 
-            const notExpired = valid_token.expires_at > new Date();
-            const notRevoked = !valid_token.revoked;
+        const notExpired = valid_token.expires_at > new Date();
+        const notRevoked = !valid_token.revoked;
 
-            return notExpired && notRevoked;
-        } catch (err) {
-            throw err;
-        }
+        return notExpired && notRevoked;
     }
 
+    // ------------------- CHECK REVOKED -------------------
     async isRevoked(token, trx = this.db) {
-        try {
-            const revoked_token = await trx("user_token").where({ token }).first();
-            if (!revoked_token) throw new Error("Token does not exist");
-            return revoked_token.revoked;
-        } catch (err) {
-            throw err;
-        }
-    }
-
-    
-}
-/*
-async function main() {
-    const tokenDAO = new UserTokenDAO(db);
-
-    try {
-        console.log("=== TESTING UserTokenDAO ===");
-
-        // 1. Create dummy token
-        const testUserId = "dbdc7e29-60f1-4e9a-a72f-a89ed0d57aae"; // Ensure this user exists in your DB
-        const dummyToken = new UserToken({
-            user_id:  "dbdc7e29-60f1-4e9a-a72f-a89ed0d57aae",
-            token: "test-refresh-token",
-            revoked: false
-        });
-
-        console.log("\n1. Creating token...");
-        const created = await tokenDAO.create(dummyToken);
-        console.log("Created token:", created);
-
-        const tokenId = created.id;
-
-        // 2. Check expired
-        console.log("\n2. isExpired()...");
-        const expired = await tokenDAO.isExpired(tokenId);
-        console.log("Expired:", expired);
-
-        // 3. Check revoked
-        console.log("\n3. isRevoked()...");
-        const revoked = await tokenDAO.isRevoked(tokenId);
-        console.log("Revoked:", revoked);
-
-        // 4. Check valid
-        console.log("\n4. isValid()...");
-        const valid = await tokenDAO.isValid(tokenId);
-        console.log("Valid:", valid);
-
-        // 5. Refresh token
-        console.log("\n5. refreshToken()...");
-        const refreshed = await tokenDAO.refreshToken(tokenId);
-        console.log("Refreshed token:", refreshed);
-
-        // 6. Invalidate
-        console.log("\n6. invalidate()...");
-        const invalidated = await tokenDAO.invalidate(tokenId);
-        console.log("Invalidated:", invalidated);
-
-        // 7. Clean revoked
-        console.log("\n7. cleanRevoked()...");
-        const cleanedRevoked = await tokenDAO.cleanRevoked();
-        console.log("cleanRevoked:", cleanedRevoked);
-
-        // 8. Clean expired
-        console.log("\n8. cleanExpired()...");
-        const cleanedExpired = await tokenDAO.cleanExpired();
-        console.log("cleanExpired:", cleanedExpired);
-
-        console.log("\n=== FINISHED TESTING ===\n");
-
-    } catch (err) {
-        console.error("MAIN ERROR:", err);
-    } finally {
-        await db.destroy(); // close knex connection
+        const revoked_token = await trx("user_token").where({ token }).first();
+        if (!revoked_token) throw new Error("Token does not exist");
+        return revoked_token.revoked;
     }
 }
-
-main();*/
 
 module.exports = UserTokenDAO;
