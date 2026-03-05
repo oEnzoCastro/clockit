@@ -1,154 +1,225 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import './style.css'
+import React, { useEffect, useMemo, useState, useRef } from 'react'
+import './Agent.css'
 import Image from 'next/image'
 import Pen from '../../../public/pencil-simple.svg'
-import Square from '../../../public/squares-four.svg'
 import Trash from '../../../public/trash.svg'
 import Cancel from '../../../public/x.svg'
-import ConfirmWhite from '../../../public/check-white.svg'
-import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
 
-export default function Agent() {
-  const [open, setOpen] = useState(false)
+type Area = {
+  id: string
+  area_name: string
+}
+
+type AgentProps = {
+  id: string
+  first_name: string
+  surname: string
+  email: string
+  // no seu backend, "area" costuma vir como objeto { id, name, acronym }
+  area?: { id: string; name?: string; acronym?: string } | null
+  contract_start?: string | null
+  contract_end?: string | null
+}
+
+export default function Agent(props: AgentProps) {
+  const { accessToken } = useAuth()
+
   const [del, setDel] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
 
-  // Estados dos campos
-  const [editNome, setEditNome] = useState(false)
-  const [nome, setNome] = useState('Exemplo de nome')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [editEmail, setEditEmail] = useState(false)
-  const [email, setEmail] = useState('exemplo@email.com')
+  const [areas, setAreas] = useState<Area[]>([])
 
-  const [editCarga, setEditCarga] = useState(false)
-  const [cargaHoraria, setCargaHoraria] = useState('40h')
+  const [firstName, setFirstName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [email, setEmail] = useState('')
+  const [selectedAreaId, setSelectedAreaId] = useState('')
+  const [contractStart, setContractStart] = useState('')
+  const [contractEnd, setContractEnd] = useState('')
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Node | null
-      if (ref.current && target && !ref.current.contains(target)) {
-        setOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    fetch('http://localhost:5000/areas/get')
+      .then((res) => res.json())
+      .then((json) => setAreas(json.data || []))
+      .catch((err) => console.error('Erro ao buscar áreas:', err))
   }, [])
 
+  const openEditModal = () => {
+    setFirstName(props.first_name || '')
+    setSurname(props.surname || '')
+    setEmail(props.email || '')
+    setSelectedAreaId(props.area?.id || '')
+    setContractStart(props.contract_start || '')
+    setContractEnd(props.contract_end || '')
+    setIsModalOpen(true)
+  }
+
+  const closeEditModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!accessToken) {
+      alert('Sessão expirada. Faça login novamente.')
+      return
+    }
+
+    if (!selectedAreaId) {
+      alert('Selecione uma área.')
+      return
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/agents/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          id: props.id,
+          first_name: firstName,
+          surname,
+          email,
+
+          area: { id: selectedAreaId },
+
+          contract_start: contractStart || null,
+          contract_end: contractEnd || null,
+        }),
+      })
+
+      const text = await res.text()
+      let data: any = null
+      try {
+        data = JSON.parse(text)
+      } catch {}
+
+      if (!res.ok) {
+        alert(data?.message || data?.error || text || 'Erro ao editar monitor')
+        return
+      }
+
+      alert('Monitor editado com sucesso!')
+      closeEditModal()
+
+    } catch (err) {
+      console.error(err)
+      alert('Erro ao editar monitor')
+    }
+  }
+
   return (
-    <div ref={ref} className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}>
-
-      {/* NORMAL */}
-      {!del && (
-        <div className="default box">
-          <div className='sectorHeader'>
-            <h2 className="sectorTitle">Agente</h2>
-
-            <div className='sectorEdit'>
-              {!open && (
-                <>
-                  <Link href="/dashboard/agentes/setores">
-                    <Image className="square" src={Square} alt="Setores" />
-                  </Link>
-                  <Image className='pen' src={Pen} alt='Pen' onClick={() => setOpen(true)} />
-                  <Image className='trash' src={Trash} alt='Trash' onClick={() => setDel(true)} />
-                </>
-              )}
-
-              {open && (
-                <Image
-                  className='closeBtn'
-                  src={Cancel}
-                  alt='fechar'
-                  onClick={() => setOpen(false)}
-                />
-              )}
+    <>
+      <div ref={ref} className={`sector ${del ? 'delMode' : ''}`}>
+        {!del && (
+          <div className="default box">
+            <h2 className="sectorTitle">
+              {props.first_name} {props.surname}
+            </h2>
+            <div className="sectorEdit">
+              <Image className="pen" src={Pen} alt="Pen" onClick={openEditModal} />
+              <Image className="trash" src={Trash} alt="Trash" onClick={() => setDel(true)} />
             </div>
           </div>
+        )}
 
-          <div className="sectorContent">
-
-            {/* NOME */}
-            <div className="field">
-              <input
-                className={editNome ? 'editing' : ''}
-                type="text"
-                value={nome}
-                readOnly={!editNome}
-                onChange={(e) => setNome(e.target.value)}
-              />
-
-              {!editNome && (
-                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditNome(true)} />
-              )}
-
-              {editNome && (
-                <div className="confirmBtn">
-                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditNome(false)} />
-                </div>
-              )}
-            </div>
-
-            {/* EMAIL */}
-            <div className="field">
-              <input
-                className={editEmail ? 'editing' : ''}
-                type="email"
-                value={email}
-                readOnly={!editEmail}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-
-              {!editEmail && (
-                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditEmail(true)} />
-              )}
-
-              {editEmail && (
-                <div className="confirmBtn">
-                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditEmail(false)} />
-                </div>
-              )}
-            </div>
-
-            {/* CARGA HORÁRIA */}
-            <div className="field">
-              <input
-                className={editCarga ? 'editing' : ''}
-                type="text"
-                value={cargaHoraria}
-                readOnly={!editCarga}
-                onChange={(e) => setCargaHoraria(e.target.value)}
-              />
-
-              {!editCarga && (
-                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditCarga(true)} />
-              )}
-
-              {editCarga && (
-                <div className="confirmBtn">
-                  <Image src={ConfirmWhite} alt="confirmar" onClick={() => setEditCarga(false)} />
-                </div>
-              )}
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* MODO DELETAR */}
-      {del && (
-        <div className="delete box">
-          <div className='sectorHeader'>
+        {del && (
+          <div className="delete box">
             <h2 className="sectorTitle">Deletar?</h2>
-            <div className='sectorEdit'>
-              <Image className='cancel' src={Cancel} alt='Cancel' onClick={() => setDel(false)} />
-              <Image className='trueTrash' src={Trash} alt='Trash' />
+            <div className="sectorEdit">
+              <Image className="cancel" src={Cancel} alt="Cancel" onClick={() => setDel(false)} />
+              <Image className="trueTrash" src={Trash} alt="Trash" />
             </div>
+          </div>
+        )}
+      </div>
+
+      {isModalOpen && (
+        <div className="modalOverlay">
+          <div className="modal">
+            <h2>Editar Monitor</h2>
+
+            <form onSubmit={handleUpdate}>
+              <div className="formGroup">
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  placeholder="Nome"
+                  className="inputs"
+                />
+
+                <input
+                  type="text"
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
+                  required
+                  placeholder="Sobrenome"
+                  className="inputs"
+                />
+
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Email"
+                  className="inputs"
+                />
+
+                <select
+                  value={selectedAreaId}
+                  onChange={(e) => setSelectedAreaId(e.target.value)}
+                  required
+                  className="select inputs"
+                >
+                  {areas.length === 0 ? (
+                    <option value="">Carregando áreas...</option>
+                  ) : (
+                    areas.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.area_name}
+                      </option>
+                    ))
+                  )}
+                </select>
+
+                <input
+                  type="date"
+                  value={contractStart}
+                  onChange={(e) => setContractStart(e.target.value)}
+                  className="inputs"
+                />
+
+                <input
+                  type="date"
+                  value={contractEnd}
+                  onChange={(e) => setContractEnd(e.target.value)}
+                  className="inputs"
+                />
+
+                <div className="modalActions">
+                  <button className="modalCancel" type="button" onClick={closeEditModal}>
+                    Cancelar
+                  </button>
+
+                  <button className="modalCreate" type="submit">
+                    Salvar
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

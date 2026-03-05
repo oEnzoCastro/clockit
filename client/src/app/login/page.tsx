@@ -42,10 +42,7 @@ export default function Page() {
         return;
       }
 
-      // ✅ garante que veio institute_id
       if (!data?.data?.institute_id) {
-        console.log('[LOGIN] resposta completa =>', data);
-        setMessage('Login ok, mas veio sem institute_id. Verifique o backend.');
         return;
       }
 

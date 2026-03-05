@@ -12,7 +12,6 @@ import Link from 'next/link'
 export default function Page() {
   const { checking } = useProtectedPage(['manager'])
   const { accessToken, user } = useAuth()
-  console.log('[AREAS PAGE] token?', !!accessToken, 'user =>', user)
 
   const [areas, setAreas] = useState<any[]>([])
 

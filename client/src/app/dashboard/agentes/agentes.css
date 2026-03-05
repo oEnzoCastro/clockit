@@ -60,8 +60,10 @@ main {
     gap: 10px;
     height: 60px;
 
-    white-space: nowrap; /* evita quebra de linha */
-    flex-shrink: 0;      /* impede o flex de amassar o botão */
+    white-space: nowrap;
+    /* evita quebra de linha */
+    flex-shrink: 0;
+    /* impede o flex de amassar o botão */
 }
 
 .title {
@@ -74,7 +76,8 @@ main {
     align-items: center;
     justify-content: center;
 
-    flex: 1;  /* ocupa todo o espaço restante */
+    flex: 1;
+    /* ocupa todo o espaço restante */
 }
 
 .modalOverlay {
@@ -92,14 +95,11 @@ main {
     background-color: var(--Platinum-blur);
     width: 500px;
     max-width: 90%;
-
     padding: 30px;
     border-radius: 20px;
-
     display: flex;
     flex-direction: column;
     gap: 20px;
-
     color: var(--DeepspaceBlue);
 }
 
@@ -107,7 +107,6 @@ main {
     background-color: var(--Platinum);
     height: 60px;
     border-radius: 10px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,12 +122,24 @@ main {
     font-weight: 500;
 }
 
-.formGroup input[type="text"] {
+.inputs {
     all: unset;
     background-color: var(--Platinum);
     height: 50px;
     border-radius: 10px;
     padding: 0 15px;
+    color: var(--DeepspaceBlue);
+    align-items: center;
+}
+
+.select {
+  background-image: url("/caret-down.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.inputs::placeholder {
+    color: var(--DeepspaceBlue-blur);
 }
 
 .checkbox {

@@ -1,23 +1,80 @@
 'use client'
-import { useState } from 'react'
-import { useProtectedPage } from '@/hooks/useProtectedPage';
+import { useState, useEffect } from 'react'
+import { useProtectedPage } from '@/hooks/useProtectedPage'
 import { useAuth } from '@/contexts/AuthContext'
 import './agentes.css'
 import Image from 'next/image'
-
 import Sidebar from '../../../components/Sidebar/Sidebar'
+import Agent from '@/components/Agent/Agent'
 
-export default function page() {
-  const { checking } = useProtectedPage(['manager']); // <-- aqui define a role
-  const { accessToken } = useAuth()
+type Area = {
+  id: string
+  area_name: string
+}
 
-  const [editing, setEditing] = useState(false)
-  const [value, setValue] = useState('')
+type AgentType = {
+  id: string
+  first_name: string
+  surname: string
+  email: string
+  institute_id: string
+  institute_role: string
+  contract_start?: string | null
+  contract_end?: string | null
+  area?: { id: string; name?: string; acronym?: string } | null
+}
+
+
+export default function Page() {
+  const { checking } = useProtectedPage(['manager'])
+  const { accessToken, user } = useAuth()
+
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [sectorName, setSectorName] = useState('')
-  const [acronym, setAcronym] = useState('')
-  const [isHidden, setIsHidden] = useState(false)
+
+  const [areas, setAreas] = useState<Area[]>([])
+  const [selectedAreaId, setSelectedAreaId] = useState('')
+
+  const [firstName, setFirstName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [contractStart, setContractStart] = useState('')
+  const [contractEnd, setContractEnd] = useState('')
+
+  const [agents, setAgents] = useState<AgentType[]>([])
+
+  useEffect(() => {
+    if (!user?.institute_id) return
+
+    fetch(`http://localhost:5000/agents/get?institute_id=${user.institute_id}`)
+      .then((res) => res.json())
+      .then((json) => setAgents(json.data || []))
+      .catch((err) => console.error('Erro ao buscar agentes:', err))
+  }, [user?.institute_id])
+
+  useEffect(() => {
+    fetch('http://localhost:5000/areas/get')
+      .then((res) => res.json())
+      .then((json) => {
+        const list = (json?.data || []) as Area[]
+        setAreas(list)
+
+        if (list.length > 0) setSelectedAreaId(list[0].id)
+      })
+      .catch((err) => console.error('Erro ao buscar áreas:', err))
+  }, [])
+
+  const resetForm = () => {
+    setFirstName('')
+    setSurname('')
+    setEmail('')
+    setPassword('')
+    setContractStart('')
+    setContractEnd('')
+    if (areas.length > 0) setSelectedAreaId(areas[0].id)
+    else setSelectedAreaId('')
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,15 +84,26 @@ export default function page() {
       return
     }
 
+    if (!selectedAreaId) {
+      alert('Selecione uma área.')
+      return
+    }
+
     try {
-      const res = await fetch('http://localhost:5000/', {
+      const res = await fetch('http://localhost:5000/agents/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-
+          first_name: firstName,
+          surname,
+          email,
+          password,
+          area: { id: selectedAreaId },
+          contract_start: contractStart || null,
+          contract_end: contractEnd || null,
         }),
       })
 
@@ -46,81 +114,136 @@ export default function page() {
       } catch { }
 
       if (!res.ok) {
-        alert(data?.message || data?.error || 'Erro ao criar matéria')
+        alert(data?.message || data?.error || 'Erro ao criar monitor')
         return
       }
 
+      alert('Monitor criado com sucesso!')
+      setIsModalOpen(false)
+      resetForm()
     } catch (err) {
       console.error(err)
-      alert('Erro ao criar matéria')
+      alert('Erro ao criar monitor')
     }
   }
 
-  if (checking) return <div>Carregando...</div>;
+  if (checking) return <div>Carregando...</div>
+
   return (
     <main>
       <Sidebar />
-      <section className='mainContent'>
-        <article className='mainHeader'>
-          <button
-            className="newSector"
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <Image
-              className="plus"
-              src="/plus.svg"
-              alt="Plus"
-              width={24}
-              height={24}
-            />
+      <section className="mainContent">
+        <article className="mainHeader">
+          <button className="newSector" type="button" onClick={() => setIsModalOpen(true)}>
+            <Image className="plus" src="/plus.svg" alt="Plus" width={24} height={24} />
             <h2>Novo monitor</h2>
           </button>
-          <h2 className='title'>Monitores</h2>
+          <h2 className="title">Monitores</h2>
         </article>
-        <article className='agentes'>
+
+        <article className="agentes">{/* lista de monitores aqui */}
+          {agents.map((a) => (
+            <Agent
+              key={a.id}
+              id={a.id}
+              first_name={a.first_name}
+              surname={a.surname}
+              email={a.email}
+              area={a.area}
+              contract_start={a.contract_start || null}
+              contract_end={a.contract_end || null}
+            />
+          ))}
         </article>
       </section>
 
       {isModalOpen && (
         <div className="modalOverlay">
           <div className="modal">
-            <h2>Nova Matéria</h2>
+            <h2>Novo Monitor</h2>
 
             <form onSubmit={handleSubmit}>
               <div className="formGroup">
                 <input
                   type="text"
-                  value={sectorName}
-                  onChange={(e) => setSectorName(e.target.value)}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   required
-                  placeholder="Nome da matéria"
+                  placeholder="Nome"
+                  className='inputs'
                 />
 
                 <input
                   type="text"
-                  maxLength={10}
-                  value={acronym}
-                  onChange={(e) => setAcronym(e.target.value)}
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
                   required
-                  placeholder="Sigla"
+                  placeholder="Sobrenome"
+                  className='inputs'
+
                 />
 
-                <div className="checkbox">
-                  <input
-                    type="checkbox"
-                    id="hidden"
-                    checked={isHidden}
-                    onChange={(e) => setIsHidden(e.target.checked)}
-                  />
-                  <label htmlFor="hidden">Ocultar matéria</label>
-                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Email"
+                  className='inputs'
+
+                />
+
+                <input
+                  type="text"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Senha"
+                  className='inputs'
+
+                />
+
+                <select
+                  value={selectedAreaId}
+                  onChange={(e) => setSelectedAreaId(e.target.value)}
+                  required
+                  className='select inputs'
+                >
+                  {areas.length === 0 ? (
+                    <option value="">Carregando áreas...</option>
+                  ) : (
+                    areas.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.area_name}
+                      </option>
+                    ))
+                  )}
+                </select>
+
+                <input
+                  type="date"
+                  value={contractStart}
+                  onChange={(e) => setContractStart(e.target.value)}
+                  placeholder="Início do contrato"
+                  className='inputs'
+                />
+
+                <input
+                  type="date"
+                  value={contractEnd}
+                  onChange={(e) => setContractEnd(e.target.value)}
+                  placeholder="Fim do contrato"
+                  className='inputs'
+                />
 
                 <div className="modalActions">
                   <button
                     className="modalCancel"
                     type="button"
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => {
+                      setIsModalOpen(false)
+                      resetForm()
+                    }}
                   >
                     Cancelar
                   </button>
@@ -135,5 +258,5 @@ export default function page() {
         </div>
       )}
     </main>
-  );
-} 
+  )
+}

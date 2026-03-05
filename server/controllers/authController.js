@@ -82,9 +82,7 @@ exports.login = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 institute_role: user.institute_role,
-
                 institute_id: institute.id,
-
                 area: areas
             }
         });
@@ -136,4 +134,39 @@ exports.logout = async (req, res) => {
         console.error(error);
         return res.status(500).json({ success: false, message: "Error in logout", error: error.message });
     }
+};
+
+// ------------------- ME -------------------
+exports.me = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const user = await userDAO.getUserById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // se manager, buscar áreas como no login
+    let areas = null;
+    if (user.institute_role === 'manager') {
+      areas = await areaDAO.getAreasByManager(user.id);
+    }
+
+    const institute_id = user.institute_id ?? user.instituteId ?? null;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        institute_role: user.institute_role,
+        institute_id,
+        area: areas
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Error in /me", error: error.message });
+  }
 };
