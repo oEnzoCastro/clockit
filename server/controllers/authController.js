@@ -77,10 +77,14 @@ exports.login = async (req, res) => {
             message: "Login successful",
             data: {
                 accessToken,
+
                 id: user.id,
                 name: user.name,
                 email: user.email,
                 institute_role: user.institute_role,
+
+                institute_id: institute.id,
+
                 area: areas
             }
         });

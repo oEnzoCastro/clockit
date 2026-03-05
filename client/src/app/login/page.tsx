@@ -1,10 +1,8 @@
 'use client';
 import './login.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-// import { useGuestOnlyPage } from '@/hooks/useGuestOnlyPage';
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -13,16 +11,12 @@ export default function Page() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, accessToken } = useAuth();
   const router = useRouter();
 
-  const { accessToken } = useAuth();
   useEffect(() => {
     if (accessToken) router.replace('/dashboard');
   }, [accessToken, router]);
-
-  // const { checking } = useGuestOnlyPage('/dashboard');
-  // if (checking) return <div>Carregando...</div>;
 
   const handleLogin = async () => {
     if (isLoading) return;
@@ -34,7 +28,11 @@ export default function Page() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email, password, institute_acronym: instituteAcronym })
+        body: JSON.stringify({
+          email,
+          password,
+          institute_acronym: instituteAcronym,
+        }),
       });
 
       const data = await res.json();
@@ -44,11 +42,19 @@ export default function Page() {
         return;
       }
 
+      // ✅ garante que veio institute_id
+      if (!data?.data?.institute_id) {
+        console.log('[LOGIN] resposta completa =>', data);
+        setMessage('Login ok, mas veio sem institute_id. Verifique o backend.');
+        return;
+      }
+
       login(data.data.accessToken, {
         id: data.data.id,
         name: data.data.name,
         email: data.data.email,
         institute_role: data.data.institute_role,
+        institute_id: data.data.institute_id, // ✅ ADD
         area: data.data.area,
       });
 
@@ -62,23 +68,23 @@ export default function Page() {
   };
 
   return (
-    <div className='loginForm'>
-      <div className='forms'>
+    <div className="loginForm">
+      <div className="forms">
         <section className="login form">
-          <h1 className='title'>ClockIt</h1>
+          <h1 className="title">ClockIt</h1>
 
           <article className="inputs">
             <input
               type="email"
               placeholder="Email:"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
               placeholder="Senha:"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <input
               type="text"
@@ -89,7 +95,7 @@ export default function Page() {
           </article>
 
           <article className="buttons">
-            <button className='log' onClick={handleLogin} disabled={isLoading}>
+            <button className="log" onClick={handleLogin} disabled={isLoading}>
               <h1>{isLoading ? 'Entrando...' : 'Login'}</h1>
             </button>
           </article>

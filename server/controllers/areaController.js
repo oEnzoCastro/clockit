@@ -101,4 +101,3 @@ exports.getAreaById = async (req, res) => {
         });
     }
 };
-

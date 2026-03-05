@@ -6,6 +6,7 @@ interface UserType {
   name: string;
   email: string;
   institute_role: string;
+  institute_id: string;
   area?: any;
 }
 

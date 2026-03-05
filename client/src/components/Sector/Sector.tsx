@@ -71,16 +71,26 @@ export default function Sector({
     return true
   }
 
+  const parseJsonSafe = async (res: Response) => {
+    const text = await res.text()
+    try {
+      return JSON.parse(text)
+    } catch {
+      return { message: text }
+    }
+  }
+
+  // ---------------- UPDATE ----------------
   const saveUpdate = async () => {
     if (!requireToken()) return
     if (saving) return
 
     const payload = {
-      sector_id: id,
+      id, // ✅ controller usa req.body.id
       sector_name: nome,
       acronym: sigla,
       area_id: areaId,
-      is_hidden: isHidden,
+      is_hidden: Boolean(isHidden),
     }
 
     try {
@@ -95,12 +105,7 @@ export default function Sector({
         body: JSON.stringify(payload),
       })
 
-      const text = await res.text()
-      
-      let data: any = null
-      try {
-        data = JSON.parse(text)
-      } catch {}
+      const data = await parseJsonSafe(res)
 
       if (!res.ok) {
         alert(data?.message || data?.error || 'Erro ao atualizar matéria')
@@ -113,7 +118,7 @@ export default function Sector({
         id,
         sector_name: updated.sector_name ?? nome,
         acronym: updated.acronym ?? sigla,
-        is_hidden: updated.is_hidden ?? isHidden,
+        is_hidden: updated.is_hidden ?? Boolean(isHidden),
       })
 
       setEditNome(false)
@@ -127,6 +132,7 @@ export default function Sector({
     }
   }
 
+  // ---------------- DELETE ----------------
   const confirmDelete = async () => {
     if (!requireToken()) return
     if (deleting) return
@@ -141,11 +147,7 @@ export default function Sector({
         },
       })
 
-      const text = await res.text()
-      let data: any = null
-      try {
-        data = JSON.parse(text)
-      } catch {}
+      const data = await parseJsonSafe(res)
 
       if (!res.ok) {
         alert(data?.message || data?.error || 'Erro ao deletar matéria')
@@ -164,10 +166,7 @@ export default function Sector({
   }
 
   return (
-    <div
-      ref={ref}
-      className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}
-    >
+    <div ref={ref} className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}>
       {!del && (
         <div className="default box">
           <div className="sectorHeader">
@@ -176,20 +175,10 @@ export default function Sector({
             <div className="sectorEdit">
               {!open && (
                 <>
-                  <Image
-                    className="trash"
-                    src={Trash}
-                    alt="Trash"
-                    onClick={() => setDel(true)}
-                  />
+                  <Image className="trash" src={Trash} alt="Trash" onClick={() => setDel(true)} />
 
                   {!isSetoresPage && (
-                    <Image
-                      className="pen"
-                      src={Pen}
-                      alt="Pen"
-                      onClick={() => setOpen(true)}
-                    />
+                    <Image className="pen" src={Pen} alt="Pen" onClick={() => setOpen(true)} />
                   )}
                 </>
               )}
@@ -222,21 +211,12 @@ export default function Sector({
               />
 
               {!editNome && !isSetoresPage && open && (
-                <Image
-                  src={Pen}
-                  alt="editar"
-                  className="icon"
-                  onClick={() => setEditNome(true)}
-                />
+                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditNome(true)} />
               )}
 
               {editNome && !isSetoresPage && (
                 <div className="confirmBtn">
-                  <Image
-                    src={ConfirmWhite}
-                    alt="confirmar"
-                    onClick={saveUpdate}
-                  />
+                  <Image src={ConfirmWhite} alt="confirmar" onClick={saveUpdate} />
                 </div>
               )}
             </div>
@@ -251,32 +231,18 @@ export default function Sector({
               />
 
               {!editSigla && !isSetoresPage && open && (
-                <Image
-                  src={Pen}
-                  alt="editar"
-                  className="icon"
-                  onClick={() => setEditSigla(true)}
-                />
+                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditSigla(true)} />
               )}
 
               {editSigla && !isSetoresPage && (
                 <div className="confirmBtn">
-                  <Image
-                    src={ConfirmWhite}
-                    alt="confirmar"
-                    onClick={saveUpdate}
-                  />
+                  <Image src={ConfirmWhite} alt="confirmar" onClick={saveUpdate} />
                 </div>
               )}
             </div>
 
             {!isSetoresPage && open && (editNome || editSigla) && (
-              <button
-                type="button"
-                disabled={saving}
-                onClick={saveUpdate}
-                style={{ marginTop: 10 }}
-              >
+              <button type="button" disabled={saving} onClick={saveUpdate} style={{ marginTop: 10 }}>
                 {saving ? 'Salvando...' : 'Salvar alterações'}
               </button>
             )}
@@ -290,29 +256,14 @@ export default function Sector({
             <h2 className="sectorTitle">Deletar?</h2>
 
             <div className="sectorEdit">
-              <Image
-                className="cancel"
-                src={Cancel}
-                alt="Cancel"
-                onClick={() => setDel(false)}
-              />
-              <Image
-                className="trueTrash"
-                src={Trash}
-                alt="Trash"
-                onClick={confirmDelete}
-              />
+              <Image className="cancel" src={Cancel} alt="Cancel" onClick={() => setDel(false)} />
+              <Image className="trueTrash" src={Trash} alt="Trash" onClick={confirmDelete} />
             </div>
           </div>
 
           <div style={{ padding: 12 }}>
             <p>Você tem certeza que deseja deletar?</p>
-            <button
-              type="button"
-              onClick={confirmDelete}
-              disabled={deleting}
-              style={{ marginTop: 10 }}
-            >
+            <button type="button" onClick={confirmDelete} disabled={deleting} style={{ marginTop: 10 }}>
               {deleting ? 'Deletando...' : 'Confirmar delete'}
             </button>
           </div>
@@ -320,4 +271,4 @@ export default function Sector({
       )}
     </div>
   )
-} 
+}

@@ -19,6 +19,9 @@ function filterAgents(agentOrArray) {
             email: json.email,
             institute_id: json.institute_id,
             institute_role: json.institute_role,
+            contract_start: json.contract_start,
+            contract_end: json.contract_end,
+
             area: agent.area ? agent.area : null
         };
     });
@@ -30,17 +33,40 @@ function isEmail(email){
 }
 
 exports.createAgent = async (req, res) => {
-    const { first_name, surname, email, password, institute_id, institute_role, area } = req.body;
+    const {
+        first_name,
+        surname,
+        email,
+        password,
+        institute_id,
+        institute_role,
+        area,
+        contract_start,
+        contract_end
+    } = req.body;
+
     try {
         if(!email || !isEmail(email)){
             throw new Error("Invalid email");
         }
 
-        const agent = await agentDAO.create(new User({ first_name, surname, email, password_hash: password, institute_id, institute_role, area }));
+        const agent = await agentDAO.create(
+            new User({
+                first_name,
+                surname,
+                email,
+                password_hash: password,
+                institute_id,
+                institute_role,
+                area,
+                contract_start,
+                contract_end
+            })
+        );
         
         if (!agent) {
             return res.status(500).send({
-                success: false,
+                success: false, 
                 data: null,
                 message: "Failed to create agent"
             });
@@ -62,7 +88,21 @@ exports.createAgent = async (req, res) => {
 };
 
 exports.updateAgent = async (req, res) => {
-    const { id, first_name, surname, email, password, institute_id, institute_role, area } = req.body;
+    const {
+        id,
+        first_name,
+        surname,
+        email,
+        password,
+        institute_id,
+        institute_role,
+        area,
+
+        // ✅ ADICIONADOS
+        contract_start,
+        contract_end
+    } = req.body;
+
     try {
         if(!id){
             throw new Error("ID is missing");
@@ -71,7 +111,22 @@ exports.updateAgent = async (req, res) => {
             throw new Error("Invalid email");
         }
 
-        const agent = await agentDAO.update(new User({ id, first_name, surname, email, password_hash: password, institute_id, institute_role, area }));
+        const agent = await agentDAO.update(
+            new User({
+                id,
+                first_name,
+                surname,
+                email,
+                password_hash: password,
+                institute_id,
+                institute_role,
+                area,
+
+                // ✅ ADICIONADOS
+                contract_start,
+                contract_end
+            })
+        );
         
         if (!agent) {
             return res.status(500).send({

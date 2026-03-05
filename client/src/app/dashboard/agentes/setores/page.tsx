@@ -32,7 +32,7 @@ export default function page() {
                             </div>
                         ) : (
                             <div className="search animated expanded">
-                                <Image src="/magnifying-glass.svg" alt="Plus"  width={24} height={24}/>
+                                <Image src="/magnifying-glass.svg" alt="Plus" width={24} height={24} />
 
                                 <input
                                     className="sectorSeach"
@@ -51,31 +51,6 @@ export default function page() {
                 </article>
 
                 <article className='setores'>
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
-                    <Sector />
                 </article>
             </section>
         </main>

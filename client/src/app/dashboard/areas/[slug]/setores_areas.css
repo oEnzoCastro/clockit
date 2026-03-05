@@ -45,10 +45,13 @@ main {
     border-radius: 10px;
     gap: 10px;
     padding: 0 20px;
-    width: 320px;
+    width: fit-content;
+    min-width: max-content;
     cursor: pointer;
     transition: ease-in .1s;
+    height: 60px;
 }
+
 
 .search {
     display: flex;
@@ -179,7 +182,7 @@ main {
     padding: 0 25px;
     border-radius: 10px;
     cursor: pointer;
-    transition: ease-in .1s;
+    transition: ease-in .05s;
     display: flex;
     align-items: center;
     justify-content: center;
