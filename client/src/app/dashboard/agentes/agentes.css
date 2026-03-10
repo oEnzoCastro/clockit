@@ -61,9 +61,7 @@ main {
     height: 60px;
 
     white-space: nowrap;
-    /* evita quebra de linha */
     flex-shrink: 0;
-    /* impede o flex de amassar o botão */
 }
 
 .title {
@@ -77,7 +75,6 @@ main {
     justify-content: center;
 
     flex: 1;
-    /* ocupa todo o espaço restante */
 }
 
 .modalOverlay {

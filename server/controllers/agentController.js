@@ -124,12 +124,7 @@ exports.updateAgent = async (req, res) => {
     first_name,
     surname,
     email,
-    password,
-    institute_id,
-    institute_role,
     area,
-    contract_start,
-    contract_end,
   } = req.body;
 
   try {
@@ -142,12 +137,7 @@ exports.updateAgent = async (req, res) => {
         first_name,
         surname,
         email,
-        password_hash: password,
-        institute_id,
-        institute_role,
         area,
-        contract_start,
-        contract_end,
       })
     );
 

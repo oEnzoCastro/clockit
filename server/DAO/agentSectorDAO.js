@@ -51,7 +51,7 @@ class AgentSectorDAO {
 
             if (exists) {
                 throw new Error("Agent already assigned to this sector");
-            } c
+            }
 
             await trx('agent_sector').insert({
                 agent_id,
@@ -324,9 +324,6 @@ class AgentSectorDAO {
     async getByInstitute(institute_id) {
         return this.findByAgent({ institute_id });
     }
-    async getByInstitute(institute_id) {
-        return this.findByAgent({ institute_id });
-    }
 
     async delete(agent_id, sector_id) {
         let trx;
@@ -540,66 +537,3 @@ class AgentSectorDAO {
 }
 
 module.exports = AgentSectorDAO;
-
-/*
-async function main() {
-    const dao = new AgentSectorDAO(db);
-
-    try {
-        // === 1. Create a new agent-sector assignment ===
-        const agentSector = new AgentSector({
-            agent_id: "48de46a5-aa30-4b22-b1e2-345654660b26",              // Change to a valid agent ID
-            sector_id: "d8e7a1c5-aafb-4ec6-a28d-552245f7a9e8",             // Change to a valid sector ID
-            agent_workload: 40,
-            sector_region: 'North',
-            sector_location: 'Building A',
-            description: 'Test assignment',
-            is_hidden: false,
-            contract_start: new Date(),
-            contract_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-            daySchedules: [
-                new DaySchedule({
-                    agent_id: "48de46a5-aa30-4b22-b1e2-345654660b26",              // Change to a valid agent ID
-                    sector_id: "9f0381c9-c2ac-48a2-b88b-95dc074d2e7c", schedule_day: 'SEG', schedule: '09:00-17:00'
-                }),
-                new DaySchedule({
-                    agent_id: "48de46a5-aa30-4b22-b1e2-345654660b26",              // Change to a valid agent ID
-                    sector_id: "9f0381c9-c2ac-48a2-b88b-95dc074d2e7c", schedule_day: 'TER', schedule: '10:00-18:00'
-                })
-            ]
-        });
-
-        console.log('Creating agent-sector assignment...');
-        const created = await dao.create(agentSector);
-        console.log('Created:', created);
-
-        // === 2. Fetch by agent ===
-        console.log('\nFetching by agent_id...');
-        const byAgent = await dao.getByAgent("48de46a5-aa30-4b22-b1e2-345654660b26");
-        console.log(JSON.stringify(byAgent, null, 2));
-
-
-        // === 3. Fetch by agent-sector ===
-        console.log('\nFetching by agent-sector...');
-        const byAgentSector = await dao.getByAgentSector("48de46a5-aa30-4b22-b1e2-345654660b26", "d8e7a1c5-aafb-4ec6-a28d-552245f7a9e8");
-        console.log(byAgentSector);
-
-        // === 4. Optionally cancel contract ===
-        console.log('\nCancelling contract...');
-        const cancelled = await dao.cancelContract("48de46a5-aa30-4b22-b1e2-345654660b26", "d8e7a1c5-aafb-4ec6-a28d-552245f7a9e8");
-        console.log('Contract cancelled:', cancelled);
-
-        // === 5. Fetch again after cancellation ===
-        console.log('\nFetching after contract cancellation...');
-        const afterCancel = await dao.getByAgentSector("48de46a5-aa30-4b22-b1e2-345654660b26", "d8e7a1c5-aafb-4ec6-a28d-552245f7a9e8");
-        console.log(afterCancel);
-
-    } catch (error) {
-        console.error('Error in main:', error);
-    } finally {
-        await db.destroy(); // Close DB connection
-    }
-}
-
-// Run main
-main();*/

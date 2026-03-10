@@ -1,0 +1,255 @@
+.agent {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  background: var(--Platinum);
+  border-radius: 10px;
+  overflow: hidden;
+  align-items: center;
+  padding: 10px;
+  transition: height .25s ease, padding .25s ease, background-color .25s ease;
+  height: 60px;
+}
+
+.agent.delMode {
+  background-color: var(--Amarant) !important;
+  color: var(--Platinum);
+}
+
+.agent.delMode.box {
+  background-color: transparent !important;
+}
+
+.agentTitle {
+  flex: 1;
+  text-align: center;
+}
+
+.agentEdit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trash,
+.pen {
+  cursor: pointer;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.default {
+  display: flex;
+}
+
+.cancel,
+.trueTrash {
+  background-color: var(--Platinum);
+  border-radius: 5px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--DeepspaceBlue-blur-focus);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+
+.modal h2 {
+  background-color: var(--Platinum);
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.input {
+  all: unset;
+  background-color: var(--Platinum);
+  height: 50px;
+  border-radius: 10px;
+  padding: 0 15px;
+  color: var(--DeepspaceBlue);
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.inputs {
+  background-color: var(--Platinum-blur);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 20%;
+}
+
+.sectors {
+  width: 60%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.dates {
+  color: var(--DeepspaceBlue-blur);
+}
+
+.sectorHeader {
+  background-color: var(--Platinum-blur);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.sectorList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--Platinum-blur);
+  border-radius: 20px;
+  padding: 20px;
+  gap: 20px;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 130px;
+
+}
+
+.sectorBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: var(--Platinum-blur);
+}
+
+.sectorItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: var(--Platinum);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sectorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectorName {
+  color: var(--DeepspaceBlue);
+  font-weight: 600;
+}
+
+.sectorAcronym {
+  color: var(--DeepspaceBlue-blur);
+  font-size: 0.9rem;
+}
+
+.removeSectorButton {
+  all: unset;
+  background-color: var(--Amarant);
+  color: var(--Platinum);
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addSectorBox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectorButtons {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.styleButton {
+  all: unset;
+  color: var(--Platinum);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 45px;
+}
+
+.addButton {
+  background-color: var(--DeepspaceBlue);
+}
+
+.cancelButton {
+  background-color: var(--Amarant);
+}
+
+.emptyText {
+  color: var(--DeepspaceBlue-blur);
+  text-align: center;
+  padding: 10px 0;
+}
+
+.select {
+  background-image: url("/caret-down.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.inputs::placeholder {
+  color: var(--DeepspaceBlue-blur);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.deleteAgent{
+  all: unset;
+  display: flex;
+  
+}

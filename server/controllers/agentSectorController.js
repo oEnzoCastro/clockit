@@ -140,11 +140,11 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-    const { sector_id, agent_id } = req.body;
+    const { sector_id, agent_id } = req.params;
 
     try {
         const result = await agentSectorDAO.delete(agent_id, sector_id);
-
+        
         if (!result) {
             return res.status(500).json({
                 success: false,

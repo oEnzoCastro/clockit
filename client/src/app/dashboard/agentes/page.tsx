@@ -45,12 +45,7 @@ export default function Page() {
   const [agents, setAgents] = useState<AgentType[]>([])
 
   useEffect(() => {
-    if (!user?.institute_id) return
-
-    fetch(`http://localhost:5000/agents/get?institute_id=${user.institute_id}`)
-      .then((res) => res.json())
-      .then((json) => setAgents(json.data || []))
-      .catch((err) => console.error('Erro ao buscar agentes:', err))
+    loadAgents()
   }, [user?.institute_id])
 
   useEffect(() => {
@@ -64,6 +59,20 @@ export default function Page() {
       })
       .catch((err) => console.error('Erro ao buscar áreas:', err))
   }, [])
+
+  const loadAgents = async () => {
+    if (!user?.institute_id) return
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/agents/get?institute_id=${user.institute_id}`
+      )
+      const json = await res.json()
+      setAgents(json.data || [])
+    } catch (err) {
+      console.error('Erro ao buscar agentes:', err)
+    }
+  }
 
   const resetForm = () => {
     setFirstName('')
@@ -118,7 +127,7 @@ export default function Page() {
         return
       }
 
-      alert('Monitor criado com sucesso!')
+      await loadAgents()
       setIsModalOpen(false)
       resetForm()
     } catch (err) {
@@ -141,7 +150,7 @@ export default function Page() {
           <h2 className="title">Monitores</h2>
         </article>
 
-        <article className="agentes">{/* lista de monitores aqui */}
+        <article className="agentes">
           {agents.map((a) => (
             <Agent
               key={a.id}
@@ -150,8 +159,8 @@ export default function Page() {
               surname={a.surname}
               email={a.email}
               area={a.area}
-              contract_start={a.contract_start || null}
-              contract_end={a.contract_end || null}
+              onDeleted={loadAgents}
+              onUpdated={loadAgents}
             />
           ))}
         </article>
@@ -220,21 +229,6 @@ export default function Page() {
                   )}
                 </select>
 
-                <input
-                  type="date"
-                  value={contractStart}
-                  onChange={(e) => setContractStart(e.target.value)}
-                  placeholder="Início do contrato"
-                  className='inputs'
-                />
-
-                <input
-                  type="date"
-                  value={contractEnd}
-                  onChange={(e) => setContractEnd(e.target.value)}
-                  placeholder="Fim do contrato"
-                  className='inputs'
-                />
 
                 <div className="modalActions">
                   <button

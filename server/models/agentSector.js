@@ -39,11 +39,11 @@ class AgentSector extends BaseModel {
 
             sector_id: this.sector_id,
             sector_acronym: this.sector?.acronym,
-            sector_name: this.sector?.sector_name,   // <-- CORREÇÃO
+            sector_name: this.sector?.sector_name,
 
             agent_workload: this.agent_workload,
             daySchedules: this.formatSchedules(),
-            sector_location: this.sector_locaction,
+            sector_location: this.sector_location,
             sector_region: this.sector_region,
             description: this.description,
             is_hidden: this.is_hidden,
