@@ -3,12 +3,11 @@
   flex-direction: column;
   gap: 50px;
   background: var(--Platinum);
-  border-radius: 10px;
+  border-radius: var(--Shore-Small);
   overflow: hidden;
   align-items: center;
-  padding: 10px;
+  padding: var(--Shore-Small);
   transition: height .25s ease, padding .25s ease, background-color .25s ease;
-  height: 60px;
 }
 
 .agent.delMode {
@@ -28,7 +27,7 @@
 .agentEdit {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--Shore-Small);
 }
 
 .trash,
@@ -54,11 +53,16 @@
   cursor: pointer;
 }
 
+.deleteAgent{
+  all: unset;
+  display: flex;
+}
+
 .modalOverlay {
   position: fixed;
   inset: 0;
   background-color: var(--DeepspaceBlue-blur-focus);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,189 +71,172 @@
 
 .modal {
   display: flex;
-  gap: 20px;
-  width: 100%;
-  justify-content: center;
+  gap: var(--Shore-Big);
+  
 }
 
+.modalArticle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+.modalHead {
+  background-color: var(--Platinum-blur);
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+}
+
+.modalBody {
+  background-color: var(--Platinum-blur);
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+.input {
+  color: var(--DeepspaceBlue);
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small);
+  border-radius: var(--Shore-Small);
+  border: none;
+}
 
 .modal h2 {
   background-color: var(--Platinum);
-  height: 60px;
-  border-radius: 10px;
+  border-radius: var(--Shore-Small);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-}
-
-
-.input {
-  all: unset;
-  background-color: var(--Platinum);
-  height: 50px;
-  border-radius: 10px;
-  padding: 0 15px;
-  color: var(--DeepspaceBlue);
-  width: 100%;
-  box-sizing: border-box;
-  align-items: center;
-}
-
-.inputs {
-  background-color: var(--Platinum-blur);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  width: 20%;
-}
-
-.sectors {
-  width: 60%;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  gap: 20px;
 }
 
 .dates {
   color: var(--DeepspaceBlue-blur);
 }
 
-.sectorHeader {
-  background-color: var(--Platinum-blur);
-  padding: 20px;
-  border-radius: 20px;
-}
-
-.sectorList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background-color: var(--Platinum-blur);
-  border-radius: 20px;
-  padding: 20px;
-  gap: 20px;
-  overflow-y: auto;
-  min-height: 0;
-  max-height: 130px;
-
-}
-
-.sectorBody {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-radius: 20px;
-  padding: 20px;
-  background-color: var(--Platinum-blur);
-}
-
-.sectorItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background-color: var(--Platinum);
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.sectorInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.sectorName {
-  color: var(--DeepspaceBlue);
-  font-weight: 600;
-}
-
-.sectorAcronym {
-  color: var(--DeepspaceBlue-blur);
-  font-size: 0.9rem;
-}
-
-.removeSectorButton {
-  all: unset;
-  background-color: var(--Amarant);
-  color: var(--Platinum);
-  height: 38px;
-  padding: 0 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.addSectorBox {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  flex-direction: column;
-  gap: 12px;
-}
-
 .sectorButtons {
   width: 100%;
   display: flex;
-  gap: 20px;
+  gap: var(--Shore-Big);
   justify-content: center;
 }
 
 .styleButton {
   all: unset;
   color: var(--Platinum);
-  border-radius: 10px;
+  border-radius: var(--Shore-Small);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px;
-  height: 45px;
+  padding: var(--Shore-Small);
 }
 
 .addButton {
   background-color: var(--DeepspaceBlue);
 }
 
-.cancelButton {
-  background-color: var(--Amarant);
+
+
+.sectorItem{
+  background-color: var(--Platinum-blur);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Big);
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
 }
 
-.emptyText {
-  color: var(--DeepspaceBlue-blur);
-  text-align: center;
-  padding: 10px 0;
+.sectorList{
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+  max-height: 500px;
+  overflow-y: auto;
 }
 
-.select {
-  background-image: url("/caret-down.svg");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
+.sectorName{
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small);
+  border-radius: var(--Shore-Small);
 }
 
-.inputs::placeholder {
-  color: var(--DeepspaceBlue-blur);
-}
-
-.checkbox {
+.sectorInfo{
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--Shore-Big);
 }
 
-.checkbox input {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.deleteAgent{
+.removeSectorButton{
   all: unset;
-  display: flex;
-  
+  width: fit-content;
+  background-color: var(--Amarant);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+  color: var(--Platinum);
 }
+
+.dayScheduleItem{
+  display: flex;
+  gap: var(--Shore-Big);
+  align-items: center;
+}
+
+.diaHora{
+  padding: var(--Shore-Small);
+  background-color: var(--Platinum);
+  border-radius: var(--Shore-Small);
+}
+
+.dayScheduleBox{
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+.dayScheduleBox p{
+  color: var(--DeepspaceBlue-blur);
+}
+
+.removeScheduleButton{
+  all: unset;
+  background-color: var(--Amarant);
+  display: flex;
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+}
+
+.dayScheduleForm{
+  display: flex;
+  gap: var(--Shore-Big);
+}
+
+.sectorList::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sectorList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sectorList::-webkit-scrollbar-thumb {
+  background: var(--Platinum-blur);
+  border-radius: var(--Shore-Small);
+  border-left: var(--Shore-Small) solid transparent;
+  background-clip: content-box;
+}
+
+.emptyText{
+  background-color: var(--Platinum-blur);
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+}
+
+.cancelButton {
+  background-color: var(--Platinum-blur);
+  height: fit-content;
+  display: flex;
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+}
+

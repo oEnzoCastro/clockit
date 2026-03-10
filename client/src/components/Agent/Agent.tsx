@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useEffect, useMemo, useState, useRef } from 'react'
+import React, { useEffect, useMemo, useState, useRef, startTransition } from 'react'
 import styles from './style.module.css'
 import Image from 'next/image'
 import Pen from '../../../public/pencil-simple.svg'
 import Trash from '../../../public/trash.svg'
+import TrashWhite from '../../../public/trash-white.svg'
 import Cancel from '../../../public/x.svg'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -12,6 +13,15 @@ type Area = {
   id: string
   area_name: string
 }
+
+type DaySchedule = {
+  agent_id: string
+  sector_id: string
+  schedule_day: string
+  schedule: string
+}
+
+type DaySchedulesBySector = Record<string, DaySchedule[]>
 
 type AgentProps = {
   id: string
@@ -71,12 +81,51 @@ export default function Agent(props: AgentProps) {
   const [sectorContractStart, setSectorContractStart] = useState('')
   const [sectorContractEnd, setSectorContractEnd] = useState('')
 
+  // escala diária
+  const [daySchedulesBySector, setDaySchedulesBySector] = useState<DaySchedulesBySector>({})
+  const [newScheduleDayBySector, setNewScheduleDayBySector] = useState<Record<string, string>>({})
+  const [newScheduleValueBySector, setNewScheduleValueBySector] = useState<Record<string, string>>({})
+
   useEffect(() => {
     fetch('http://localhost:5000/areas/get')
       .then((res) => res.json())
       .then((json) => setAreas(json.data || []))
       .catch((err) => console.error('Erro ao buscar áreas:', err))
   }, [])
+
+  const fetchDaySchedulesBySector = async (sectorId: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/daySchedules/get?agent_id=${props.id}&sector_id=${sectorId}`
+      )
+
+      const text = await res.text()
+
+      let data: any = null
+      try {
+        data = JSON.parse(text)
+      } catch { }
+
+      if (!res.ok) {
+        setDaySchedulesBySector((prev) => ({
+          ...prev,
+          [sectorId]: [],
+        }))
+        return
+      }
+
+      setDaySchedulesBySector((prev) => ({
+        ...prev,
+        [sectorId]: data?.data || [],
+      }))
+    } catch (err) {
+      console.error('Erro ao buscar daySchedules:', err)
+      setDaySchedulesBySector((prev) => ({
+        ...prev,
+        [sectorId]: [],
+      }))
+    }
+  }
 
   const normalizeLinkedSectors = (data: any[]): AgentSectorLink[] => {
     if (!Array.isArray(data) || data.length === 0) return []
@@ -117,6 +166,9 @@ export default function Agent(props: AgentProps) {
 
     setAgentSectors([])
     setAllSectors([])
+    setDaySchedulesBySector({})
+    setNewScheduleDayBySector({})
+    setNewScheduleValueBySector({})
 
     try {
       const linkedRes = await fetch(
@@ -129,11 +181,16 @@ export default function Agent(props: AgentProps) {
         linkedJson = await linkedRes.json()
       }
 
-      setAgentSectors(normalizeLinkedSectors(linkedJson.data || []))
+      const normalized = normalizeLinkedSectors(linkedJson.data || [])
+      setAgentSectors(normalized)
 
       const allRes = await fetch('http://localhost:5000/sectors/get')
       const allJson = await allRes.json()
       setAllSectors(allJson.data || [])
+
+      for (const sector of normalized) {
+        await fetchDaySchedulesBySector(sector.sector_id)
+      }
 
       setIsModalOpen(true)
     } catch (err) {
@@ -146,6 +203,9 @@ export default function Agent(props: AgentProps) {
   const closeEditModal = () => {
     setIsModalOpen(false)
     resetSectorForm()
+    setDaySchedulesBySector({})
+    setNewScheduleDayBySector({})
+    setNewScheduleValueBySector({})
   }
 
   const availableSectors = useMemo(() => {
@@ -179,6 +239,7 @@ export default function Agent(props: AgentProps) {
         alert(data?.message || data?.error || text || 'Erro ao deletar monitor')
         return
       }
+
       props.onDeleted?.()
     } catch (err) {
       console.error(err)
@@ -189,8 +250,15 @@ export default function Agent(props: AgentProps) {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!accessToken) return alert('Sessão expirada. Faça login novamente.')
-    if (!selectedAreaId) return alert('Selecione uma área.')
+    if (!accessToken) {
+      alert('Sessão expirada. Faça login novamente.')
+      return
+    }
+
+    if (!selectedAreaId) {
+      alert('Selecione uma área.')
+      return
+    }
 
     try {
       const res = await fetch('http://localhost:5000/agents/update', {
@@ -209,13 +277,15 @@ export default function Agent(props: AgentProps) {
       })
 
       const text = await res.text()
+
       let data: any = null
       try {
         data = JSON.parse(text)
       } catch { }
 
       if (!res.ok) {
-        return alert(data?.message || data?.error || text || 'Erro ao editar monitor')
+        alert(data?.message || data?.error || text || 'Erro ao editar monitor')
+        return
       }
 
       await props.onUpdated?.()
@@ -287,6 +357,7 @@ export default function Agent(props: AgentProps) {
         },
       ])
 
+      await fetchDaySchedulesBySector(selectedSectorId)
       resetSectorForm()
     } catch (err) {
       console.error(err)
@@ -326,9 +397,134 @@ export default function Agent(props: AgentProps) {
       setAgentSectors((prev) =>
         prev.filter((sector) => sector.sector_id !== sectorId)
       )
+
+      setDaySchedulesBySector((prev) => {
+        const copy = { ...prev }
+        delete copy[sectorId]
+        return copy
+      })
+
+      setNewScheduleDayBySector((prev) => {
+        const copy = { ...prev }
+        delete copy[sectorId]
+        return copy
+      })
+
+      setNewScheduleValueBySector((prev) => {
+        const copy = { ...prev }
+        delete copy[sectorId]
+        return copy
+      })
     } catch (err) {
       console.error(err)
       alert('Erro ao remover matéria')
+    }
+  }
+
+  const handleAddDaySchedule = async (sectorId: string) => {
+    if (!accessToken) {
+      alert('Sessão expirada. Faça login novamente.')
+      return
+    }
+
+    const schedule_day = newScheduleDayBySector[sectorId]
+    const schedule = newScheduleValueBySector[sectorId]
+
+    if (!schedule_day) {
+      alert('Selecione um dia da semana.')
+      return
+    }
+
+    if (!schedule) {
+      alert('Informe o horário.')
+      return
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/daySchedules/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          agent_id: props.id,
+          sector_id: sectorId,
+          schedule_day,
+          schedule,
+        }),
+      })
+
+      const text = await res.text()
+
+      let data: any = null
+      try {
+        data = JSON.parse(text)
+      } catch { }
+
+      if (!res.ok) {
+        alert(data?.message || data?.error || text || 'Erro ao adicionar horário')
+        return
+      }
+
+      setDaySchedulesBySector((prev) => ({
+        ...prev,
+        [sectorId]: [...(prev[sectorId] || []), data.data],
+      }))
+
+      setNewScheduleDayBySector((prev) => ({
+        ...prev,
+        [sectorId]: '',
+      }))
+
+      setNewScheduleValueBySector((prev) => ({
+        ...prev,
+        [sectorId]: '',
+      }))
+    } catch (err) {
+      console.error(err)
+      alert('Erro ao adicionar horário')
+    }
+  }
+
+  const handleRemoveDaySchedule = async (sectorId: string, scheduleDay: string) => {
+    if (!accessToken) {
+      alert('Sessão expirada. Faça login novamente.')
+      return
+    }
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/daySchedules/delete/${props.id}/${sectorId}/${scheduleDay}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+
+      const text = await res.text()
+
+      let data: any = null
+      try {
+        data = JSON.parse(text)
+      } catch { }
+
+      if (!res.ok) {
+        alert(data?.message || data?.error || text || 'Erro ao remover horário')
+        return
+      }
+
+      setDaySchedulesBySector((prev) => ({
+        ...prev,
+        [sectorId]: (prev[sectorId] || []).filter(
+          (item) => item.schedule_day !== scheduleDay
+        ),
+      }))
+    } catch (err) {
+      console.error(err)
+      alert('Erro ao remover horário')
     }
   }
 
@@ -369,180 +565,150 @@ export default function Agent(props: AgentProps) {
         <section className={styles.modalOverlay}>
           <form className={styles.modal} onSubmit={handleUpdate}>
 
-            <article className={styles.inputs}>
-              <h2>Editar Monitor</h2>
+            <article className={`${styles.inputs} ${styles.modalArticle}`}>
 
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                placeholder="Nome"
-                className={styles.input}
-              />
+              <div className={styles.modalHead}>
+                <h2>Editar Monitor</h2>
+              </div>
 
-              <input
-                type="text"
-                value={surname}
-                onChange={(e) => setSurname(e.target.value)}
-                required
-                placeholder="Sobrenome"
-                className={styles.input}
-              />
+              <div className={styles.modalBody}>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  placeholder="Nome"
+                  className={styles.input}
+                />
 
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Email"
-                className={styles.input}
-              />
+                <input
+                  type="text"
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
+                  required
+                  placeholder="Sobrenome"
+                  className={styles.input}
+                />
 
-              <select
-                value={selectedAreaId}
-                onChange={(e) => setSelectedAreaId(e.target.value)}
-                required
-                className={`${styles.input} ${styles.select}`}
-              >
-                {areas.length === 0 ? (
-                  <option value="">Carregando áreas...</option>
-                ) : (
-                  areas.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.area_name}
-                    </option>
-                  ))
-                )}
-              </select>
-              <div className={styles.sectorButtons}>
-                <button
-                  type="button"
-                  className={`${styles.addButton} ${styles.styleButton}`}
-                  onClick={closeEditModal}>
-                  Cancelar
-                </button>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Email"
+                  className={styles.input}
+                />
 
-                <button
-                  className={`${styles.cancelButton} ${styles.styleButton}`}
-                  type="submit"
+                <select
+                  value={selectedAreaId}
+                  onChange={(e) => setSelectedAreaId(e.target.value)}
+                  required
+                  className={`${styles.input} ${styles.select}`}
                 >
-                  Salvar
-                </button>
+                  {areas.length === 0 ? (
+                    <option value="">Carregando áreas...</option>
+                  ) : (
+                    areas.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.area_name}
+                      </option>
+                    ))
+                  )}
+                </select>
+
+                <div className={styles.sectorButtons}>
+
+                  <button
+                    className={`${styles.cancelButton} ${styles.styleButton}`}
+                    type="submit"
+                  >
+                    Salvar
+                  </button>
+                </div>
               </div>
             </article>
 
-            <article className={styles.sectors}>
-              <div className={styles.sectorHeader}>
-                <h2>Matérias</h2>
+            <article className={`${styles.addSector} ${styles.modalArticle}`}>
+
+              <div className={styles.modalHead}>
+                <h2>Adicionar matéria</h2>
               </div>
+              <div className={styles.modalBody}>
 
-              <div className={styles.sectorList}>
-                {agentSectors.length === 0 ? (
-                  <p className={styles.emptyText}>Nenhuma matéria vinculada</p>
-                ) : (
-                  agentSectors.map((sector) => (
-                    <div key={sector.sector_id} className={styles.sectorItem}>
-                      <div className={styles.sectorInfo}>
-                        <span className={styles.sectorName}>{sector.sector_name}</span>
-                        {sector.acronym && (
-                          <span className={styles.sectorAcronym}>{sector.acronym}</span>
-                        )}
-                      </div>
+                <select
+                  value={selectedSectorId}
+                  onChange={(e) => setSelectedSectorId(e.target.value)}
+                  className={`${styles.input} ${styles.select}`}
+                >
+                  <option value="">Selecione uma matéria</option>
+                  {availableSectors.map((sector) => (
+                    <option key={sector.id} value={sector.id}>
+                      {sector.sector_name}
+                    </option>
+                  ))}
+                </select>
 
-                      <button
-                        type="button"
-                        className={styles.removeSectorButton}
-                        onClick={() => handleRemoveSector(sector.sector_id)}
-                      >
-                        Remover
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
+                <input
+                  type="number"
+                  min="0"
+                  value={agentWorkload}
+                  onChange={(e) => setAgentWorkload(e.target.value)}
+                  placeholder="Carga horária"
+                  className={styles.input}
+                />
 
-              <div className={styles.sectorBody}>
-                <div className={styles.addSectorBox}>
-                  <select
-                    value={selectedSectorId}
-                    onChange={(e) => setSelectedSectorId(e.target.value)}
-                    className={`${styles.input} ${styles.select}`}
-                  >
-                    <option value="">Selecione uma matéria</option>
-                    {availableSectors.map((sector) => (
-                      <option key={sector.id} value={sector.id}>
-                        {sector.sector_name}
-                      </option>
-                    ))}
-                  </select>
+                <input
+                  type="text"
+                  value={sectorRegion}
+                  onChange={(e) => setSectorRegion(e.target.value)}
+                  placeholder="Região"
+                  className={styles.input}
+                />
 
+                <input
+                  type="text"
+                  value={sectorLocation}
+                  onChange={(e) => setSectorLocation(e.target.value)}
+                  placeholder="Local"
+                  className={styles.input}
+                />
+
+                <div className={styles.dates}>
+                  <p>Início do contrato</p>
                   <input
-                    type="number"
-                    min="0"
-                    value={agentWorkload}
-                    onChange={(e) => setAgentWorkload(e.target.value)}
-                    placeholder="Carga horária"
+                    type="date"
+                    value={sectorContractStart}
+                    onChange={(e) => setSectorContractStart(e.target.value)}
                     className={styles.input}
                   />
-
-                  <input
-                    type="text"
-                    value={sectorRegion}
-                    onChange={(e) => setSectorRegion(e.target.value)}
-                    placeholder="Região"
-                    className={styles.input}
-                  />
-
-                  <input
-                    type="text"
-                    value={sectorLocation}
-                    onChange={(e) => setSectorLocation(e.target.value)}
-                    placeholder="Local"
-                    className={styles.input}
-                  />
-
-                  <div className={styles.dates}>
-                    <p>Início do contrato</p>
-
-                    <input
-                      type="date"
-                      value={sectorContractStart}
-                      onChange={(e) => setSectorContractStart(e.target.value)}
-                      className={styles.input}
-                    />
-                  </div>
-
-                  <input
-                    type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Descrição"
-                    className={styles.input}
-                  />
-
-                  <div className={styles.dates}>
-                    <p>Fim do contrato</p>
-                    <input
-                      type="date"
-                      value={sectorContractEnd}
-                      onChange={(e) => setSectorContractEnd(e.target.value)}
-                      className={styles.input}
-                    />
-                  </div>
-
-
-                  <label className={styles.checkboxRow}>
-                    <input
-                      type="checkbox"
-                      checked={isHidden}
-                      onChange={(e) => setIsHidden(e.target.checked)}
-                    />
-                    Ocultar vínculo
-                  </label>
-
-
                 </div>
+
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Descrição"
+                  className={styles.input}
+                />
+
+                <div className={styles.dates}>
+                  <p>Fim do contrato</p>
+                  <input
+                    type="date"
+                    value={sectorContractEnd}
+                    onChange={(e) => setSectorContractEnd(e.target.value)}
+                    className={styles.input}
+                  />
+                </div>
+
+                <label className={styles.checkboxRow}>
+                  <input
+                    type="checkbox"
+                    checked={isHidden}
+                    onChange={(e) => setIsHidden(e.target.checked)}
+                  />
+                  Ocultar vínculo
+                </label>
 
                 <div className={styles.sectorButtons}>
                   <button
@@ -552,22 +718,119 @@ export default function Agent(props: AgentProps) {
                   >
                     Adicionar matéria
                   </button>
-                  <button
-                    type="button"
-                    className={`${styles.cancelButton} ${styles.styleButton}`}
-                    onClick={closeEditModal}
-                  >
-                    Cancelar
-                  </button>
                 </div>
               </div>
-
             </article>
 
-          </form >
-        </section >
-      )
-      }
+            <article className={`${styles.sectorBox} ${styles.modalArticle}`}>
+              <div className={styles.modalHead}>
+                <h2>Lista de matérias</h2>
+              </div>
+
+              <div className={styles.sectorList}>
+                {agentSectors.length === 0 ? (
+                  <p className={styles.emptyText}>Nenhuma matéria vinculada</p>
+                ) : (
+                  agentSectors.map((sector) => (
+                    <div key={sector.sector_id} className={styles.sectorItem}>
+                      <div className={styles.sectorInfo}>
+                        <p className={styles.sectorName}>{sector.sector_name} | {sector.acronym}</p>
+                        <button
+                          type="button"
+                          className={styles.removeSectorButton}
+                          onClick={() => handleRemoveSector(sector.sector_id)}
+                        >
+                          Remover matéria
+                        </button>
+                      </div>
+
+                      <div className={styles.dayScheduleBox}>
+                        <h4>Horários</h4>
+
+                        {(daySchedulesBySector[sector.sector_id] || []).length === 0 ? (
+                          <p className={styles.emptyText}>Nenhum horário cadastrado</p>
+                        ) : (
+                          (daySchedulesBySector[sector.sector_id] || []).map((item) => (
+                            <div
+                              key={`${item.sector_id}-${item.schedule_day}`}
+                              className={styles.dayScheduleItem}
+                            >
+                              <h5 className={styles.diaHora}>
+                                {item.schedule_day} - {item.schedule}
+                              </h5>
+
+                              <button
+                                type="button"
+                                className={styles.removeScheduleButton}
+                                onClick={() =>
+                                  handleRemoveDaySchedule(item.sector_id, item.schedule_day)
+                                }
+                              >
+                                <Image className={styles.trashWhite} src={TrashWhite} alt="Trash" />
+
+                              </button>
+                            </div>
+                          ))
+                        )}
+
+                        <div className={styles.dayScheduleForm}>
+                          <select
+                            value={newScheduleDayBySector[sector.sector_id] || ''}
+                            onChange={(e) =>
+                              setNewScheduleDayBySector((prev) => ({
+                                ...prev,
+                                [sector.sector_id]: e.target.value,
+                              }))
+                            }
+                            className={`${styles.input} ${styles.select}`}
+                          >
+                            <option value="">Selecione o dia</option>
+                            <option value="SEG">SEG</option>
+                            <option value="TER">TER</option>
+                            <option value="QUA">QUA</option>
+                            <option value="QUI">QUI</option>
+                            <option value="SEX">SEX</option>
+                          </select>
+
+                          <input
+                            type="text"
+                            value={newScheduleValueBySector[sector.sector_id] || ''}
+                            onChange={(e) =>
+                              setNewScheduleValueBySector((prev) => ({
+                                ...prev,
+                                [sector.sector_id]: e.target.value,
+                              }))
+                            }
+                            placeholder="08:00-10:00|14:00-16:00"
+                            className={styles.input}
+                          />
+
+                          <button
+                            type="button"
+                            className={`${styles.addButton} ${styles.styleButton}`}
+                            onClick={() => handleAddDaySchedule(sector.sector_id)}
+                          >
+                            Adicionar horário
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </article>
+
+            <button
+              type="button"
+              className={`${styles.cancelButton} ${styles.styleButton}`}
+              onClick={closeEditModal}
+            >
+              <Image className={styles.cancel} src={Cancel} alt="Trash" />
+
+            </button>
+          </form>
+        </section>
+      )}
     </>
   )
 }

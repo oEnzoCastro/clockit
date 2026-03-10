@@ -1,9 +1,9 @@
-
+/* 
 main {
     display: flex;
     height: 100%;
     width: 100%;
-    gap: 30px;
+    gap: 20px;
     min-height: 0;
 }
 
@@ -25,7 +25,7 @@ main {
 .title {
     background-color: var(--Platinum);
     background-color: red;
-    padding: 10px;
+    padding: var(--Shore-Small);
     width: 100%;
     border-radius: 10px;
     text-align: center;
@@ -61,4 +61,4 @@ main {
     background-color: var(--Platinum-blur);
     padding: 20px;
     border-radius: 20px;
-}
+} */

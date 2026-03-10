@@ -13,6 +13,8 @@
   --MidnightViolet: #412234;
   --WisteriaBlue: #9EA7FF;
   --Emerald: #4EC969;
+  --Shore-Big: 15px;
+  --Shore-Small: 5px;
 }
 
 html,
@@ -24,10 +26,10 @@ body {
 
 .children {
   display: flex;
-  padding: 30px;
+  padding: var(--Shore-Big);
   height: 100%;
   flex-direction: column;
-  gap: 30px;
+  gap: var(--Shore-Big);
   align-items: center;
   justify-content: center;
 }

@@ -14,7 +14,6 @@ class AgentSectorDAO {
         this.dayScheduleDAO = new DayScheduleDAO(db);
     }
 
-
     async create(agentSector) {
         const trx = await this.db.transaction();
         try {
@@ -89,7 +88,6 @@ class AgentSectorDAO {
             throw error;
         }
     }
-
 
     async findByAgent(filters = {}, trx = this.db) {
         const {
@@ -171,7 +169,6 @@ class AgentSectorDAO {
         return this._group(rows);
     }
 
-
     async update(agentSector) {
         const trx = await this.db.transaction();
         try {
@@ -251,9 +248,6 @@ class AgentSectorDAO {
         }
     }
 
-
-
-
     async cancelContract(agent_id, sector_id) {
         if (!agent_id) {
             throw new Error("agent_id is required");
@@ -302,11 +296,6 @@ class AgentSectorDAO {
             throw error;
         }
     }
-
-
-
-
-
 
     async getByAgentSector(agent_id, sector_id) {
         const results = await this.findByAgent({ agent_id, sector_id });
@@ -425,9 +414,6 @@ class AgentSectorDAO {
         return this.groupBySector(rows);
     }
 
-
-
-
     _group(rows) {
         const map = new Map();
 
@@ -531,8 +517,6 @@ class AgentSectorDAO {
 
         return Array.from(sectorMap.values());
     }
-
-
 
 }
 

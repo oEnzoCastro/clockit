@@ -58,6 +58,14 @@ exports.update = async (req, res) => {
     const { agent_id, sector_id, schedule_day, schedule } = req.body;
 
     try {
+        if (schedule && !checkScheduleTime(schedule)) {
+            throw new Error("Invalid time format");
+        }
+
+        if (schedule_day && !isWeekDay(schedule_day)) {
+            throw new Error("Invalid weekday");
+        }
+
         const daySchedule = await dayScheduleDAO.update(
             new DaySchedule({ agent_id, sector_id, schedule_day, schedule })
         );
@@ -86,7 +94,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-    const { sector_id, agent_id, schedule_day } = req.body;
+    const { sector_id, agent_id, schedule_day } = req.params;
 
     try {
         const result = await dayScheduleDAO.delete(
@@ -95,7 +103,7 @@ exports.delete = async (req, res) => {
             schedule_day
         );
 
-        if (result<=0) {
+        if (!result) {
             return res.status(404).json({
                 success: false,
                 error: null,

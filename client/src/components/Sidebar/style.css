@@ -1,9 +1,9 @@
 .sidebar{
     background-color: var(--Platinum-blur);
-    padding: 20px;
+    padding: var(--Shore-Big);
     color: var(--DeepspaceBlue);
-    border-radius: 20px;
-    gap: 20px;
+    border-radius: var(--Shore-Big);
+    gap: var(--Shore-Big);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -12,8 +12,8 @@
 
 .opcoes{
     background-color: var(--Platinum);
-    padding: 10px;
-    border-radius: 10px;
+    padding: var(--Shore-Small);
+    border-radius: var(--Shore-Small);
     display: flex;
     justify-content: center;
     border: none;

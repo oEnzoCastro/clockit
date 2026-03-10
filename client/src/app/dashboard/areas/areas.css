@@ -2,13 +2,13 @@ main {
     display: flex;
     height: 100%;
     width: 100%;
-    gap: 30px;
+    gap: var(--Shore-Big);
     min-height: 0;
 }
 
 .mainContent {
     color: var(--DeepspaceBlue);
-    gap: 20px;
+    gap: var(--Shore-Big);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -23,9 +23,9 @@ main {
 
 .title {
     background-color: var(--Platinum);
-    padding: 10px;
+    padding: var(--Shore-Small);
     width: 100%;
-    border-radius: 10px;
+    border-radius: var(--Shore-Small);
     text-align: center;
     height: 60px;
     display: flex;
@@ -37,14 +37,14 @@ main {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: var(--Shore-Big);
 
     overflow-y: auto;
     min-height: 0;
 
     background-color: var(--Platinum-blur);
-    padding: 20px;
-    border-radius: 20px;
+    padding: var(--Shore-Big);
+    border-radius: var(--Shore-Big);
     height: 100%;
 }
 
@@ -58,10 +58,10 @@ main {
 .mainHeader {
     width: 100%;
     background-color: var(--Platinum-blur);
-    padding: 20px;
-    border-radius: 20px;
+    padding: var(--Shore-Big);
+    border-radius: var(--Shore-Big);
     display: flex;
-    gap: 20px;
+    gap: var(--Shore-Big);
 }
 
 .newArea {
@@ -71,9 +71,9 @@ main {
     height: 60px;
     align-items: center;
     justify-content: center;
-    padding: 0 20px;
+    padding: 0 var(--Shore-Big);
     border-radius: 10px;
-    gap: 10px;
+    gap: var(--Shore-Small);
     width: fit-content;
     min-width: max-content;
     min-width: max-content;
@@ -101,7 +101,7 @@ main {
 
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--Shore-Big);
 
     color: var(--DeepspaceBlue);
 }
@@ -119,7 +119,7 @@ main {
 .formGroup {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--Shore-Big);
 }
 
 .formGroup label {
@@ -137,7 +137,7 @@ main {
 .checkbox {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--Shore-Small);
 }
 
 .checkbox input {

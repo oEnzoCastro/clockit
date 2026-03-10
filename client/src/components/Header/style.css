@@ -3,40 +3,41 @@ header {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    padding: 20px;
-    border-radius: 20px;
+    padding: var(--Shore-Big);
+    border-radius: var(--Shore-Big);
     color: var(--DeepspaceBlue);
     height: min-content;
 }
 
-.sec{
+.sec {
     display: flex;
-    gap: 20px;
+    gap: var(--Shore-Big);
 }
 
-.blocks{
+.blocks {
     color: var(--DeepspaceBlue);
     background-color: var(--Platinum);
     text-decoration: none;
-    padding: 0 10px;
-    border-radius: 10px;
+    padding: 0 var(--Shore-Small);
+    border-radius: var(--Shore-Small);
 
 }
 
-.pagesRedirect{
+.pagesRedirect {
     text-decoration: none;
 }
 
-.logo{
+.logo {
     height: 100%;
     background-color: var(--Platinum);
-    border-radius: 10px;
+    border-radius: var(--Shore-Small);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.loginButton{
+
+.loginButton {
     text-decoration: none;
     color: var(--DeepspaceBlue);
 }
