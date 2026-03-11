@@ -619,7 +619,7 @@ export default function Agent(props: AgentProps) {
                 <div className={styles.sectorButtons}>
 
                   <button
-                    className={`${styles.cancelButton} ${styles.styleButton}`}
+                    className={`${styles.saveButton} ${styles.styleButton}`}
                     type="submit"
                   >
                     Salvar

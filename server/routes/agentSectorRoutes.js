@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.post("/create",authMiddleware.isAuthorized, agentSectorController.create);
 router.get("/get", agentSectorController.get);
+router.get('/details', agentSectorController.getSectorScheduleDetails);
 router.put("/update",authMiddleware.isAuthorized,agentSectorController.update);
 router.put("/endContract/:agent_id/:sector_id",authMiddleware.isAuthorized,agentSectorController.cancelContract);
 router.delete("/delete/:agent_id/:sector_id",authMiddleware.isAuthorized, agentSectorController.delete);
-
 
 
 module.exports = router;

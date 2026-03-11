@@ -31,6 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .dias-semana {
@@ -94,6 +95,7 @@
   width: 5%;
   background-color: var(--Platinum);
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .hora {
@@ -103,6 +105,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  padding-top: 2px;
+  box-sizing: border-box;
 }
 
 /* GRADE */
@@ -120,6 +124,7 @@
   border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .coluna-dia:last-child {
@@ -129,6 +134,7 @@
 .celula {
   height: var(--altura-hora);
   border-bottom: 1px dashed #ddd;
+  box-sizing: border-box;
 }
 
 /* MONITORIAS */
@@ -136,31 +142,50 @@
   position: absolute;
   border-radius: 10px;
   opacity: 0.95;
-  padding: 4px;
+  padding: 6px 8px;
   font-size: 12px;
   color: #083344;
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* garante texto no topo */
   align-items: flex-start;
   box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(8, 51, 68, 0.08);
 }
 
-.monitoria-verde {
-  background: #86efac;
+.monitoria-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.1;
+  width: 100%;
+  pointer-events: none;
 }
 
-.monitoria-laranja {
-  background: #fdba74;
+.monitoria-conteudo strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: #083344;
+}
+
+.monitoria-conteudo span {
+  font-size: 10px;
+  opacity: 0.8;
 }
 
 /* BARRA MES */
 .calendario-mes {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: var(--Platinum);
   border-radius: 10px;
   padding: 8px 12px;
   color: var(--DeepspaceBlue);
+  flex-shrink: 0;
+  gap: var(--Shore-Big);
 }
 
 .mes-titulo {
@@ -172,4 +197,96 @@
   cursor: pointer;
   user-select: none;
   font-size: 18px;
+}
+
+/* LOADING */
+.calendario-loading {
+  font-size: 14px;
+  color: var(--DeepspaceBlue);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  background-color: var(--DeepspaceBlue-blur-focus);
+  backdrop-filter: blur(5px);
+}
+
+.modal-monitoria {
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: var(--DeepspaceBlue);
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  background-color: var(--Platinum-blur);
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+}
+
+.modal-name {
+  display: flex;
+  align-items: center;
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small);
+  border-radius: var(--Shore-Small);
+}
+
+.modal-fechar {
+  all: unset;
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small);
+  display: flex;
+  border-radius: var(--Shore-Small);
+}
+
+.modal-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+.modal-card-monitor {
+  background: var(--Platinum-blur);
+  padding: var(--Shore-Big);
+  border-radius: var(--Shore-Big);
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+.modal-monitor-nome {
+  background-color: var(--Platinum);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+}
+
+.modal-monitor-info {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small);
+  border-radius: var(--Shore-Small);
+}
+
+.modal-horarios {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Platinum);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+}
+
+.modal-faixa {
+  display: flex;
+  justify-content: space-between;
 }

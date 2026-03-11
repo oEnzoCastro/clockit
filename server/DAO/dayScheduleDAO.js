@@ -110,7 +110,7 @@ class DayScheduleDAO {
         return row ? new DaySchedule(row) : null;
     }
 
-    
+
     async find(filters = {}, trx = this.db) {
         const {
             agent_id,
@@ -123,13 +123,17 @@ class DayScheduleDAO {
         } = filters;
 
         const query = trx('day_schedule as ds')
-            .select('ds.*')
+            .select(
+                'ds.*',
+                's.sector_name',
+                's.acronym as sector_acronym'
+            )
             .join('sector as s', 'ds.sector_id', 's.id')
             .join('area as a', 's.area_id', 'a.id');
 
-    
         if (institute_id) {
-            query.join('institute as i', 'a.institute_id', 'i.id')
+            query
+                .join('institute as i', 'a.institute_id', 'i.id')
                 .where('i.id', institute_id);
         }
 
@@ -141,28 +145,29 @@ class DayScheduleDAO {
             query.where('ds.sector_id', sector_id);
         }
 
-
+        if (schedule_day) {
+            query.where('ds.schedule_day', schedule_day);
+        }
 
         if (area_id) {
             query.where('a.id', area_id);
         }
 
-        if (institute_id || area_id) {
-            if (sector_name) {
-                query.where('s.sector_name', sector_name);
+        if (sector_name) {
+            query.where('s.sector_name', sector_name);
+        }
 
-            }
-            if (schedule_day) {
-                query.where('ds.schedule_day', schedule_day);
-            }
-
-            if (sector_acronym) {
-                query.where('s.acronym', sector_acronym);
-            }
+        if (sector_acronym) {
+            query.where('s.acronym', sector_acronym);
         }
 
         const rows = await query;
-        return rows.map(row => new DaySchedule(row));
+
+        return rows.map(row => ({
+            ...new DaySchedule(row).toJSON(),
+            sector_name: row.sector_name,
+            sector_acronym: row.sector_acronym
+        }));
     }
 
 

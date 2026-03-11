@@ -340,6 +340,7 @@ class AgentSectorDAO {
         const {
             agent_id,
             sector_id,
+            schedule_day,
             institute_id,
             area_id,
             sector_name,
@@ -382,6 +383,7 @@ class AgentSectorDAO {
             })
             .leftJoin('area as a', 's.area_id', 'a.id');
 
+        if (schedule_day) query.where('ds.schedule_day', schedule_day);
         if (institute_id) query.where('u.institute_id', institute_id);
         if (agent_id) query.where('u.id', agent_id);
         if (sector_id) query.where('asg.sector_id', sector_id);
@@ -495,6 +497,8 @@ class AgentSectorDAO {
                         surname: row.agent_surname,
                         email: row.agent_email,
                         institute_id: row.agent_institute_id,
+                        sector_region: row.sector_region || null,
+                        sector_location: row.sector_location || null,
                         schedules: []
                     };
                     sectorGroup.agents.push(agent);

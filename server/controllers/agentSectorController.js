@@ -144,7 +144,7 @@ exports.delete = async (req, res) => {
 
     try {
         const result = await agentSectorDAO.delete(agent_id, sector_id);
-        
+
         if (!result) {
             return res.status(500).json({
                 success: false,
@@ -190,6 +190,37 @@ exports.get = async (req, res) => {
             success: false,
             error: error.message || error,
             message: "Failed to get contracts"
+        });
+    }
+};
+
+exports.getSectorScheduleDetails = async (req, res) => {
+    try {
+        const { sector_id, schedule_day } = req.query;
+
+        if (!sector_id || !schedule_day) {
+            return res.status(400).json({
+                success: false,
+                error: "sector_id and schedule_day are required",
+                message: "Missing required query params"
+            });
+        }
+
+        const result = await agentSectorDAO.findSectors({
+            sector_id,
+            schedule_day
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: result,
+            message: "Successfully fetched sector schedule details"
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            error: error.message || error,
+            message: "Failed to fetch sector schedule details"
         });
     }
 };

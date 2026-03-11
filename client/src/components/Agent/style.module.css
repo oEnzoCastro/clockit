@@ -228,9 +228,9 @@
 }
 
 .emptyText{
-  background-color: var(--Platinum-blur);
   padding: var(--Shore-Big);
   border-radius: var(--Shore-Big);
+  column-rule: var(--DeepspaceBlue-blur);
 }
 
 .cancelButton {
@@ -241,3 +241,6 @@
   border-radius: var(--Shore-Big);
 }
 
+.saveButton{
+  background-color: var(--DeepspaceBlue);
+}
