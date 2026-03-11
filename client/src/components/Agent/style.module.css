@@ -104,13 +104,14 @@
   border: none;
 }
 
-.modal h2 {
+.articleTitle {
   background-color: var(--Platinum);
   border-radius: var(--Shore-Small);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: var(--Shore-Small);
 }
 
 .dates {

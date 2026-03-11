@@ -1,5 +1,5 @@
 'use client';
-import './login.css';
+import styles from './style.module.css';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -51,7 +51,7 @@ export default function Page() {
         name: data.data.name,
         email: data.data.email,
         institute_role: data.data.institute_role,
-        institute_id: data.data.institute_id, // ✅ ADD
+        institute_id: data.data.institute_id,
         area: data.data.area,
       });
 
@@ -65,12 +65,12 @@ export default function Page() {
   };
 
   return (
-    <div className="loginForm">
-      <div className="forms">
-        <section className="login form">
-          <h1 className="title">ClockIt</h1>
+    <div className={styles.loginForm}>
+      <div className={styles.forms}>
+        <section className={styles.form}>
+          <h1 className={styles.title}>ClockIt</h1>
 
-          <article className="inputs">
+          <article className={styles.inputs}>
             <input
               type="email"
               placeholder="Email:"
@@ -91,13 +91,18 @@ export default function Page() {
             />
           </article>
 
-          <article className="buttons">
-            <button className="log" onClick={handleLogin} disabled={isLoading}>
+          <article className={styles.buttons}>
+            <button
+              type="button"
+              className={styles.log}
+              onClick={handleLogin}
+              disabled={isLoading}
+            >
               <h1>{isLoading ? 'Entrando...' : 'Login'}</h1>
             </button>
           </article>
 
-          {message && <p className="loginMessage">{message}</p>}
+          {message && <p className={styles.loginMessage}>{message}</p>}
         </section>
       </div>
     </div>

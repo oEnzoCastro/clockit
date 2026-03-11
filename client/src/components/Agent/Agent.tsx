@@ -568,7 +568,7 @@ export default function Agent(props: AgentProps) {
             <article className={`${styles.inputs} ${styles.modalArticle}`}>
 
               <div className={styles.modalHead}>
-                <h2>Editar Monitor</h2>
+                <h2 className={styles.articleTitle}>Editar Monitor</h2>
               </div>
 
               <div className={styles.modalBody}>
@@ -631,7 +631,7 @@ export default function Agent(props: AgentProps) {
             <article className={`${styles.addSector} ${styles.modalArticle}`}>
 
               <div className={styles.modalHead}>
-                <h2>Adicionar matéria</h2>
+                <h2 className={styles.articleTitle}>Adicionar matéria</h2>
               </div>
               <div className={styles.modalBody}>
 
@@ -724,7 +724,7 @@ export default function Agent(props: AgentProps) {
 
             <article className={`${styles.sectorBox} ${styles.modalArticle}`}>
               <div className={styles.modalHead}>
-                <h2>Lista de matérias</h2>
+                <h2 className={styles.articleTitle}>Lista de matérias</h2>
               </div>
 
               <div className={styles.sectorList}>

@@ -1,5 +1,5 @@
-header {
-    background-color: var(--Platinum-blur);
+.header {
+   background-color: var(--Platinum-blur);
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -21,10 +21,6 @@ header {
     padding: 0 var(--Shore-Small);
     border-radius: var(--Shore-Small);
 
-}
-
-.pagesRedirect {
-    text-decoration: none;
 }
 
 .logo {

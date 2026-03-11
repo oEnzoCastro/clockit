@@ -1,0 +1,86 @@
+.header {
+  display: none;
+}
+
+.loginForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.title {
+  color: var(--DeepspaceBlue);
+}
+
+.forms {
+  background-color: var(--Platinum-blur);
+  width: 33%;
+  padding: 50px;
+  border-radius: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.inputs input {
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  height: 50px;
+}
+
+.inputs input::placeholder {
+  color: var(--DeepspaceBlue);
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 30%;
+}
+
+.log {
+  width: 40%;
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--DeepspaceBlue);
+  cursor: pointer;
+}
+
+.log h1 {
+  color: var(--Platinum);
+}
+
+.red {
+  background-color: var(--Amarant);
+  color: var(--Platinum);
+}
+
+.loginMessage {
+  color: var(--Amarant);
+  text-align: center;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
+.header {
+  display: none;
+}
