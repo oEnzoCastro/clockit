@@ -1,8 +1,4 @@
 :root {
-  --background-1: hsl(187, 100%, 98%);
-  --text: #868686;
-  --background-2: #e4ebec;
-
   --Platinum: #EEEEEE;
   --Platinum-blur: hsla(0, 0%, 93%, 0.5);
   --DeepspaceBlue: #18314F;
@@ -10,11 +6,13 @@
   --DeepspaceBlue-blur-focus: hsla(213, 53%, 20%, 0.2);
   --Periwinkle: #CCD7FF;
   --Amarant: #D1495B;
-  --MidnightViolet: #412234;
   --WisteriaBlue: #9EA7FF;
   --Emerald: #4EC969;
-  --Shore-Big: 15px;
-  --Shore-Small: 5px;
+
+  --Blur: 10px;
+
+  /* --Shore-Big: 20px; --Shore-Small: 10px; */
+  --Shore-Big: 15px; --Shore-Small: 5px;
 }
 
 html,

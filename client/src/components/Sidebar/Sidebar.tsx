@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import './style.css'
+import styles from './style.module.css'
 
 export default function Sidebar() {
   const pathname = usePathname()
@@ -13,23 +13,23 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`sidebar 
-        ${isAreas ? 'sidebar-areas' : ''} 
-        ${isAgentes ? 'sidebar-agentes' : ''}
-      `}
+      className={`${styles.sidebar} 
+      ${isAreas ? styles.sidebarAreas : ''} 
+      ${isAgentes ? styles.sidebarAgentes : ''}
+    `}
     >
       <Link
         href="/dashboard/areas"
-        className={`opcoes ${isAreas ? 'ativo' : ''}`}
+        className={`${styles.opcoes} ${isAreas ? styles.ativo : ''}`}
       >
-        <h1 className='pageName'>Cursos</h1>
+        <h2 className={styles.pageName}>Cursos</h2>
       </Link>
 
       <Link
         href="/dashboard/agentes"
-        className={`opcoes ${isAgentes ? 'ativo' : ''}`}
+        className={`${styles.opcoes} ${isAgentes ? styles.ativo : ''}`}
       >
-        <h1 className='pageName'>Monitores  </h1>
+        <h2 className={styles.pageName}>Monitores</h2>
       </Link>
     </aside>
   )

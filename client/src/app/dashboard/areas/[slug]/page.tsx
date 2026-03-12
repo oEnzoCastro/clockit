@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useProtectedPage } from '@/hooks/useProtectedPage'
 import { useAuth } from '@/contexts/AuthContext'
-import './setores_areas.css'
+import styles from './style.module.css'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -85,7 +85,7 @@ export default function Page() {
       let data: any = null
       try {
         data = JSON.parse(text)
-      } catch {}
+      } catch { }
 
       if (!res.ok) {
         alert(data?.message || data?.error || 'Erro ao criar matéria')
@@ -107,12 +107,12 @@ export default function Page() {
   if (checking) return <div>Carregando...</div>
 
   return (
-    <main>
+    <main className={styles.main}>
       <Sidebar />
 
-      <section className="mainContent">
-        <article className="mainHeader">
-          <Link className="arrowBack" href="/dashboard/areas">
+      <section className={styles.mainContent}>
+        <article className={styles.mainHeader}>
+          <Link className={styles.arrowBack} href="/dashboard/areas">
             <Image
               src="/arrow-u-up-left.svg"
               alt="arrow back"
@@ -122,12 +122,12 @@ export default function Page() {
           </Link>
 
           <button
-            className="newSector"
+            className={styles.newSector}
             type="button"
             onClick={() => setIsModalOpen(true)}
           >
             <Image
-              className="plus"
+              className={styles.plus}
               src="/plus.svg"
               alt="Plus"
               width={24}
@@ -136,12 +136,12 @@ export default function Page() {
             <h2>Nova matéria</h2>
           </button>
 
-          <h2 className="titleArea">{areaNome || 'Carregando...'}</h2>
+          <h2 className={styles.titleArea}>{areaNome || 'Carregando...'}</h2>
         </article>
 
-        <article className="setores">
+        <article className={styles.setores}>
           {sectors.length === 0 ? (
-            <p className="emptyMessage">Nenhuma matéria neste curso</p>
+            <p className={styles.emptyMessage}>Nenhuma matéria neste curso</p>
           ) : (
             sectors.map((sector) => (
               <Sector
@@ -156,11 +156,11 @@ export default function Page() {
                     prev.map((s) =>
                       s.id === updated.id
                         ? {
-                            ...s,
-                            sector_name: updated.sector_name,
-                            acronym: updated.acronym,
-                            is_hidden: updated.is_hidden,
-                          }
+                          ...s,
+                          sector_name: updated.sector_name,
+                          acronym: updated.acronym,
+                          is_hidden: updated.is_hidden,
+                        }
                         : s
                     )
                   )
@@ -175,13 +175,14 @@ export default function Page() {
       </section>
 
       {isModalOpen && (
-        <div className="modalOverlay">
-          <div className="modal">
-            <h2>Nova Matéria</h2>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalTitle}>Nova Matéria</h2>
 
             <form onSubmit={handleSubmit}>
-              <div className="formGroup">
+              <div className={styles.formGroup}>
                 <input
+                  className={styles.formGroupInput}
                   type="text"
                   value={sectorName}
                   onChange={(e) => setSectorName(e.target.value)}
@@ -190,6 +191,7 @@ export default function Page() {
                 />
 
                 <input
+                  className={styles.formGroupInput}
                   type="text"
                   maxLength={10}
                   value={acronym}
@@ -198,26 +200,28 @@ export default function Page() {
                   placeholder="Sigla"
                 />
 
-                <div className="checkbox">
+                <div className={styles.checkbox}>
                   <input
+                    className={styles.formGroupInput}
                     type="checkbox"
                     id="hidden"
                     checked={isHidden}
                     onChange={(e) => setIsHidden(e.target.checked)}
                   />
-                  <label htmlFor="hidden">Ocultar matéria</label>
+                  <label className={styles.formGroupLabel} htmlFor="hidden">Ocultar matéria</label>
                 </div>
 
-                <div className="modalActions">
+                <div className={styles.modalActions}>
                   <button
-                    className="modalCancel"
+                    className={`${styles.modalCancel} ${styles.modalActionsButton}`}
                     type="button"
                     onClick={() => setIsModalOpen(false)}
                   >
                     Cancelar
                   </button>
 
-                  <button className="modalCreate" type="submit">
+                  <button
+                    className={`${styles.modalCreate} ${styles.modalActionsButton}`} type="submit">
                     Criar
                   </button>
                 </div>

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import "./calendario.css";
+import styles from "./style.module.css";
 import Image from "next/image";
 import backDay from "../../../public/back-day.svg";
-import Cancel from '../../../public/x.svg'
+import Cancel from "../../../public/x.svg";
 
 const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 const ALTURA_HORA = 60;
@@ -58,16 +58,16 @@ type MonitoriaLayout = Monitoria & {
 };
 
 const CORES_PASTEL = [
-  "#BBDEFB", // azul
-  "#C8E6C9", // verde
-  "#FFE0B2", // laranja
-  "#F8BBD0", // rosa
-  "#D1C4E9", // roxo
-  "#B2DFDB", // verde água
-  "#FFF9C4", // amarelo
-  "#DCEDC8", // lima
-  "#FFCCBC", // coral
-  "#CFD8DC", // cinza azulado
+  "#BBDEFB",
+  "#C8E6C9",
+  "#FFE0B2",
+  "#F8BBD0",
+  "#D1C4E9",
+  "#B2DFDB",
+  "#FFF9C4",
+  "#DCEDC8",
+  "#FFCCBC",
+  "#CFD8DC",
 ];
 
 const diaMap: Record<string, number> = {
@@ -349,7 +349,8 @@ export default function Calendario() {
       try {
         const response = await fetch("http://localhost:5000/daySchedules/get");
         const json = await response.json();
-        console.log(json.data)
+        console.log(json.data);
+
         if (json.success && Array.isArray(json.data)) {
           const monitoriasFormatadas = gerarMonitoriasDoBanco(json.data);
           setMonitorias(monitoriasFormatadas);
@@ -383,50 +384,50 @@ export default function Calendario() {
   const datasSemana = dias.map((_, i) => adicionarDias(inicioSemana, i));
 
   return (
-    <div className="calendario">
-      <div className="calendario-mes">
-        <div className="mes-seta" onClick={semanaAnterior}>←</div>
-        <div className="mes-titulo">{mesLabel}</div>
-        <div className="mes-seta" onClick={proximaSemana}>→</div>
+    <div className={styles.calendario}>
+      <div className={styles.calendarioMes}>
+        <div className={styles.mesSeta} onClick={semanaAnterior}>←</div>
+        <div className={styles.mesTitulo}>{mesLabel}</div>
+        <div className={styles.mesSeta} onClick={proximaSemana}>→</div>
       </div>
 
-      <div className="calendario-header">
-        <div className="voltar-dia" onClick={irParaHoje}>
+      <div className={styles.calendarioHeader}>
+        <div className={styles.voltarDia} onClick={irParaHoje}>
           <Image src={backDay} alt="Hoje" width={24} height={24} />
         </div>
 
-        <div className="dias-semana">
+        <div className={styles.diasSemana}>
           {datasSemana.map((data, i) => (
             <div
               key={i}
-              className={`dia-header ${today(data) ? "dia-hoje" : ""}`}
+              className={`${styles.diaHeader} ${today(data) ? styles.diaHoje : ""}`}
             >
-              <div className="dia-nome">{dias[i]}</div>
-              <div className="dia-numero">{data.getDate()}</div>
+              <div className={styles.diaNome}>{dias[i]}</div>
+              <div className={styles.diaNumero}>{data.getDate()}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="calendario-scroll">
-        <div className="calendario-body">
-          <div className="coluna-horas">
+      <div className={styles.calendarioScroll}>
+        <div className={styles.calendarioBody}>
+          <div className={styles.colunaHoras}>
             {horas.map((h) => (
-              <div key={h} className="hora">
+              <div key={h} className={styles.hora}>
                 {h}:00
               </div>
             ))}
           </div>
 
-          <div className="grade">
+          <div className={styles.grade}>
             {dias.map((_, diaIndex) => {
               const monitoriasDia = monitorias.filter((m) => m.dia === diaIndex);
               const monitoriasLayout = calcularLayoutMonitorias(monitoriasDia);
 
               return (
-                <div key={diaIndex} className="coluna-dia">
+                <div key={diaIndex} className={styles.colunaDia}>
                   {horas.map((h) => (
-                    <div key={h} className="celula"></div>
+                    <div key={h} className={styles.celula}></div>
                   ))}
 
                   {monitoriasLayout.map((m, idx) => {
@@ -438,7 +439,7 @@ export default function Calendario() {
                     return (
                       <div
                         key={idx}
-                        className="monitoria"
+                        className={styles.monitoria}
                         onClick={() => abrirDetalhesMonitoria(m)}
                         style={{
                           top,
@@ -449,7 +450,7 @@ export default function Calendario() {
                           cursor: "pointer",
                         }}
                       >
-                        <div className="monitoria-conteudo">
+                        <div className={styles.monitoriaConteudo}>
                           <strong>{m.acronimo || m.nome}</strong>
                           <span>{m.nome}</span>
                         </div>
@@ -462,30 +463,32 @@ export default function Calendario() {
           </div>
         </div>
       </div>
-      {loading && <p className="calendario-loading">Carregando horários...</p>}
+
+      {loading && <p className={styles.calendarioLoading}>Carregando horários...</p>}
+
       {modalAberto && (
-        <div className="modal-overlay" onClick={fecharModal}>
-          <div className="modal-monitoria" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div className="modal-name">
+        <div className={styles.modalOverlay} onClick={fecharModal}>
+          <div className={styles.modalMonitoria} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div className={styles.modalName}>
                 <h2>{monitoriaSelecionada?.nome} | {monitoriaSelecionada?.acronimo}</h2>
               </div>
-              <button className="modal-fechar" onClick={fecharModal}>
-                <Image className="cancel" src={Cancel} alt="Cancel" />
+              <button className={styles.modalFechar} onClick={fecharModal}>
+                <Image className={styles.cancel} src={Cancel} alt="Cancel" />
               </button>
             </div>
 
             {carregandoDetalhes ? (
-              <p className="modal-loading">Carregando detalhes...</p>
+              <p className={styles.modalLoading}>Carregando detalhes...</p>
             ) : detalhesMateria?.agents?.length ? (
-              <div className="modal-lista">
+              <div className={styles.modalLista}>
                 {detalhesMateria.agents.map((agent) => (
-                  <div key={agent.id} className="modal-card-monitor">
-                    <div className="modal-monitor-nome">
+                  <div key={agent.id} className={styles.modalCardMonitor}>
+                    <div className={styles.modalMonitorNome}>
                       {agent.first_name} {agent.surname || ""}
                     </div>
 
-                    <div className="modal-monitor-info">
+                    <div className={styles.modalMonitorInfo}>
                       <span>
                         <strong>Região:</strong> {agent.sector_region || "Não informado"}
                       </span>
@@ -494,14 +497,14 @@ export default function Calendario() {
                       </span>
                     </div>
 
-                    <div className="modal-horarios">
+                    <div className={styles.modalHorarios}>
                       {agent.schedules
                         .filter((s) => s.schedule_day === monitoriaSelecionada?.schedule_day)
                         .flatMap((s) =>
                           quebrarFaixasHorario(s.schedule).map((faixa, index) => (
                             <div
                               key={`${agent.id}-${s.schedule_day}-${index}`}
-                              className="modal-faixa"
+                              className={styles.modalFaixa}
                             >
                               <span><strong>Início:</strong> {faixa.inicio}</span>
                               <span><strong>Fim:</strong> {faixa.fim}</span>
@@ -513,7 +516,7 @@ export default function Calendario() {
                 ))}
               </div>
             ) : (
-              <p className="modal-vazio">Nenhum detalhe encontrado para essa matéria.</p>
+              <p className={styles.modalVazio}>Nenhum detalhe encontrado para essa matéria.</p>
             )}
           </div>
         </div>

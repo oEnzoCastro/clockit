@@ -1,14 +1,14 @@
-main {
+.main {
     display: flex;
     height: 100%;
     width: 100%;
-    gap: 30px;
+    gap: var(--Shore-Big);
     min-height: 0;
 }
 
 .mainContent {
     color: var(--DeepspaceBlue);
-    gap: 20px;
+    gap: var(--Shore-Big);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -22,18 +22,18 @@ main {
 .mainHeader {
     width: 100%;
     display: flex;
-    gap: 10px;
+    gap: var(--Shore-Big);
 }
 
 .arrowBack {
     display: flex;
     background-color: var(--Platinum);
     aspect-ratio: 1 / 1;
-    height: 60px;
-    border-radius: 10px;
     align-items: center;
     justify-content: center;
     transition: ease .1s;
+    border-radius: var(--Shore-Small);
+    padding: var(--Shore-Small);
 }
 
 .newSector {
@@ -42,30 +42,12 @@ main {
     background-color: var(--Platinum);
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    gap: 10px;
-    padding: 0 20px;
     width: fit-content;
     min-width: max-content;
     cursor: pointer;
-    transition: ease-in .1s;
-    height: 60px;
-}
-
-
-.search {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    background-color: var(--Platinum);
-    border-radius: 10px;
-    width: 200px;
-}
-
-.expanded {
-    width: 700px;
-    height: 60px;
+    padding: var(--Shore-Small);
+    border-radius: var(--Shore-Small);
+    gap: var(--Shore-Small);
 }
 
 .setores {
@@ -73,25 +55,23 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: max-content;
-    gap: 20px;
+    gap: var(--Shore-Big);
+    padding: var(--Shore-Big);
 
     overflow-y: auto;
     min-height: 0;
 
     background-color: var(--Platinum-blur);
-    padding: 20px;
-    border-radius: 20px;
+    border-radius: var(--Shore-Big);
     height: 100%;
 }
 
-
 .titleArea {
     background-color: var(--Platinum);
-    padding: 10px;
+    padding: var(--Shore-Small);
+    border-radius: var(--Shore-Small);
     width: 100%;
-    border-radius: 10px;
     text-align: center;
-    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,15 +80,16 @@ main {
 .mainHeader {
     width: 100%;
     background-color: var(--Platinum-blur);
-    padding: 20px;
-    border-radius: 20px;
+    border-radius: var(--Shore-Big);
+    padding: var(--Shore-Big);
+    gap: var(--Shore-Big);
 }
 
 .modalOverlay {
     position: fixed;
     inset: 0;
     background-color: var(--DeepspaceBlue-blur-focus);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(var(--Blur));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,24 +98,22 @@ main {
 
 .modal {
     background-color: var(--Platinum-blur);
-    width: 500px;
-    max-width: 90%;
+    width: 30%;
 
-    padding: 30px;
-    border-radius: 20px;
+    padding: var(--Shore-Big);
+    border-radius: var(--Shore-Big);
 
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--Shore-Big);
 
     color: var(--DeepspaceBlue);
 }
 
-.modal h2 {
+.modalTitle {
     background-color: var(--Platinum);
-    height: 60px;
-    border-radius: 10px;
-
+    border-radius: var(--Shore-Small);
+    padding: var(--Shore-Small);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,31 +122,14 @@ main {
 .formGroup {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--Shore-Big);
 }
 
-.formGroup label {
-    font-weight: 500;
-}
-
-.formGroup input[type="text"] {
+.formGroupInput[type="text"] {
     all: unset;
     background-color: var(--Platinum);
-    height: 50px;
-    border-radius: 10px;
-    padding: 0 15px;
-}
-
-.checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.checkbox input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
+    border-radius: var(--Shore-Small);
+    padding: var(--Shore-Small);
 }
 
 .modalActions {
@@ -175,25 +137,23 @@ main {
     justify-content: space-between;
 }
 
-.modalActions button {
+.modalActionsButton {
     all: unset;
     background-color: var(--Platinum);
-    height: 50px;
-    padding: 0 25px;
-    border-radius: 10px;
+    padding: var(--Shore-Small) var(--Shore-Big);
+    border-radius: var(--Shore-Small);
     cursor: pointer;
-    transition: ease-in .05s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.modalCancel:hover {
+.modalCancel {
     background-color: var(--Amarant);
     color: var(--Platinum);
 }
 
-.modalCreate:hover {
+.modalCreate {
     background-color: var(--DeepspaceBlue);
     color: var(--Platinum);
 }

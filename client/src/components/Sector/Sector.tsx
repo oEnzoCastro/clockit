@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import './style.css'
+import styles from './style.module.css'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
@@ -36,10 +36,8 @@ export default function Sector({
   const [del, setDel] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
 
-  const [editNome, setEditNome] = useState(false)
   const [nome, setNome] = useState(name)
 
-  const [editSigla, setEditSigla] = useState(false)
   const [sigla, setSigla] = useState(acronym)
 
   const [saving, setSaving] = useState(false)
@@ -51,17 +49,17 @@ export default function Sector({
   useEffect(() => setNome(name), [name])
   useEffect(() => setSigla(acronym), [acronym])
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Node | null
-      if (ref.current && target && !ref.current.contains(target)) {
-        setOpen(false)
-      }
-    }
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     const target = event.target as Node | null
+  //     if (ref.current && target && !ref.current.contains(target)) {
+  //       setOpen(false)
+  //     }
+  //   }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  //   document.addEventListener('mousedown', handleClickOutside)
+  //   return () => document.removeEventListener('mousedown', handleClickOutside)
+  // }, [])
 
   const requireToken = () => {
     if (!accessToken) {
@@ -80,13 +78,19 @@ export default function Sector({
     }
   }
 
-  // ---------------- UPDATE ----------------
+  const resetEditState = () => {
+    setNome(name)
+    setSigla(acronym)
+    setOpen(false)
+
+  }
+
   const saveUpdate = async () => {
     if (!requireToken()) return
     if (saving) return
 
     const payload = {
-      id, // ✅ controller usa req.body.id
+      id,
       sector_name: nome,
       acronym: sigla,
       area_id: areaId,
@@ -121,9 +125,6 @@ export default function Sector({
         is_hidden: updated.is_hidden ?? Boolean(isHidden),
       })
 
-      setEditNome(false)
-      setEditSigla(false)
-      setOpen(false)
     } catch (err) {
       console.error(err)
       alert('Erro ao atualizar matéria')
@@ -132,7 +133,6 @@ export default function Sector({
     }
   }
 
-  // ---------------- DELETE ----------------
   const confirmDelete = async () => {
     if (!requireToken()) return
     if (deleting) return
@@ -166,109 +166,102 @@ export default function Sector({
   }
 
   return (
-    <div ref={ref} className={`sector ${open ? 'open' : 'close'} ${del ? 'delMode' : ''}`}>
-      {!del && (
-        <div className="default box">
-          <div className="sectorHeader">
-            <h2 className="sectorTitle">{nome}</h2>
+    <>
+      <div ref={ref} className={`${styles.sector} ${del ? styles.delMode : ''}`}>
+        {!del && (
+          <div className={`${styles.default} ${styles.box}`}>
+            <h2 className={styles.sectorTitle}>{nome}</h2>
 
-            <div className="sectorEdit">
-              {!open && (
-                <>
-                  <Image className="trash" src={Trash} alt="Trash" onClick={() => setDel(true)} />
-
-                  {!isSetoresPage && (
-                    <Image className="pen" src={Pen} alt="Pen" onClick={() => setOpen(true)} />
-                  )}
-                </>
-              )}
-
-              {open && !isSetoresPage && (
+            <div className={styles.sectorEdit}>
+              {!isSetoresPage && (
                 <Image
-                  className="closeBtn"
-                  src={Cancel}
-                  alt="fechar"
+                  className={styles.pen}
+                  src={Pen}
+                  alt="Pen"
                   onClick={() => {
-                    setOpen(false)
-                    setEditNome(false)
-                    setEditSigla(false)
-                    setNome(name)
-                    setSigla(acronym)
+                    setOpen(true)
                   }}
                 />
               )}
+              <Image
+                className={styles.trash}
+                src={Trash}
+                alt="Trash"
+                onClick={() => setDel(true)}
+              />
             </div>
           </div>
+        )}
 
-          <div className="sectorContent">
-            <div className="field">
-              <input
-                className={editNome ? 'editing' : ''}
-                type="text"
-                value={nome}
-                readOnly={!editNome || isSetoresPage}
-                onChange={(e) => setNome(e.target.value)}
+        {del && (
+          <div className={`${styles.delete} ${styles.box}`}>
+            <h2 className={styles.sectorTitle}>Deletar?</h2>
+            <div className={styles.sectorEdit}>
+              <Image
+                className={styles.trueTrash}
+                src={Trash}
+                alt="Trash"
+                onClick={confirmDelete}
               />
+              <Image
+                className={styles.cancel}
+                src={Cancel}
+                alt="Cancel"
+                onClick={() => setDel(false)}
+              />
+            </div>
+          </div>
+        )}
+      </div>
 
-              {!editNome && !isSetoresPage && open && (
-                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditNome(true)} />
-              )}
+      {open && !isSetoresPage && (
+        <div className={styles.modalOverlay} onClick={resetEditState}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTittle}>Editar matéria</h2>
 
-              {editNome && !isSetoresPage && (
-                <div className="confirmBtn">
-                  <Image src={ConfirmWhite} alt="confirmar" onClick={saveUpdate} />
-                </div>
-              )}
+              <div className={styles.closeBtn}>
+                <Image
+                  src={Cancel}
+                  alt="fechar"
+                  onClick={resetEditState}
+                />
+              </div>
             </div>
 
-            <div className="field">
-              <input
-                className={editSigla ? 'editing' : ''}
-                type="text"
-                value={sigla}
-                readOnly={!editSigla || isSetoresPage}
-                onChange={(e) => setSigla(e.target.value)}
-              />
+            <div className={styles.sectorContent}>
+              <div className={styles.field}>
+                <input
+                  className={styles.editing}
+                  type="text"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder="Nome da matéria"
+                />
+              </div>
 
-              {!editSigla && !isSetoresPage && open && (
-                <Image src={Pen} alt="editar" className="icon" onClick={() => setEditSigla(true)} />
-              )}
+              <div className={styles.field}>
+                <input
+                  className={styles.editing}
+                  type="text"
+                  value={sigla}
+                  onChange={(e) => setSigla(e.target.value)}
+                  placeholder="Sigla"
+                />
+              </div>
 
-              {editSigla && !isSetoresPage && (
-                <div className="confirmBtn">
-                  <Image src={ConfirmWhite} alt="confirmar" onClick={saveUpdate} />
-                </div>
-              )}
-            </div>
-
-            {!isSetoresPage && open && (editNome || editSigla) && (
-              <button type="button" disabled={saving} onClick={saveUpdate} style={{ marginTop: 10 }}>
+              <button
+                type="button"
+                className={styles.modalCreate}
+                disabled={saving}
+                onClick={saveUpdate}
+              >
                 {saving ? 'Salvando...' : 'Salvar alterações'}
               </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {del && (
-        <div className="delete box">
-          <div className="sectorHeader">
-            <h2 className="sectorTitle">Deletar?</h2>
-
-            <div className="sectorEdit">
-              <Image className="cancel" src={Cancel} alt="Cancel" onClick={() => setDel(false)} />
-              <Image className="trueTrash" src={Trash} alt="Trash" onClick={confirmDelete} />
             </div>
           </div>
-
-          <div style={{ padding: 12 }}>
-            <p>Você tem certeza que deseja deletar?</p>
-            <button type="button" onClick={confirmDelete} disabled={deleting} style={{ marginTop: 10 }}>
-              {deleting ? 'Deletando...' : 'Confirmar delete'}
-            </button>
-          </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

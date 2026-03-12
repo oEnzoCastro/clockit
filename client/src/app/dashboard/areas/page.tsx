@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import React from 'react'
-import './areas.css'
+import styles from './style.module.css'
 import { useProtectedPage } from '@/hooks/useProtectedPage'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -25,17 +25,17 @@ export default function Page() {
   if (checking) return <div>Carregando...</div>
 
   return (
-    <main>
+    <main className={styles.main}>
       <Sidebar />
 
-      <section className="mainContent">
-        <article className="mainHeader">
-          <h2 className="title">Cursos</h2>
+      <section className={styles.mainContent}>
+        <article className={styles.mainHeader}>
+          <h2 className={styles.title}>Cursos</h2>
         </article>
 
-        <article className="areas">
+        <article className={styles.areas}>
           {areas.map((area) => (
-            <Link key={area.id} className="linkArea" href={`/dashboard/areas/${area.id}`}>
+            <Link key={area.id} className={styles.linkArea} href={`/dashboard/areas/${area.id}`}>
               <Area {...area} />
             </Link>
           ))}

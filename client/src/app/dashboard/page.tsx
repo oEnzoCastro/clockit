@@ -1,5 +1,4 @@
 import React from 'react'
-import './dashboard.css'
 import { redirect } from 'next/navigation'
 
 

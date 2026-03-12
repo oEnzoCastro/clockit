@@ -733,6 +733,8 @@ export default function Agent(props: AgentProps) {
                 ) : (
                   agentSectors.map((sector) => (
                     <div key={sector.sector_id} className={styles.sectorItem}>
+                      <h4 className={styles.sectorTitle}>Nome:</h4>
+
                       <div className={styles.sectorInfo}>
                         <p className={styles.sectorName}>{sector.sector_name} | {sector.acronym}</p>
                         <button
@@ -745,7 +747,7 @@ export default function Agent(props: AgentProps) {
                       </div>
 
                       <div className={styles.dayScheduleBox}>
-                        <h4>Horários</h4>
+                        <h4 className={styles.sectorTitle}>Horários:</h4>
 
                         {(daySchedulesBySector[sector.sector_id] || []).length === 0 ? (
                           <p className={styles.emptyText}>Nenhum horário cadastrado</p>
@@ -828,9 +830,10 @@ export default function Agent(props: AgentProps) {
               <Image className={styles.cancel} src={Cancel} alt="Trash" />
 
             </button>
-          </form>
-        </section>
-      )}
+          </form >
+        </section >
+      )
+      }
     </>
   )
 }

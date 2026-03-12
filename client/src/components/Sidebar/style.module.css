@@ -1,9 +1,9 @@
 .sidebar{
     background-color: var(--Platinum-blur);
     padding: var(--Shore-Big);
-    color: var(--DeepspaceBlue);
-    border-radius: var(--Shore-Big);
     gap: var(--Shore-Big);
+    border-radius: var(--Shore-Big);
+    color: var(--DeepspaceBlue);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -18,7 +18,6 @@
     justify-content: center;
     border: none;
     color: var(--DeepspaceBlue);
-    height: 60px;
     text-decoration: none;
     align-items: center;
 }
@@ -26,8 +25,4 @@
 .opcoes.ativo{
     background-color: var(--DeepspaceBlue);
     color: var(--Platinum);
-}
-
-.pageName{
-    font-size: x-large;
 }

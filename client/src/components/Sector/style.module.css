@@ -1,0 +1,121 @@
+.sector {
+  display: flex;
+  flex-direction: column;
+  background: var(--Platinum);
+  border-radius: var(--Shore-Small);
+  overflow: hidden;
+  align-items: center;
+  padding: var(--Shore-Small);
+}
+
+.sector.delMode {
+  background-color: var(--Amarant) !important;
+  color: var(--Platinum);
+}
+
+
+.sectorTitle {
+  flex: 1;
+  text-align: center;
+}
+
+.sectorEdit {
+  display: flex;
+  gap: var(--Shore-Small);
+}
+
+.trash,
+.pen {
+  cursor: pointer;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sectorContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
+}
+
+
+.sectorContent input::placeholder {
+  color: var(--DeepspaceBlue-blur);
+}
+
+.cancel,
+.trueTrash {
+  background-color: var(--Platinum);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--DeepspaceBlue-blur-focus);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background-color: var(--Platinum-blur);
+  border-radius: var(--Shore-Big);
+  padding: var(--Shore-Big);
+  color: var(--DeepspaceBlue);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: stretch;
+  /* align-items: center; */
+  gap: var(--Shore-Big);
+}
+
+.modalTittle{
+  background-color: var(--Platinum);
+  padding: var(--Shore-Small) var(--Shore-Big);
+  border-radius: var(--Shore-Small);
+  display: flex;
+  align-items: center;
+}
+
+.closeBtn{
+  display: flex;
+  background-color: var(--Platinum);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+}
+
+.modalCreate {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--DeepspaceBlue);
+  color: var(--Platinum);
+}
+
+.editing{
+  background-color: var(--Platinum);
+  border: none;
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
+  width: 100%;
+}
+
+.editing:focus{
+  outline: none;
+}

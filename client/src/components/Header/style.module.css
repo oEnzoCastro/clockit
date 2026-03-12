@@ -18,22 +18,17 @@
     color: var(--DeepspaceBlue);
     background-color: var(--Platinum);
     text-decoration: none;
-    padding: 0 var(--Shore-Small);
+    padding: var(--Shore-Small) var(--Shore-Big);
     border-radius: var(--Shore-Small);
 
 }
 
 .logo {
-    height: 100%;
     background-color: var(--Platinum);
+    padding: var(--Shore-Small);
     border-radius: var(--Shore-Small);
-    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.loginButton {
-    text-decoration: none;
-    color: var(--DeepspaceBlue);
+    aspect-ratio: 1 / 1;
 }

@@ -14,20 +14,20 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <section className={`${styles.Logo} ${styles.sec}`}>
-        <div className={styles.logo}>
-          <Image src={logo} alt="logo" />
-        </div>
+      <section className={styles.sec}>
+        <article className={styles.logo}>
+          <Image  src={logo} alt="logo" />
+        </article>
         <h2 className={styles.blocks}>Clockit</h2>
       </section>
 
       <section className={`${styles.pages} ${styles.sec}`}>
         <Link className={styles.blocks} href="/calendario">
-          <h2 className={styles.blocks}>Calendário</h2>
+          <h2 className={styles.page}>Calendário</h2>
         </Link>
 
         <Link className={styles.blocks} href="/dashboard">
-          <h2 className={styles.blocks}>Dashboard</h2>
+          <h2 className={styles.page}>Dashboard</h2>
         </Link>
       </section>
     </header>

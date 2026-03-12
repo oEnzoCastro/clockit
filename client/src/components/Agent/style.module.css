@@ -1,13 +1,7 @@
 .agent {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  background: var(--Platinum);
+  background-color: var(--Platinum);
   border-radius: var(--Shore-Small);
-  overflow: hidden;
-  align-items: center;
   padding: var(--Shore-Small);
-  transition: height .25s ease, padding .25s ease, background-color .25s ease;
 }
 
 .agent.delMode {
@@ -33,6 +27,7 @@
 .trash,
 .pen {
   cursor: pointer;
+  padding: var(--Shore-Small);
 }
 
 .box {
@@ -48,8 +43,8 @@
 .cancel,
 .trueTrash {
   background-color: var(--Platinum);
-  border-radius: 5px;
-  padding: 2px;
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
   cursor: pointer;
 }
 
@@ -62,7 +57,7 @@
   position: fixed;
   inset: 0;
   background-color: var(--DeepspaceBlue-blur-focus);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--Blur));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,11 +102,11 @@
 .articleTitle {
   background-color: var(--Platinum);
   border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: var(--Shore-Small);
 }
 
 .dates {
@@ -121,7 +116,6 @@
 .sectorButtons {
   width: 100%;
   display: flex;
-  gap: var(--Shore-Big);
   justify-content: center;
 }
 
@@ -131,28 +125,29 @@
   border-radius: var(--Shore-Small);
   cursor: pointer;
   padding: var(--Shore-Small);
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
 
 .addButton {
   background-color: var(--DeepspaceBlue);
 }
 
-
-
 .sectorItem{
   background-color: var(--Platinum-blur);
-  border-radius: var(--Shore-Small);
+  border-radius: var(--Shore-Big);
   padding: var(--Shore-Big);
+  gap: var(--Shore-Big);
   display: flex;
   flex-direction: column;
-  gap: var(--Shore-Big);
 }
 
 .sectorList{
   display: flex;
   flex-direction: column;
   gap: var(--Shore-Big);
-  max-height: 500px;
+  max-height: 550px;
   overflow-y: auto;
 }
 
@@ -195,7 +190,7 @@
   gap: var(--Shore-Big);
 }
 
-.dayScheduleBox p{
+.emptyText{
   color: var(--DeepspaceBlue-blur);
 }
 
@@ -210,6 +205,7 @@
 .dayScheduleForm{
   display: flex;
   gap: var(--Shore-Big);
+
 }
 
 .sectorList::-webkit-scrollbar {
@@ -227,11 +223,6 @@
   background-clip: content-box;
 }
 
-.emptyText{
-  padding: var(--Shore-Big);
-  border-radius: var(--Shore-Big);
-  column-rule: var(--DeepspaceBlue-blur);
-}
 
 .cancelButton {
   background-color: var(--Platinum-blur);

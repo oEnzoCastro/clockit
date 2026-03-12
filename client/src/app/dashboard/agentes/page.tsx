@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useProtectedPage } from '@/hooks/useProtectedPage'
 import { useAuth } from '@/contexts/AuthContext'
-import './agentes.css'
+import styles from './style.module.css'
 import Image from 'next/image'
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import Agent from '@/components/Agent/Agent'
@@ -24,11 +24,9 @@ type AgentType = {
   area?: { id: string; name?: string; acronym?: string } | null
 }
 
-
 export default function Page() {
   const { checking } = useProtectedPage(['manager'])
   const { accessToken, user } = useAuth()
-
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -120,7 +118,7 @@ export default function Page() {
       let data: any = null
       try {
         data = JSON.parse(text)
-      } catch { }
+      } catch {}
 
       if (!res.ok) {
         alert(data?.message || data?.error || 'Erro ao criar monitor')
@@ -139,18 +137,30 @@ export default function Page() {
   if (checking) return <div>Carregando...</div>
 
   return (
-    <main>
+    <main className={styles.main}>
       <Sidebar />
-      <section className="mainContent">
-        <article className="mainHeader">
-          <button className="newSector" type="button" onClick={() => setIsModalOpen(true)}>
-            <Image className="plus" src="/plus.svg" alt="Plus" width={24} height={24} />
+
+      <section className={styles.mainContent}>
+        <article className={styles.mainHeader}>
+          <button
+            className={styles.newSector}
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <Image
+              className={styles.plus}
+              src="/plus.svg"
+              alt="Plus"
+              width={24}
+              height={24}
+            />
             <h2>Novo monitor</h2>
           </button>
-          <h2 className="title">Monitores</h2>
+
+          <h2 className={styles.title}>Monitores</h2>
         </article>
 
-        <article className="agentes">
+        <article className={styles.agentes}>
           {agents.map((a) => (
             <Agent
               key={a.id}
@@ -167,19 +177,19 @@ export default function Page() {
       </section>
 
       {isModalOpen && (
-        <div className="modalOverlay">
-          <div className="modal">
-            <h2>Novo Monitor</h2>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalTittle}>Novo Monitor</h2>
 
             <form onSubmit={handleSubmit}>
-              <div className="formGroup">
+              <div className={styles.formGroup}>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
                   placeholder="Nome"
-                  className='inputs'
+                  className={styles.inputs}
                 />
 
                 <input
@@ -188,8 +198,7 @@ export default function Page() {
                   onChange={(e) => setSurname(e.target.value)}
                   required
                   placeholder="Sobrenome"
-                  className='inputs'
-
+                  className={styles.inputs}
                 />
 
                 <input
@@ -198,8 +207,7 @@ export default function Page() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Email"
-                  className='inputs'
-
+                  className={styles.inputs}
                 />
 
                 <input
@@ -208,15 +216,14 @@ export default function Page() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Senha"
-                  className='inputs'
-
+                  className={styles.inputs}
                 />
 
                 <select
                   value={selectedAreaId}
                   onChange={(e) => setSelectedAreaId(e.target.value)}
                   required
-                  className='select inputs'
+                  className={`${styles.select} ${styles.inputs}`}
                 >
                   {areas.length === 0 ? (
                     <option value="">Carregando áreas...</option>
@@ -229,10 +236,9 @@ export default function Page() {
                   )}
                 </select>
 
-
-                <div className="modalActions">
+                <div className={styles.modalActions}>
                   <button
-                    className="modalCancel"
+                    className={`${styles.modalCancel} ${styles.modalActionsButton}`}
                     type="button"
                     onClick={() => {
                       setIsModalOpen(false)
@@ -242,7 +248,10 @@ export default function Page() {
                     Cancelar
                   </button>
 
-                  <button className="modalCreate" type="submit">
+                  <button
+                    className={`${styles.modalCreate} ${styles.modalActionsButton}`}
+                    type="submit"
+                  >
                     Criar
                   </button>
                 </div>
