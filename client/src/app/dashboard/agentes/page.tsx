@@ -21,6 +21,7 @@ type AgentType = {
   institute_role: string
   contract_start?: string | null
   contract_end?: string | null
+  allExpired?: boolean
   area?: { id: string; name?: string; acronym?: string } | null
 }
 
@@ -41,6 +42,19 @@ export default function Page() {
   const [contractEnd, setContractEnd] = useState('')
 
   const [agents, setAgents] = useState<AgentType[]>([])
+
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const activeAgents = agents.filter((agent) => !agent.allExpired)
+  const expiredAgents = agents.filter((agent) => agent.allExpired)
+
+  const matchesSearch = (agent: AgentType) => {
+    const fullName = `${agent.first_name} ${agent.surname}`.toLowerCase()
+    return fullName.includes(searchTerm.toLowerCase())
+  }
+
+  const filteredActiveAgents = activeAgents.filter(matchesSearch)
+  const filteredExpiredAgents = expiredAgents.filter(matchesSearch)
 
   useEffect(() => {
     loadAgents()
@@ -66,7 +80,35 @@ export default function Page() {
         `http://localhost:5000/agents/get?institute_id=${user.institute_id}`
       )
       const json = await res.json()
-      setAgents(json.data || [])
+      const agentsList: AgentType[] = json.data || []
+
+      const agentsWithStatus = await Promise.all(
+        agentsList.map(async (agent) => {
+          try {
+            const linkedRes = await fetch(
+              `http://localhost:5000/agentSectors/get?agent_id=${agent.id}`
+            )
+
+            if (!linkedRes.ok) {
+              return { ...agent, allExpired: false }
+            }
+
+            const linkedJson = await linkedRes.json()
+            const firstAgent = linkedJson?.data?.[0]
+            const sectors = Array.isArray(firstAgent?.sectors) ? firstAgent.sectors : []
+
+            const hasAnySector = sectors.length > 0
+            const allExpired =
+              hasAnySector && sectors.every((sector: any) => isExpired(sector.contract_end))
+
+            return { ...agent, allExpired }
+          } catch {
+            return { ...agent, allExpired: false }
+          }
+        })
+      )
+
+      setAgents(agentsWithStatus)
     } catch (err) {
       console.error('Erro ao buscar agentes:', err)
     }
@@ -81,6 +123,17 @@ export default function Page() {
     setContractEnd('')
     if (areas.length > 0) setSelectedAreaId(areas[0].id)
     else setSelectedAreaId('')
+  }
+
+  const isExpired = (contractEnd?: string | null) => {
+    if (!contractEnd) return false
+
+    const onlyDate = contractEnd.split('T')[0]
+
+    const today = new Date()
+    const todayString = today.toISOString().split('T')[0]
+
+    return onlyDate < todayString
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,8 +162,10 @@ export default function Page() {
           email,
           password,
           area: { id: selectedAreaId },
-          contract_start: contractStart || null,
-          contract_end: contractEnd || null,
+          contract_start: null,
+          contract_end: null,
+          // contract_start: contractStart || null,
+          // contract_end: contractEnd || null,
         }),
       })
 
@@ -118,7 +173,7 @@ export default function Page() {
       let data: any = null
       try {
         data = JSON.parse(text)
-      } catch {}
+      } catch { }
 
       if (!res.ok) {
         alert(data?.message || data?.error || 'Erro ao criar monitor')
@@ -143,7 +198,7 @@ export default function Page() {
       <section className={styles.mainContent}>
         <article className={styles.mainHeader}>
           <button
-            className={styles.newSector}
+            className={styles.newAgent}
             type="button"
             onClick={() => setIsModalOpen(true)}
           >
@@ -156,24 +211,65 @@ export default function Page() {
             />
             <h2>Novo monitor</h2>
           </button>
-
+          
           <h2 className={styles.title}>Monitores</h2>
+
+          <input
+            type="text"
+            placeholder="Pesquisar monitor pelo nome"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
         </article>
 
-        <article className={styles.agentes}>
-          {agents.map((a) => (
-            <Agent
-              key={a.id}
-              id={a.id}
-              first_name={a.first_name}
-              surname={a.surname}
-              email={a.email}
-              area={a.area}
-              onDeleted={loadAgents}
-              onUpdated={loadAgents}
-            />
-          ))}
-        </article>
+        <section className={styles.agentsSections}>
+          <article className={styles.agentsArticle}>
+            <h2 className={styles.sectionTitle}>Monitores ativos</h2>
+
+            <div className={styles.agents}>
+              {filteredActiveAgents.length === 0 ? (
+                <p className={styles.noFound}>Nenhum monitor ativo encontrado.</p>
+              ) : (
+                filteredActiveAgents.map((a) => (
+                  <Agent
+                    key={a.id}
+                    id={a.id}
+                    first_name={a.first_name}
+                    surname={a.surname}
+                    email={a.email}
+                    area={a.area}
+                    onDeleted={loadAgents}
+                    onUpdated={loadAgents}
+                  />
+                ))
+              )}
+            </div>
+          </article>
+
+          <article className={styles.agentsArticle}>
+            <h2 className={styles.sectionTitle}>Monitores com contrato expirado</h2>
+
+            <div className={styles.agents}>
+              {filteredExpiredAgents.length === 0 ? (
+                <p className={styles.noFound}>Nenhum monitor com contrato expirado encontrado.</p>
+              ) : (
+                filteredExpiredAgents.map((a) => (
+                  <Agent
+                    key={a.id}
+                    id={a.id}
+                    first_name={a.first_name}
+                    surname={a.surname}
+                    email={a.email}
+                    area={a.area}
+                    onDeleted={loadAgents}
+                    onUpdated={loadAgents}
+                  />
+                ))
+              )}
+            </div>
+          </article>
+        </section>
       </section>
 
       {isModalOpen && (
@@ -218,6 +314,20 @@ export default function Page() {
                   placeholder="Senha"
                   className={styles.inputs}
                 />
+                {/* 
+                <input
+                  type="date"
+                  value={contractStart}
+                  onChange={(e) => setContractStart(e.target.value)}
+                  className={styles.inputs}
+                />
+
+                <input
+                  type="date"
+                  value={contractEnd}
+                  onChange={(e) => setContractEnd(e.target.value)}
+                  className={styles.inputs}
+                /> */}
 
                 <select
                   value={selectedAreaId}

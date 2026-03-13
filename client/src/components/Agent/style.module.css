@@ -2,6 +2,7 @@
   background-color: var(--Platinum);
   border-radius: var(--Shore-Small);
   padding: var(--Shore-Small);
+  height: min-content;
 }
 
 .agent.delMode {
@@ -48,7 +49,7 @@
   cursor: pointer;
 }
 
-.deleteAgent{
+.deleteAgent {
   all: unset;
   display: flex;
 }
@@ -67,7 +68,7 @@
 .modal {
   display: flex;
   gap: var(--Shore-Big);
-  
+
 }
 
 .modalArticle {
@@ -134,7 +135,7 @@
   background-color: var(--DeepspaceBlue);
 }
 
-.sectorItem{
+.sectorItem {
   background-color: var(--Platinum-blur);
   border-radius: var(--Shore-Big);
   padding: var(--Shore-Big);
@@ -143,7 +144,7 @@
   flex-direction: column;
 }
 
-.sectorList{
+.sectorList {
   display: flex;
   flex-direction: column;
   gap: var(--Shore-Big);
@@ -151,19 +152,18 @@
   overflow-y: auto;
 }
 
-.sectorName{
+.sectorText {
   background-color: var(--Platinum);
   padding: var(--Shore-Small);
   border-radius: var(--Shore-Small);
 }
 
-.sectorInfo{
+.sectorInfos {
   display: flex;
-  align-items: center;
   gap: var(--Shore-Big);
 }
 
-.removeSectorButton{
+.removeSectorButton {
   all: unset;
   width: fit-content;
   background-color: var(--Amarant);
@@ -172,29 +172,29 @@
   color: var(--Platinum);
 }
 
-.dayScheduleItem{
+.dayScheduleItem {
   display: flex;
   gap: var(--Shore-Big);
   align-items: center;
 }
 
-.diaHora{
+.diaHora {
   padding: var(--Shore-Small);
   background-color: var(--Platinum);
   border-radius: var(--Shore-Small);
 }
 
-.dayScheduleBox{
+.dayScheduleBox {
   display: flex;
   flex-direction: column;
   gap: var(--Shore-Big);
 }
 
-.emptyText{
+.emptyText {
   color: var(--DeepspaceBlue-blur);
 }
 
-.removeScheduleButton{
+.removeScheduleButton {
   all: unset;
   background-color: var(--Amarant);
   display: flex;
@@ -202,7 +202,7 @@
   padding: var(--Shore-Small);
 }
 
-.dayScheduleForm{
+.dayScheduleForm {
   display: flex;
   gap: var(--Shore-Big);
 
@@ -232,6 +232,13 @@
   border-radius: var(--Shore-Big);
 }
 
-.saveButton{
+.saveButton {
   background-color: var(--DeepspaceBlue);
+}
+
+.expired {
+  background-color: var(--Amarant);
+  color: var(--Platinum);
+  border-radius: var(--Shore-Small);
+  padding: var(--Shore-Small);
 }

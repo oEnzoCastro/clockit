@@ -93,6 +93,24 @@ export default function Agent(props: AgentProps) {
       .catch((err) => console.error('Erro ao buscar áreas:', err))
   }, [])
 
+  const isExpired = (dateString?: string | null) => {
+    if (!dateString) return false
+
+    const today = new Date().toISOString().split('T')[0]
+    const contractDate = dateString.split('T')[0]
+
+    return contractDate < today
+  }
+
+  const formatDateBR = (dateString?: string | null) => {
+    if (!dateString) return ''
+
+    const onlyDate = dateString.split('T')[0] // 2026-03-12
+    const [year, month, day] = onlyDate.split('-')
+
+    return `${day}/${month}/${year}`
+  }
+
   const fetchDaySchedulesBySector = async (sectorId: string) => {
     try {
       const res = await fetch(
@@ -174,7 +192,6 @@ export default function Agent(props: AgentProps) {
       const linkedRes = await fetch(
         `http://localhost:5000/agentSectors/get?agent_id=${props.id}`
       )
-
       let linkedJson: any = { data: [] }
 
       if (linkedRes.ok) {
@@ -193,6 +210,8 @@ export default function Agent(props: AgentProps) {
       }
 
       setIsModalOpen(true)
+      console.log(normalized)
+
     } catch (err) {
       console.error('Erro ao abrir edição do monitor:', err)
       setAgentSectors([])
@@ -661,7 +680,7 @@ export default function Agent(props: AgentProps) {
                   type="text"
                   value={sectorRegion}
                   onChange={(e) => setSectorRegion(e.target.value)}
-                  placeholder="Região"
+                  placeholder="Região (Ex: Prédio 4)"
                   className={styles.input}
                 />
 
@@ -669,7 +688,7 @@ export default function Agent(props: AgentProps) {
                   type="text"
                   value={sectorLocation}
                   onChange={(e) => setSectorLocation(e.target.value)}
-                  placeholder="Local"
+                  placeholder="Local (Ex: Andar 5 sala 502)"
                   className={styles.input}
                 />
 
@@ -734,9 +753,8 @@ export default function Agent(props: AgentProps) {
                   agentSectors.map((sector) => (
                     <div key={sector.sector_id} className={styles.sectorItem}>
                       <h4 className={styles.sectorTitle}>Nome:</h4>
-
-                      <div className={styles.sectorInfo}>
-                        <p className={styles.sectorName}>{sector.sector_name} | {sector.acronym}</p>
+                      <div className={styles.sectorInfos}>
+                        <p className={styles.sectorText}>{sector.sector_name} | {sector.acronym}</p>
                         <button
                           type="button"
                           className={styles.removeSectorButton}
@@ -744,6 +762,16 @@ export default function Agent(props: AgentProps) {
                         >
                           Remover matéria
                         </button>
+                      </div>
+                      <h4 className={styles.sectorTitle}>Contrato:</h4>
+
+                      <div className={styles.sectorInfos}>
+                        <p className={styles.sectorText}>
+                          {formatDateBR(sector.contract_start)} até {formatDateBR(sector.contract_end)}
+                        </p>
+                        {isExpired(sector.contract_end) && (
+                          <p className={styles.expired}> Expirado!  </p>
+                        )}
                       </div>
 
                       <div className={styles.dayScheduleBox}>
