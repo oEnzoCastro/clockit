@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "../components/Header/Header";
 import Background from "@/components/Background/Background";
 import { AuthProvider } from "../contexts/AuthContext"; // <-- import do AuthProvider
+import type { Metadata } from 'next'
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -11,7 +12,20 @@ const poppins = Poppins({
 
 export const metadata = {
   title: "ClockIt",
-  description: "Portfólio com Poppins",
+  description: 'Sistema de controle de monitores',
+
+  icons: {
+    icon: [
+      {
+        url: '/favicon-light.ico',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/favicon-dark.ico',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
