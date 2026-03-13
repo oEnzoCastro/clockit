@@ -39,3 +39,12 @@ body {
   font-weight: 400;
   font-family: 'Poppins', sans-serif;
 }
+
+@media (max-width: 768px) {
+
+  .children{
+    gap: var(--Shore-Small);
+    padding: var(--Shore-Small);
+  }
+
+}

@@ -1,17 +1,22 @@
 .header {
-   background-color: var(--Platinum-blur);
+    background-color: var(--Platinum-blur);
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
     padding: var(--Shore-Big);
     border-radius: var(--Shore-Big);
     color: var(--DeepspaceBlue);
     height: min-content;
+    position: relative;
+    box-sizing: border-box;
+    z-index: 1001;
 }
 
 .sec {
     display: flex;
     gap: var(--Shore-Big);
+    align-items: center;
 }
 
 .blocks {
@@ -20,14 +25,121 @@
     text-decoration: none;
     padding: var(--Shore-Small) var(--Shore-Big);
     border-radius: var(--Shore-Small);
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    box-sizing: border-box;
 }
 
 .logo {
     background-color: var(--Platinum);
-    padding: var(--Shore-Small);
+    padding: var(--Shore-Small) var(--Shore-Big);
     border-radius: var(--Shore-Small);
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 52px;
+    box-sizing: border-box;
+}
+
+.logoImg {
+    height: 24px;
+    width: auto;
+    display: block;
+}
+
+.pages {
+    display: flex;
+}
+
+.page {
+    margin: 0;
+}
+
+.hamburguer {
+    display: none;
+    background-color: var(--Platinum);
+    border: none;
+    border-radius: var(--Shore-Small);
+    padding: 10px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    min-height: 52px;
+    box-sizing: border-box;
+    z-index: 1002;
+}
+
+.hamburguer span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: var(--DeepspaceBlue);
+    border-radius: 999px;
+}
+
+.overlayMenu {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(24, 49, 79, 0.18);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: var(--Shore-Small);
+        border-radius: var(--Shore-Small);
+        gap: var(--Shore-Small);
+    }
+
+    .sec {
+        gap: var(--Shore-Small);
+    }
+
+    .logo {
+        padding: 8px 10px;
+        min-height: 42px;
+    }
+
+    .logoImg {
+        height: 18px;
+    }
+
+    .hamburguer {
+        display: flex;
+        min-height: 42px;
+        padding: 8px;
+    }
+
+    .pages {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        flex-direction: column;
+        gap: var(--Shore-Small);
+        background-color: var(--Platinum-blur);
+        padding: var(--Shore-Small);
+        border-radius: var(--Shore-Small);
+        min-width: 180px;
+        z-index: 1002;
+    }
+
+    .pagesAbertas {
+        display: flex;
+    }
+
+    .blocks {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 10px 12px;
+        min-height: 42px;
+    }
+
+    .page {
+        font-size: 16px;
+    }
 }

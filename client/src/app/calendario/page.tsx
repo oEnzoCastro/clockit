@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./style.module.css";
 import Image from "next/image";
 import backDay from "../../../public/back-day.svg";
@@ -10,6 +10,11 @@ const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 const ALTURA_HORA = 60;
 const HORA_INICIO_PADRAO = 7;
 const HORA_FIM_PADRAO = 18;
+
+const GAP_MONITORIA = 6;
+const LARGURA_COLUNA_HORAS = 72;
+const LARGURA_BASE_DIA = 170;
+const LARGURA_MINIMA_MONITORIA = 110;
 
 type AgentSchedule = {
   schedule_day: string;
@@ -204,8 +209,6 @@ function gerarMonitoriasDoBanco(data: DayScheduleAPI[]): Monitoria[] {
   return resultado;
 }
 
-/* ================= DATE UTILS ================= */
-
 function inicioDaSemana(data: Date) {
   const d = new Date(data);
   const dia = d.getDay();
@@ -243,8 +246,6 @@ function quebrarFaixasHorario(schedule: string) {
     return { inicio, fim };
   });
 }
-
-/* ================= LAYOUT ================= */
 
 function calcularLayoutMonitorias(
   monitoriasDia: Monitoria[]
@@ -289,23 +290,50 @@ function calcularLayoutMonitorias(
   return resultado;
 }
 
-/* ================= COMPONENT ================= */
-
 export default function Calendario() {
   const [inicioSemana, setInicioSemana] = useState(inicioDaSemana(new Date()));
   const [monitorias, setMonitorias] = useState<Monitoria[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [modalAberto, setModalAberto] = useState(false);
-  const [monitoriaSelecionada, setMonitoriaSelecionada] = useState<Monitoria | null>(null);
-  const [detalhesMateria, setDetalhesMateria] = useState<SectorDetailsResponse | null>(null);
+  const [monitoriaSelecionada, setMonitoriaSelecionada] =
+    useState<Monitoria | null>(null);
+  const [detalhesMateria, setDetalhesMateria] =
+    useState<SectorDetailsResponse | null>(null);
   const [carregandoDetalhes, setCarregandoDetalhes] = useState(false);
 
   const { horaInicio, horaFim } = calcularFaixaHoras(monitorias);
+
   const horas = Array.from(
     { length: horaFim - horaInicio + 1 },
     (_, i) => horaInicio + i
   );
+
+  const alturaGrade = horas.length * ALTURA_HORA;
+
+  const monitoriasPorDia = useMemo(() => {
+    return dias.map((_, diaIndex) => {
+      const monitoriasDia = monitorias.filter((m) => m.dia === diaIndex);
+      return calcularLayoutMonitorias(monitoriasDia);
+    });
+  }, [monitorias]);
+
+  const largurasDias = useMemo(() => {
+    return monitoriasPorDia.map((monitoriasDia) => {
+      const totalColunas = monitoriasDia.length
+        ? Math.max(...monitoriasDia.map((m) => m.totalColunas))
+        : 1;
+
+      return Math.max(
+        LARGURA_BASE_DIA,
+        totalColunas * LARGURA_MINIMA_MONITORIA
+      );
+    });
+  }, [monitoriasPorDia]);
+
+  const gridTemplateColumns = `${LARGURA_COLUNA_HORAS}px ${largurasDias
+    .map((largura) => `${largura}px`)
+    .join(" ")}`;
 
   async function abrirDetalhesMonitoria(monitoria: Monitoria) {
     try {
@@ -349,7 +377,6 @@ export default function Calendario() {
       try {
         const response = await fetch("http://localhost:5000/daySchedules/get");
         const json = await response.json();
-        console.log(json.data);
 
         if (json.success && Array.isArray(json.data)) {
           const monitoriasFormatadas = gerarMonitoriasDoBanco(json.data);
@@ -386,32 +413,41 @@ export default function Calendario() {
   return (
     <div className={styles.calendario}>
       <div className={styles.calendarioMes}>
-        <div className={styles.mesSeta} onClick={semanaAnterior}>←</div>
+        <div className={styles.mesSeta} onClick={semanaAnterior}>
+          ←
+        </div>
         <div className={styles.mesTitulo}>{mesLabel}</div>
-        <div className={styles.mesSeta} onClick={proximaSemana}>→</div>
+        <div className={styles.mesSeta} onClick={proximaSemana}>
+          →
+        </div>
       </div>
 
-      <div className={styles.calendarioHeader}>
-        <div className={styles.voltarDia} onClick={irParaHoje}>
-          <Image src={backDay} alt="Hoje" width={24} height={24} />
-        </div>
+      <div className={styles.calendarioScroll}>
+        <div
+          className={styles.gradeSemanal}
+          style={{ gridTemplateColumns }}
+        >
+          <div className={styles.cantoTopo}>
+            <div className={styles.voltarDia} onClick={irParaHoje}>
+              <Image className={styles.voltarDiaImg} src={backDay} alt="Hoje" width={24} height={24} />
+            </div>
+          </div>
 
-        <div className={styles.diasSemana}>
           {datasSemana.map((data, i) => (
             <div
               key={i}
-              className={`${styles.diaHeader} ${today(data) ? styles.diaHoje : ""}`}
+              className={`${styles.diaHeader} ${today(data) ? styles.diaHoje : ""
+                }`}
             >
               <div className={styles.diaNome}>{dias[i]}</div>
               <div className={styles.diaNumero}>{data.getDate()}</div>
             </div>
           ))}
-        </div>
-      </div>
 
-      <div className={styles.calendarioScroll}>
-        <div className={styles.calendarioBody}>
-          <div className={styles.colunaHoras}>
+          <div
+            className={styles.colunaHoras}
+            style={{ height: `${alturaGrade}px` }}
+          >
             {horas.map((h) => (
               <div key={h} className={styles.hora}>
                 {h}:00
@@ -419,60 +455,69 @@ export default function Calendario() {
             ))}
           </div>
 
-          <div className={styles.grade}>
-            {dias.map((_, diaIndex) => {
-              const monitoriasDia = monitorias.filter((m) => m.dia === diaIndex);
-              const monitoriasLayout = calcularLayoutMonitorias(monitoriasDia);
+          {dias.map((_, diaIndex) => {
+            const monitoriasLayout = monitoriasPorDia[diaIndex];
 
-              return (
-                <div key={diaIndex} className={styles.colunaDia}>
-                  {horas.map((h) => (
-                    <div key={h} className={styles.celula}></div>
-                  ))}
+            return (
+              <div
+                key={diaIndex}
+                className={styles.colunaDia}
+                style={{ height: `${alturaGrade}px` }}
+              >
+                {horas.map((h) => (
+                  <div key={h} className={styles.celula}></div>
+                ))}
 
-                  {monitoriasLayout.map((m, idx) => {
-                    const top = (m.inicio - horaInicio) * ALTURA_HORA;
-                    const height = (m.fim - m.inicio) * ALTURA_HORA;
-                    const width = 100 / m.totalColunas;
-                    const left = m.coluna * width;
+                {monitoriasLayout.map((m, idx) => {
+                  const top = (m.inicio - horaInicio) * ALTURA_HORA;
+                  const height = (m.fim - m.inicio) * ALTURA_HORA;
+                  const width = 100 / m.totalColunas;
+                  const left = m.coluna * width;
 
-                    return (
-                      <div
-                        key={idx}
-                        className={styles.monitoria}
-                        onClick={() => abrirDetalhesMonitoria(m)}
-                        style={{
-                          top,
-                          height,
-                          width: `${width}%`,
-                          left: `${left}%`,
-                          backgroundColor: m.cor,
-                          cursor: "pointer",
-                        }}
-                      >
-                        <div className={styles.monitoriaConteudo}>
-                          <strong>{m.acronimo || m.nome}</strong>
-                          <span>{m.nome}</span>
-                        </div>
+                  return (
+                    <div
+                      key={idx}
+                      className={styles.monitoria}
+                      onClick={() => abrirDetalhesMonitoria(m)}
+                      style={{
+                        top: top + GAP_MONITORIA / 2,
+                        height: height - GAP_MONITORIA,
+                        width: `calc(${width}% - ${GAP_MONITORIA}px)`,
+                        left: `calc(${left}% + ${GAP_MONITORIA / 2}px)`,
+                        backgroundColor: m.cor,
+
+                      }}
+                    >
+                      <div className={styles.monitoriaConteudo}>
+                        <strong>{m.acronimo || m.nome}</strong>
+                        <span>{m.nome}</span>
                       </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {loading && <p className={styles.calendarioLoading}>Carregando horários...</p>}
+      {loading && (
+        <p className={styles.calendarioLoading}>Carregando horários...</p>
+      )}
 
       {modalAberto && (
         <div className={styles.modalOverlay} onClick={fecharModal}>
-          <div className={styles.modalMonitoria} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modalMonitoria}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.modalHeader}>
               <div className={styles.modalName}>
-                <h2>{monitoriaSelecionada?.nome} | {monitoriaSelecionada?.acronimo}</h2>
+                <h2>
+                  {monitoriaSelecionada?.nome} | {monitoriaSelecionada?.acronimo}
+                </h2>
               </div>
+
               <button className={styles.modalFechar} onClick={fecharModal}>
                 <Image className={styles.cancel} src={Cancel} alt="Cancel" />
               </button>
@@ -489,34 +534,38 @@ export default function Calendario() {
                     </div>
 
                     <div className={styles.modalMonitorInfo}>
-                      <p>
-                        Região: {agent.sector_region || "Não informado"}
-                      </p>
-                      <p>
-                        Local: {agent.sector_location || "Não informado"}
-                      </p>
+                      <p>Região: {agent.sector_region || "Não informado"}</p>
+                      <p>Local: {agent.sector_location || "Não informado"}</p>
                     </div>
 
                     <div className={styles.modalHorarios}>
                       {agent.schedules
-                        .filter((s) => s.schedule_day === monitoriaSelecionada?.schedule_day)
+                        .filter(
+                          (s) =>
+                            s.schedule_day ===
+                            monitoriaSelecionada?.schedule_day
+                        )
                         .flatMap((s) =>
-                          quebrarFaixasHorario(s.schedule).map((faixa, index) => (
-                            <div
-                              key={`${agent.id}-${s.schedule_day}-${index}`}
-                              className={styles.modalFaixa}
-                            >
-                              <p>Início: {faixa.inicio}</p>
-                              <p>Fim: {faixa.fim}</p>
-                            </div>
-                          ))
+                          quebrarFaixasHorario(s.schedule).map(
+                            (faixa, index) => (
+                              <div
+                                key={`${agent.id}-${s.schedule_day}-${index}`}
+                                className={styles.modalFaixa}
+                              >
+                                <p>Início: {faixa.inicio}</p>
+                                <p>Fim: {faixa.fim}</p>
+                              </div>
+                            )
+                          )
                         )}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className={styles.modalVazio}>Nenhum detalhe encontrado para essa matéria.</p>
+              <p className={styles.modalVazio}>
+                Nenhum detalhe encontrado para essa matéria.
+              </p>
             )}
           </div>
         </div>
