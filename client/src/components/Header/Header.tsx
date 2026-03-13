@@ -2,7 +2,7 @@
 
 import styles from './style.module.css';
 import Image from 'next/image';
-import logo from '../../../public/user-circle.svg';
+import logo from '../../../public/clockit.svg';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -18,7 +18,6 @@ export default function Header() {
         <article className={styles.logo}>
           <Image  src={logo} alt="logo" />
         </article>
-        <h2 className={styles.blocks}>Clockit</h2>
       </section>
 
       <section className={`${styles.pages} ${styles.sec}`}>

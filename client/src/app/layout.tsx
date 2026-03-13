@@ -10,23 +10,16 @@ const poppins = Poppins({
   weight: ["400", "600", "700"],
 });
 
-export const metadata = {
-  title: "ClockIt",
+export const metadata: Metadata = {
+  title: 'ClockIt',
   description: 'Sistema de controle de monitores',
-
   icons: {
     icon: [
-      {
-        url: '/favicon-light.ico',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/favicon-dark.ico',
-        media: '(prefers-color-scheme: dark)',
-      },
+      { url: '/favicon-light.ico', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon-dark.ico', media: '(prefers-color-scheme: light)' },
     ],
   },
-};
+}
 
 export default function RootLayout({
   children,

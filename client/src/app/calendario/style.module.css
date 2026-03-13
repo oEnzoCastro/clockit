@@ -284,5 +284,6 @@
 
 .modalFaixa {
   display: flex;
-  justify-content: space-between;
+  gap: var(--Shore-Small);
+  flex-direction: column;
 }

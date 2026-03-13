@@ -489,12 +489,12 @@ export default function Calendario() {
                     </div>
 
                     <div className={styles.modalMonitorInfo}>
-                      <span>
-                        <strong>Região:</strong> {agent.sector_region || "Não informado"}
-                      </span>
-                      <span>
-                        <strong>Local:</strong> {agent.sector_location || "Não informado"}
-                      </span>
+                      <p>
+                        Região: {agent.sector_region || "Não informado"}
+                      </p>
+                      <p>
+                        Local: {agent.sector_location || "Não informado"}
+                      </p>
                     </div>
 
                     <div className={styles.modalHorarios}>
@@ -506,8 +506,8 @@ export default function Calendario() {
                               key={`${agent.id}-${s.schedule_day}-${index}`}
                               className={styles.modalFaixa}
                             >
-                              <span><strong>Início:</strong> {faixa.inicio}</span>
-                              <span><strong>Fim:</strong> {faixa.fim}</span>
+                              <p>Início: {faixa.inicio}</p>
+                              <p>Fim: {faixa.fim}</p>
                             </div>
                           ))
                         )}
