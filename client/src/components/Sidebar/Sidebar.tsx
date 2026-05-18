@@ -14,22 +14,22 @@ export default function Sidebar() {
   return (
     <aside
       className={`${styles.sidebar} 
-      ${isAreas ? styles.sidebarAreas : ''} 
-      ${isAgentes ? styles.sidebarAgentes : ''}
-    `}
+        ${isAreas ? styles.sidebarAreas : ''} 
+        ${isAgentes ? styles.sidebarAgentes : ''}
+      `}
     >
       <Link
         href="/dashboard/areas"
         className={`${styles.opcoes} ${isAreas ? styles.ativo : ''}`}
       >
-        <h2 className={styles.pageName}>Cursos</h2>
+        <span className={styles.pageName}>Cursos</span>
       </Link>
 
       <Link
         href="/dashboard/agentes"
         className={`${styles.opcoes} ${isAgentes ? styles.ativo : ''}`}
       >
-        <h2 className={styles.pageName}>Monitores</h2>
+        <span className={styles.pageName}>Monitores</span>
       </Link>
     </aside>
   )

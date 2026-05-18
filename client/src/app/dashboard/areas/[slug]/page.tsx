@@ -10,27 +10,19 @@ import Link from 'next/link'
 
 import Sidebar from '../../../../components/Sidebar/Sidebar'
 import Sector from '../../../../components/Sector/Sector'
+import NewSectorModal from '../../../../components/NewSectorModal/NewSectorModal'
 
 export default function Page() {
   const { checking } = useProtectedPage(['manager'])
   const { accessToken } = useAuth()
 
   const params = useParams()
-  const areaId =
-    Array.isArray(params.slug) ? params.slug[0] : (params.slug as string)
+  const areaId = Array.isArray(params.slug) ? params.slug[0] : (params.slug as string)
 
   const [areaNome, setAreaNome] = useState('')
   const [sectors, setSectors] = useState<any[]>([])
-
-  // Modal
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Form
-  const [sectorName, setSectorName] = useState('')
-  const [acronym, setAcronym] = useState('')
-  const [isHidden, setIsHidden] = useState(false)
-
-  // ---------------- BUSCAR ÁREA ----------------
   useEffect(() => {
     if (!areaId) return
 
@@ -42,7 +34,6 @@ export default function Page() {
       .catch((err) => console.error('Erro ao buscar área:', err))
   }, [areaId])
 
-  // ---------------- BUSCAR MATÉRIAS ----------------
   useEffect(() => {
     if (!areaId) return
 
@@ -57,53 +48,6 @@ export default function Page() {
       .catch((err) => console.error('Erro ao buscar matérias:', err))
   }, [areaId])
 
-  // ---------------- CRIAR MATÉRIA ----------------
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!accessToken) {
-      alert('Sessão expirada. Faça login novamente.')
-      return
-    }
-
-    try {
-      const res = await fetch('http://localhost:5000/sectors/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          sector_name: sectorName,
-          acronym: acronym,
-          area_id: areaId,
-          is_hidden: isHidden,
-        }),
-      })
-
-      const text = await res.text()
-      let data: any = null
-      try {
-        data = JSON.parse(text)
-      } catch { }
-
-      if (!res.ok) {
-        alert(data?.message || data?.error || 'Erro ao criar matéria')
-        return
-      }
-
-      setSectors((prev) => [...prev, data.data])
-
-      setSectorName('')
-      setAcronym('')
-      setIsHidden(false)
-      setIsModalOpen(false)
-    } catch (err) {
-      console.error(err)
-      alert('Erro ao criar matéria')
-    }
-  }
-
   if (checking) return <div>Carregando...</div>
 
   return (
@@ -111,13 +55,13 @@ export default function Page() {
       <Sidebar />
 
       <section className={styles.mainContent}>
-        <article className={styles.mainHeader}>
+        <header className={styles.mainHeader}>
           <Link className={styles.arrowBack} href="/dashboard/areas">
             <Image
               src="/arrow-u-up-left.svg"
-              alt="arrow back"
-              width={24}
-              height={24}
+              alt="Voltar"
+              width={20}
+              height={20}
             />
           </Link>
 
@@ -127,19 +71,18 @@ export default function Page() {
             onClick={() => setIsModalOpen(true)}
           >
             <Image
-              className={styles.plus}
               src="/plus.svg"
               alt="Plus"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
             />
-            <h2>Nova matéria</h2>
+            <span className={styles.newSectorLabel}>Nova matéria</span>
           </button>
 
-          <h2 className={styles.titleArea}>{areaNome || 'Carregando...'}</h2>
-        </article>
+          <h1 className={styles.titleArea}>{areaNome || 'Carregando...'}</h1>
+        </header>
 
-        <article className={styles.setores}>
+        <section className={styles.setores}>
           {sectors.length === 0 ? (
             <p className={styles.emptyMessage}>Nenhuma matéria neste curso</p>
           ) : (
@@ -171,65 +114,16 @@ export default function Page() {
               />
             ))
           )}
-        </article>
+        </section>
       </section>
 
-      {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2 className={styles.modalTitle}>Nova Matéria</h2>
-
-            <form onSubmit={handleSubmit}>
-              <div className={styles.formGroup}>
-                <input
-                  className={styles.formGroupInput}
-                  type="text"
-                  value={sectorName}
-                  onChange={(e) => setSectorName(e.target.value)}
-                  required
-                  placeholder="Nome da matéria"
-                />
-
-                <input
-                  className={styles.formGroupInput}
-                  type="text"
-                  maxLength={10}
-                  value={acronym}
-                  onChange={(e) => setAcronym(e.target.value)}
-                  required
-                  placeholder="Sigla"
-                />
-
-                <div className={styles.checkbox}>
-                  <input
-                    className={styles.formGroupInput}
-                    type="checkbox"
-                    id="hidden"
-                    checked={isHidden}
-                    onChange={(e) => setIsHidden(e.target.checked)}
-                  />
-                  <label className={styles.formGroupLabel} htmlFor="hidden">Ocultar matéria</label>
-                </div>
-
-                <div className={styles.modalActions}>
-                  <button
-                    className={`${styles.modalCancel} ${styles.modalActionsButton}`}
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Cancelar
-                  </button>
-
-                  <button
-                    className={`${styles.modalCreate} ${styles.modalActionsButton}`} type="submit">
-                    Criar
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <NewSectorModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        accessToken={accessToken}
+        areaId={areaId}
+        onSectorCreated={(newSector) => setSectors((prev) => [...prev, newSector])}
+      />
     </main>
   )
 }

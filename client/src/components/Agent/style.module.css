@@ -1,244 +1,68 @@
 .agent {
-  background-color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
-  height: min-content;
+    display: flex;
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    align-items: center;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .agent.delMode {
-  background-color: var(--Amarant) !important;
-  color: var(--Platinum);
+    background-color: var(--Amarant) !important;
 }
 
-.agent.delMode.box {
-  background-color: transparent !important;
-}
-
-.agentTitle {
-  flex: 1;
-  text-align: center;
-}
-
-.agentEdit {
-  display: flex;
-  align-items: center;
-  gap: var(--Shore-Small);
-}
-
-.trash,
-.pen {
-  cursor: pointer;
-  padding: var(--Shore-Small);
+.agent.delMode .agentTitle {
+    color: var(--Platinum);
+    font-weight: var(--fw-medium);
 }
 
 .box {
-  width: 100%;
-  display: flex;
-  align-items: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.default {
-  display: flex;
+.agentTitle {
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
+    flex: 1;
 }
 
-.cancel,
-.trueTrash {
-  background-color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
-  cursor: pointer;
+.agentEdit {
+    display: flex;
+    align-items: center;
+    gap: var(--Shore-Small);
 }
 
-.deleteAgent {
-  all: unset;
-  display: flex;
+.iconBtn {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background-color: var(--DeepspaceBlue-blur-focus);
-  backdrop-filter: blur(var(--Blur));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+.iconBtn:hover {
+    opacity: 0.7;
 }
 
-.modal {
-  display: flex;
-  gap: var(--Shore-Big);
-
+.iconBtnConfirm {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--Platinum);
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
-.modalArticle {
-  display: flex;
-  flex-direction: column;
-  gap: var(--Shore-Big);
-}
-
-.modalHead {
-  background-color: var(--Platinum-blur);
-  padding: var(--Shore-Big);
-  border-radius: var(--Shore-Big);
-}
-
-.modalBody {
-  background-color: var(--Platinum-blur);
-  padding: var(--Shore-Big);
-  border-radius: var(--Shore-Big);
-  display: flex;
-  flex-direction: column;
-  gap: var(--Shore-Big);
-}
-
-.input {
-  color: var(--DeepspaceBlue);
-  background-color: var(--Platinum);
-  padding: var(--Shore-Small);
-  border-radius: var(--Shore-Small);
-  border: none;
-}
-
-.articleTitle {
-  background-color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.dates {
-  color: var(--DeepspaceBlue-blur);
-}
-
-.sectorButtons {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.styleButton {
-  all: unset;
-  color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-  cursor: pointer;
-  padding: var(--Shore-Small);
-  display: flex;
-  flex: 1;
-  justify-content: center;
-}
-
-.addButton {
-  background-color: var(--DeepspaceBlue);
-}
-
-.sectorItem {
-  background-color: var(--Platinum-blur);
-  border-radius: var(--Shore-Big);
-  padding: var(--Shore-Big);
-  gap: var(--Shore-Big);
-  display: flex;
-  flex-direction: column;
-}
-
-.sectorList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--Shore-Big);
-  max-height: 550px;
-  overflow-y: auto;
-}
-
-.sectorText {
-  background-color: var(--Platinum);
-  padding: var(--Shore-Small);
-  border-radius: var(--Shore-Small);
-}
-
-.sectorInfos {
-  display: flex;
-  gap: var(--Shore-Big);
-}
-
-.removeSectorButton {
-  all: unset;
-  width: fit-content;
-  background-color: var(--Amarant);
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
-  color: var(--Platinum);
-}
-
-.dayScheduleItem {
-  display: flex;
-  gap: var(--Shore-Big);
-  align-items: center;
-}
-
-.diaHora {
-  padding: var(--Shore-Small);
-  background-color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-}
-
-.dayScheduleBox {
-  display: flex;
-  flex-direction: column;
-  gap: var(--Shore-Big);
-}
-
-.emptyText {
-  color: var(--DeepspaceBlue-blur);
-}
-
-.removeScheduleButton {
-  all: unset;
-  background-color: var(--Amarant);
-  display: flex;
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
-}
-
-.dayScheduleForm {
-  display: flex;
-  gap: var(--Shore-Big);
-
-}
-
-.sectorList::-webkit-scrollbar {
-  width: 10px;
-}
-
-.sectorList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sectorList::-webkit-scrollbar-thumb {
-  background: var(--Platinum-blur);
-  border-radius: var(--Shore-Small);
-  border-left: var(--Shore-Small) solid transparent;
-  background-clip: content-box;
-}
-
-
-.cancelButton {
-  background-color: var(--Platinum-blur);
-  height: fit-content;
-  display: flex;
-  padding: var(--Shore-Big);
-  border-radius: var(--Shore-Big);
-}
-
-.saveButton {
-  background-color: var(--DeepspaceBlue);
-}
-
-.expired {
-  background-color: var(--Amarant);
-  color: var(--Platinum);
-  border-radius: var(--Shore-Small);
-  padding: var(--Shore-Small);
+.iconBtnConfirm:hover {
+    opacity: 0.85;
 }

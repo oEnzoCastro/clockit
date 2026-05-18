@@ -1,0 +1,100 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--DeepspaceBlue-blur-focus);
+    backdrop-filter: blur(var(--Blur));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--Platinum-blur);
+    width: 450px;
+    max-width: 90%;
+    padding: var(--Shore-Big);
+    border-radius: var(--radius-outer);
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+    color: var(--DeepspaceBlue);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--Shore-Big);
+}
+
+.modalTitle {
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    height: var(--component-height);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-title);
+    font-weight: var(--fw-medium);
+}
+
+.closeBtn {
+    all: unset;
+    display: flex;
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    align-items: center;
+    justify-content: center;
+    width: var(--component-height);
+    height: var(--component-height);
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.sectorContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+}
+
+.editing {
+    all: unset;
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
+    box-sizing: border-box;
+}
+
+.editing::placeholder {
+    color: var(--DeepspaceBlue-blur);
+}
+
+.modalCreate {
+    all: unset;
+    height: var(--component-height);
+    border-radius: var(--radius-inner);
+    background-color: var(--DeepspaceBlue);
+    color: var(--Platinum);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-body);
+    box-sizing: border-box;
+    transition: opacity 0.2s ease;
+}
+
+.modalCreate:hover {
+    opacity: 0.9;
+}
+
+.modalCreate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

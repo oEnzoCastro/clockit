@@ -1,8 +1,8 @@
 import { Poppins } from "next/font/google";
-import "./globals.css";
-import Header from "../components/Header/Header";
-import Background from "@/components/Background/Background";
-import { AuthProvider } from "../contexts/AuthContext"; // <-- import do AuthProvider
+// @ts-ignore: allow side-effect CSS import without type declarations
+import "./global.css";
+import Header   from "../components/Header/Header";
+import { AuthProvider } from "../contexts/AuthContext";
 import type { Metadata } from 'next'
 
 const poppins = Poppins({
@@ -34,7 +34,6 @@ export default function RootLayout({
             <Header />
             {children}
           </div>
-          <Background />
         </AuthProvider>
       </body>
     </html>

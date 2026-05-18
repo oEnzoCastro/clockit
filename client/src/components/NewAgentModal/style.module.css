@@ -1,0 +1,103 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--DeepspaceBlue-blur-focus);
+    backdrop-filter: blur(var(--Blur));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--Platinum-blur);
+    width: 450px;
+    max-width: 90%;
+    padding: var(--Shore-Big);
+    border-radius: var(--radius-outer);
+    gap: var(--Shore-Big);
+    display: flex;
+    flex-direction: column;
+    color: var(--DeepspaceBlue);
+}
+
+.modalTitle {
+    background-color: var(--Platinum);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-inner);
+    height: var(--component-height);
+    font-size: var(--fs-title);
+    font-weight: var(--fw-medium);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+}
+
+.inputs {
+    all: unset;
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2318314F'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--Shore-Big) center;
+    background-size: 20px;
+    padding-right: 40px !important;
+}
+
+.inputs::placeholder {
+    color: var(--DeepspaceBlue-blur);
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--Shore-Big);
+    margin-top: 8px;
+}
+
+.modalActionsButton {
+    all: unset;
+    height: var(--component-height);
+    border-radius: var(--radius-inner);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-body);
+    box-sizing: border-box;
+    transition: opacity 0.2s ease;
+}
+
+.modalActionsButton:hover {
+    opacity: 0.9;
+}
+
+.modalCancel {
+    background-color: var(--Amarant);
+    color: var(--Platinum);
+}
+
+.modalCreate {
+    background-color: var(--DeepspaceBlue);
+    color: var(--Platinum);
+}

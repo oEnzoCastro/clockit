@@ -13,7 +13,6 @@
     flex-direction: column;
     height: 100%;
     width: 85%;
-    align-items: center;
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -21,19 +20,28 @@
 
 .mainHeader {
     width: 100%;
+    background-color: var(--Platinum-blur);
+    border-radius: var(--radius-outer);
+    padding: var(--Shore-Big);
     display: flex;
+    align-items: center;
     gap: var(--Shore-Big);
 }
 
 .arrowBack {
     display: flex;
     background-color: var(--Platinum);
-    aspect-ratio: 1 / 1;
     align-items: center;
     justify-content: center;
-    transition: ease .1s;
-    border-radius: var(--Shore-Small);
-    padding: var(--Shore-Small);
+    transition: opacity 0.2s ease;
+    border-radius: var(--radius-inner);
+    width: var(--component-height);
+    height: var(--component-height);
+    box-sizing: border-box;
+}
+
+.arrowBack:hover {
+    opacity: 0.85;
 }
 
 .newSector {
@@ -42,12 +50,37 @@
     background-color: var(--Platinum);
     align-items: center;
     justify-content: center;
-    width: fit-content;
-    min-width: max-content;
     cursor: pointer;
-    padding: var(--Shore-Small);
-    border-radius: var(--Shore-Small);
-    gap: var(--Shore-Small);
+    border-radius: var(--radius-inner);
+    gap: 8px;
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    box-sizing: border-box;
+    transition: opacity 0.2s ease;
+}
+
+.newSector:hover {
+    opacity: 0.85;
+}
+
+.newSectorLabel {
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
+}
+
+.titleArea {
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    flex: 1;
+    height: var(--component-height);
+    font-size: var(--fs-title);
+    font-weight: var(--fw-light);
+    color: var(--DeepspaceBlue);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .setores {
@@ -57,103 +90,15 @@
     grid-auto-rows: max-content;
     gap: var(--Shore-Big);
     padding: var(--Shore-Big);
-
     overflow-y: auto;
     min-height: 0;
-
     background-color: var(--Platinum-blur);
-    border-radius: var(--Shore-Big);
+    border-radius: var(--radius-outer);
     height: 100%;
+    box-sizing: border-box;
 }
 
-.titleArea {
-    background-color: var(--Platinum);
-    padding: var(--Shore-Small);
-    border-radius: var(--Shore-Small);
-    width: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.mainHeader {
-    width: 100%;
-    background-color: var(--Platinum-blur);
-    border-radius: var(--Shore-Big);
-    padding: var(--Shore-Big);
-    gap: var(--Shore-Big);
-}
-
-.modalOverlay {
-    position: fixed;
-    inset: 0;
-    background-color: var(--DeepspaceBlue-blur-focus);
-    backdrop-filter: blur(var(--Blur));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal {
-    background-color: var(--Platinum-blur);
-    width: 30%;
-
-    padding: var(--Shore-Big);
-    border-radius: var(--Shore-Big);
-
-    display: flex;
-    flex-direction: column;
-    gap: var(--Shore-Big);
-
-    color: var(--DeepspaceBlue);
-}
-
-.modalTitle {
-    background-color: var(--Platinum);
-    border-radius: var(--Shore-Small);
-    padding: var(--Shore-Small);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: var(--Shore-Big);
-}
-
-.formGroupInput[type="text"] {
-    all: unset;
-    background-color: var(--Platinum);
-    border-radius: var(--Shore-Small);
-    padding: var(--Shore-Small);
-}
-
-.modalActions {
-    display: flex;
-    justify-content: space-between;
-}
-
-.modalActionsButton {
-    all: unset;
-    background-color: var(--Platinum);
-    padding: var(--Shore-Small) var(--Shore-Big);
-    border-radius: var(--Shore-Small);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modalCancel {
-    background-color: var(--Amarant);
-    color: var(--Platinum);
-}
-
-.modalCreate {
-    background-color: var(--DeepspaceBlue);
-    color: var(--Platinum);
+.emptyMessage {
+    color: var(--DeepspaceBlue-blur);
+    font-size: var(--fs-body);
 }

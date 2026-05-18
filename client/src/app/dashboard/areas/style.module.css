@@ -13,19 +13,29 @@
     flex-direction: column;
     height: 100%;
     width: 85%;
-    align-items: center;
     flex: 1;
     min-height: 0;
     overflow: hidden;
 }
 
-
+.mainHeader {
+    width: 100%;
+    background-color: var(--Platinum-blur);
+    padding: var(--Shore-Big);
+    border-radius: var(--radius-outer);
+    display: flex;
+    align-items: center;
+    gap: var(--Shore-Big);
+}
 
 .title {
     background-color: var(--Platinum);
-    padding: var(--Shore-Small);
-    border-radius: var(--Shore-Small);
+    border-radius: var(--radius-inner);
     width: 100%;
+    height: var(--component-height);
+    font-size: var(--fs-title);
+    font-weight: var(--fw-light);
+    color: var(--DeepspaceBlue);
     text-align: center;
     display: flex;
     align-items: center;
@@ -37,28 +47,16 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--Shore-Big);
-
     overflow-y: auto;
     min-height: 0;
-
     background-color: var(--Platinum-blur);
     padding: var(--Shore-Big);
-    border-radius: var(--Shore-Big);
+    border-radius: var(--radius-outer);
     height: 100%;
+    box-sizing: border-box;
 }
 
 .linkArea {
-    text-decoration: none;
-    color: var(--DeepspaceBlue);
     display: block;
     height: 100%;
-}
-
-.mainHeader {
-    width: 100%;
-    background-color: var(--Platinum-blur);
-    padding: var(--Shore-Big);
-    border-radius: var(--Shore-Big);
-    display: flex;
-    gap: var(--Shore-Big);
 }

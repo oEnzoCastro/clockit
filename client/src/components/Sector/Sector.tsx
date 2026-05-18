@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import styles from './style.module.css'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Pen from '../../../public/pencil-simple.svg'
 import Trash from '../../../public/trash.svg'
 import Cancel from '../../../public/x.svg'
-import ConfirmWhite from '../../../public/check-white.svg'
+import EditSectorModal from '../EditSectorModal/EditSectorModal'
 
 interface SectorProps {
   id: string
@@ -31,132 +31,35 @@ export default function Sector({
   onDeleted,
 }: SectorProps) {
   const { accessToken } = useAuth()
-
   const [open, setOpen] = useState(false)
   const [del, setDel] = useState(false)
-  const ref = useRef<HTMLDivElement | null>(null)
-
-  const [nome, setNome] = useState(name)
-
-  const [sigla, setSigla] = useState(acronym)
-
-  const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
 
   const pathname = usePathname()
   const isSetoresPage = pathname === '/dashboard/agentes/setores'
 
-  useEffect(() => setNome(name), [name])
-  useEffect(() => setSigla(acronym), [acronym])
-
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     const target = event.target as Node | null
-  //     if (ref.current && target && !ref.current.contains(target)) {
-  //       setOpen(false)
-  //     }
-  //   }
-
-  //   document.addEventListener('mousedown', handleClickOutside)
-  //   return () => document.removeEventListener('mousedown', handleClickOutside)
-  // }, [])
-
-  const requireToken = () => {
+  const confirmDelete = async () => {
     if (!accessToken) {
       alert('Sessão expirada. Faça login novamente.')
-      return false
+      return
     }
-    return true
-  }
-
-  const parseJsonSafe = async (res: Response) => {
-    const text = await res.text()
-    try {
-      return JSON.parse(text)
-    } catch {
-      return { message: text }
-    }
-  }
-
-  const resetEditState = () => {
-    setNome(name)
-    setSigla(acronym)
-    setOpen(false)
-
-  }
-
-  const saveUpdate = async () => {
-    if (!requireToken()) return
-    if (saving) return
-
-    const payload = {
-      id,
-      sector_name: nome,
-      acronym: sigla,
-      area_id: areaId,
-      is_hidden: Boolean(isHidden),
-    }
-
-    try {
-      setSaving(true)
-
-      const res = await fetch('http://localhost:5000/sectors/update', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(payload),
-      })
-
-      const data = await parseJsonSafe(res)
-
-      if (!res.ok) {
-        alert(data?.message || data?.error || 'Erro ao atualizar matéria')
-        return
-      }
-
-      const updated = data?.data || payload
-
-      onUpdated?.({
-        id,
-        sector_name: updated.sector_name ?? nome,
-        acronym: updated.acronym ?? sigla,
-        is_hidden: updated.is_hidden ?? Boolean(isHidden),
-      })
-
-    } catch (err) {
-      console.error(err)
-      alert('Erro ao atualizar matéria')
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  const confirmDelete = async () => {
-    if (!requireToken()) return
     if (deleting) return
 
     try {
       setDeleting(true)
-
       const res = await fetch(`http://localhost:5000/sectors/delete/${id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       })
 
-      const data = await parseJsonSafe(res)
-
       if (!res.ok) {
-        alert(data?.message || data?.error || 'Erro ao deletar matéria')
+        const text = await res.text()
+        alert(text || 'Erro ao deletar matéria')
         return
       }
 
       onDeleted?.(id)
       setDel(false)
-      setOpen(false)
     } catch (err) {
       console.error(err)
       alert('Erro ao deletar matéria')
@@ -167,101 +70,47 @@ export default function Sector({
 
   return (
     <>
-      <div ref={ref} className={`${styles.sector} ${del ? styles.delMode : ''}`}>
-        {!del && (
-          <div className={`${styles.default} ${styles.box}`}>
-            <h2 className={styles.sectorTitle}>{nome}</h2>
-
+      <div className={`${styles.sector} ${del ? styles.delMode : ''}`}>
+        {!del ? (
+          <div className={styles.box}>
+            <span className={styles.sectorTitle}>{name}</span>
             <div className={styles.sectorEdit}>
               {!isSetoresPage && (
-                <Image
-                  className={styles.pen}
-                  src={Pen}
-                  alt="Pen"
-                  onClick={() => {
-                    setOpen(true)
-                  }}
-                />
+                <button className={styles.iconBtn} type="button" onClick={() => setOpen(true)}>
+                  <Image src={Pen} alt="Editar" width={18} height={18} />
+                </button>
               )}
-              <Image
-                className={styles.trash}
-                src={Trash}
-                alt="Trash"
-                onClick={() => setDel(true)}
-              />
+              <button className={styles.iconBtn} type="button" onClick={() => setDel(true)}>
+                <Image src={Trash} alt="Deletar" width={18} height={18} />
+              </button>
             </div>
           </div>
-        )}
-
-        {del && (
-          <div className={`${styles.delete} ${styles.box}`}>
-            <h2 className={styles.sectorTitle}>Deletar?</h2>
+        ) : (
+          <div className={styles.box}>
+            <span className={styles.sectorTitle}>Deletar?</span>
             <div className={styles.sectorEdit}>
-              <Image
-                className={styles.trueTrash}
-                src={Trash}
-                alt="Trash"
-                onClick={confirmDelete}
-              />
-              <Image
-                className={styles.cancel}
-                src={Cancel}
-                alt="Cancel"
-                onClick={() => setDel(false)}
-              />
+              <button className={styles.iconBtnConfirm} type="button" onClick={confirmDelete} disabled={deleting}>
+                <Image src={Trash} alt="Confirmar Deletar" width={18} height={18} />
+              </button>
+              <button className={styles.iconBtnConfirm} type="button" onClick={() => setDel(false)}>
+                <Image src={Cancel} alt="Cancelar" width={18} height={18} />
+              </button>
             </div>
           </div>
         )}
       </div>
 
-      {open && !isSetoresPage && (
-        <div className={styles.modalOverlay} onClick={resetEditState}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <h2 className={styles.modalTittle}>Editar matéria</h2>
-
-              <div className={styles.closeBtn}>
-                <Image
-                  src={Cancel}
-                  alt="fechar"
-                  onClick={resetEditState}
-                />
-              </div>
-            </div>
-
-            <div className={styles.sectorContent}>
-              <div className={styles.field}>
-                <input
-                  className={styles.editing}
-                  type="text"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                  placeholder="Nome da matéria"
-                />
-              </div>
-
-              <div className={styles.field}>
-                <input
-                  className={styles.editing}
-                  type="text"
-                  value={sigla}
-                  onChange={(e) => setSigla(e.target.value)}
-                  placeholder="Sigla"
-                />
-              </div>
-
-              <button
-                type="button"
-                className={styles.modalCreate}
-                disabled={saving}
-                onClick={saveUpdate}
-              >
-                {saving ? 'Salvando...' : 'Salvar alterações'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <EditSectorModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        id={id}
+        name={name}
+        acronym={acronym}
+        areaId={areaId}
+        isHidden={isHidden}
+        accessToken={accessToken}
+        onUpdated={onUpdated}
+      />
     </>
   )
 }

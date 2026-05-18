@@ -29,17 +29,17 @@ export default function Page() {
       <Sidebar />
 
       <section className={styles.mainContent}>
-        <article className={styles.mainHeader}>
-          <h2 className={styles.title}>Cursos</h2>
-        </article>
+        <header className={styles.mainHeader}>
+          <h1 className={styles.title}>Cursos</h1>
+        </header>
 
-        <article className={styles.areas}>
+        <section className={styles.areas}>
           {areas.map((area) => (
             <Link key={area.id} className={styles.linkArea} href={`/dashboard/areas/${area.id}`}>
               <Area {...area} />
             </Link>
           ))}
-        </article>
+        </section>
       </section>
     </main>
   )

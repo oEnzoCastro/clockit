@@ -1,0 +1,243 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--DeepspaceBlue-blur-focus);
+    backdrop-filter: blur(var(--Blur));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--Shore-Big);
+    max-width: 95%;
+    max-height: 90vh;
+}
+
+.modal {
+    display: flex;
+    gap: var(--Shore-Big);
+}
+
+.modalArticle {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+    width: 320px;
+}
+
+.modalHead {
+    background-color: var(--Platinum-blur);
+    padding: var(--Shore-Big);
+    border-radius: var(--radius-outer);
+}
+
+.articleTitle {
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    height: var(--component-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-title);
+    font-weight: var(--fw-medium);
+    color: var(--DeepspaceBlue);
+    width: 100%;
+}
+
+.modalBody {
+    background-color: var(--Platinum-blur);
+    padding: var(--Shore-Big);
+    border-radius: var(--radius-outer);
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+}
+
+.input {
+    all: unset;
+    color: var(--DeepspaceBlue);
+    background-color: var(--Platinum);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-inner);
+}
+
+.select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2318314F'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--Shore-Big) center;
+    background-size: 20px;
+    padding-right: 40px !important;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--DeepspaceBlue-blur);
+    font-size: 0.9rem;
+}
+
+.sectorButtons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.styleButton {
+    all: unset;
+    color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    cursor: pointer;
+    height: var(--component-height);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fw-medium);
+}
+
+.saveButton, .addButton {
+    background-color: var(--DeepspaceBlue);
+}
+
+.sectorBox {
+    width: 380px;
+}
+
+.sectorList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Big);
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.sectorItem {
+    background-color: var(--Platinum-blur);
+    border-radius: var(--radius-outer);
+    padding: var(--Shore-Big);
+    gap: var(--Shore-Small);
+    display: flex;
+    flex-direction: column;
+}
+
+.sectorSubTitle {
+    color: var(--DeepspaceBlue);
+    font-size: 0.95rem;
+    font-weight: var(--fw-medium);
+}
+
+.sectorText {
+    background-color: var(--Platinum);
+    padding: 8px var(--Shore-Big);
+    border-radius: var(--radius-inner);
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    flex: 1;
+}
+
+.sectorInfos {
+    display: flex;
+    gap: var(--Shore-Small);
+    align-items: center;
+}
+
+.removeSectorButton {
+    all: unset;
+    background-color: var(--Amarant);
+    border-radius: var(--radius-inner);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    color: var(--Platinum);
+    cursor: pointer;
+    font-size: var(--fs-body);
+}
+
+.expired {
+    background-color: var(--Amarant);
+    color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    padding: 0 var(--Shore-Big);
+    height: var(--component-height);
+    display: flex;
+    align-items: center;
+}
+
+.dayScheduleBox {
+    display: flex;
+    flex-direction: column;
+    gap: var(--Shore-Small);
+    margin-top: 8px;
+}
+
+.dayScheduleItem {
+    display: flex;
+    gap: var(--Shore-Small);
+    align-items: center;
+}
+
+.diaHora {
+    padding: 6px var(--Shore-Big);
+    background-color: var(--Platinum);
+    border-radius: var(--radius-inner);
+    color: var(--DeepspaceBlue);
+    font-size: var(--fs-body);
+    flex: 1;
+}
+
+.removeScheduleButton {
+    all: unset;
+    background-color: var(--Amarant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-inner);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+.dayScheduleForm {
+    display: flex;
+    gap: var(--Shore-Small);
+    margin-top: 4px;
+}
+
+.cancelButton {
+    all: unset;
+    background-color: var(--Platinum-blur);
+    width: var(--component-height);
+    height: var(--component-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-outer);
+    cursor: pointer;
+}
+
+.emptyText {
+    color: var(--DeepspaceBlue-blur);
+    text-align: center;
+    font-size: var(--fs-body);
+}
+
+.sectorList::-webkit-scrollbar {
+    width: 6px;
+}
+.sectorList::-webkit-scrollbar-thumb {
+    background: var(--DeepspaceBlue-blur-focus);
+    border-radius: var(--radius-inner);
+}

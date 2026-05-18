@@ -5,12 +5,11 @@
     justify-content: space-between;
     align-items: center;
     padding: var(--Shore-Big);
-    border-radius: var(--Shore-Big);
+    border-radius: var(--radius-outer);
     color: var(--DeepspaceBlue);
     height: min-content;
     position: relative;
     box-sizing: border-box;
-    z-index: 1001;
 }
 
 .sec {
@@ -23,28 +22,36 @@
     color: var(--DeepspaceBlue);
     background-color: var(--Platinum);
     text-decoration: none;
-    padding: var(--Shore-Small) var(--Shore-Big);
-    border-radius: var(--Shore-Small);
+    padding: 0 var(--Shore-Big);
+    border-radius: var(--radius-inner);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 52px;
+    height: var(--component-height);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-light);
     box-sizing: border-box;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.blocks:hover {
+    transform: translateY(-2px);
+    background-color: var(--Platinum-blur);
 }
 
 .logo {
     background-color: var(--Platinum);
-    padding: var(--Shore-Small) var(--Shore-Big);
-    border-radius: var(--Shore-Small);
+    padding: 0 var(--Shore-Big);
+    border-radius: var(--radius-inner);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 52px;
+    height: var(--component-height);
     box-sizing: border-box;
 }
 
 .logoImg {
-    height: 24px;
+    height: 16px;
     width: auto;
     display: block;
 }
@@ -61,13 +68,13 @@
     display: none;
     background-color: var(--Platinum);
     border: none;
-    border-radius: var(--Shore-Small);
+    border-radius: var(--radius-inner);
     padding: 10px;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
     gap: 4px;
-    min-height: 52px;
+    height: var(--component-height);
     box-sizing: border-box;
     z-index: 1002;
 }
@@ -91,7 +98,7 @@
 @media (max-width: 768px) {
     .header {
         padding: var(--Shore-Small);
-        border-radius: var(--Shore-Small);
+        border-radius: var(--radius-inner);
         gap: var(--Shore-Small);
     }
 
@@ -100,8 +107,8 @@
     }
 
     .logo {
-        padding: 8px 10px;
-        min-height: 42px;
+        padding: 0 10px;
+        height: 42px;
     }
 
     .logoImg {
@@ -110,7 +117,7 @@
 
     .hamburguer {
         display: flex;
-        min-height: 42px;
+        height: 42px;
         padding: 8px;
     }
 
@@ -123,7 +130,7 @@
         gap: var(--Shore-Small);
         background-color: var(--Platinum-blur);
         padding: var(--Shore-Small);
-        border-radius: var(--Shore-Small);
+        border-radius: var(--radius-inner);
         min-width: 180px;
         z-index: 1002;
     }
@@ -135,11 +142,8 @@
     .blocks {
         width: 100%;
         justify-content: flex-start;
-        padding: 10px 12px;
-        min-height: 42px;
-    }
-
-    .page {
-        font-size: 16px;
+        padding: 0 12px;
+        height: 42px;
+        font-size: var(--fs-body);
     }
 }

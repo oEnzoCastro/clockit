@@ -31,7 +31,7 @@ export default function Header() {
       <header className={styles.header}>
         <section className={styles.sec}>
           <article className={styles.logo}>
-            <Image src={logo} alt="logo" className={styles.logoImg} />
+            <Image src={logo} alt="ClockIt" className={styles.logoImg} />
           </article>
         </section>
 
@@ -46,19 +46,19 @@ export default function Header() {
           <span></span>
         </button>
 
-        <section
+        <nav
           className={`${styles.pages} ${styles.sec} ${
             menuAberto ? styles.pagesAbertas : ''
           }`}
         >
           <Link className={styles.blocks} href="/calendario" onClick={fecharMenu}>
-            <h2 className={styles.page}>Calendário</h2>
+            <span className={styles.page}>Calendário</span>
           </Link>
 
           <Link className={styles.blocks} href="/dashboard" onClick={fecharMenu}>
-            <h2 className={styles.page}>Dashboard</h2>
+            <span className={styles.page}>Dashboard</span>
           </Link>
-        </section>
+        </nav>
       </header>
     </>
   );

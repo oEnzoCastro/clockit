@@ -1,8 +1,11 @@
 'use client';
+
 import styles from './style.module.css';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import logo from '../../../public/clockit.svg';
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -18,7 +21,8 @@ export default function Page() {
     if (accessToken) router.replace('/dashboard');
   }, [accessToken, router]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (isLoading) return;
     setIsLoading(true);
     setMessage('');
@@ -67,43 +71,48 @@ export default function Page() {
   return (
     <div className={styles.loginForm}>
       <div className={styles.forms}>
-        <section className={styles.form}>
-          <h1 className={styles.title}>ClockIt</h1>
+        <form className={styles.form} onSubmit={handleLogin}>
+          <Image src={logo} alt="ClockIt" className={styles.logoImg} />
 
-          <article className={styles.inputs}>
+          <div className={styles.inputsContainer}>
             <input
               type="email"
-              placeholder="Email:"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
+              className={styles.inputs}
             />
             <input
               type="password"
-              placeholder="Senha:"
+              placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              className={styles.inputs}
             />
             <input
               type="text"
-              placeholder="Sigla do instituto:"
+              placeholder="Sigla do instituto"
               value={instituteAcronym}
               onChange={(e) => setInstituteAcronym(e.target.value.toUpperCase())}
+              required
+              className={styles.inputs}
             />
-          </article>
+          </div>
 
-          <article className={styles.buttons}>
+          <div className={styles.buttons}>
             <button
-              type="button"
+              type="submit"
               className={styles.log}
-              onClick={handleLogin}
               disabled={isLoading}
             >
-              <h1>{isLoading ? 'Entrando...' : 'Login'}</h1>
+              <span className={styles.btnText}>{isLoading ? 'Entrando...' : 'Login'}</span>
             </button>
-          </article>
+          </div>
 
           {message && <p className={styles.loginMessage}>{message}</p>}
-        </section>
+        </form>
       </div>
     </div>
   );

@@ -1,86 +1,87 @@
-.header {
-  display: none;
-}
-
 .loginForm {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100vh;
 }
 
-.title {
-  color: var(--DeepspaceBlue);
+.logoImg {
+  margin-bottom: var(--Shore-Big);
+  width: 150px;
+  height: auto; 
+  margin: 10px auto;
 }
 
 .forms {
   background-color: var(--Platinum-blur);
-  width: 33%;
-  padding: 50px;
-  border-radius: 20px;
+  width: 400px;
+  max-width: 90%;
+  padding: var(--Shore-Big);
+  border-radius: var(--radius-outer);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: var(--Shore-Big);
+}
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Shore-Big);
 }
 
 .inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.inputs input {
-  padding: 20px;
-  border-radius: 10px;
-  border: none;
-  height: 50px;
-}
-
-.inputs input::placeholder {
+  all: unset;
+  background-color: var(--Platinum);
+  border-radius: var(--radius-inner);
+  padding: 0 var(--Shore-Big);
+  height: var(--component-height);
   color: var(--DeepspaceBlue);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-light);
+  box-sizing: border-box;
+}
+
+.inputs::placeholder {
+  color: var(--DeepspaceBlue-blur);
 }
 
 .buttons {
   display: flex;
   width: 100%;
   justify-content: center;
-  gap: 30%;
 }
 
 .log {
-  width: 40%;
-  padding: 5px;
-  border-radius: 10px;
-  border: none;
+  all: unset;
+  width: 100%;
+  height: var(--component-height);
+  border-radius: var(--radius-inner);
   background-color: var(--DeepspaceBlue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease;
 }
 
-.log h1 {
-  color: var(--Platinum);
+.log:hover {
+  opacity: 0.9;
 }
 
-.red {
-  background-color: var(--Amarant);
+.btnText {
   color: var(--Platinum);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
 }
 
 .loginMessage {
   color: var(--Amarant);
   text-align: center;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
-}
-
-.header {
-  display: none;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-light);
 }
